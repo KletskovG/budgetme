@@ -1,10 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'serverConfig.json'), 'utf8'));
+const express = require('express');
+const PORT = process.env.PORT || 4200;
+const app = express();
+const bodyParser = require('body-parser');
 
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(config.token,{ polling: true });
 
+const registerCommands = require('./app/commands/commands');
+registerCommands(bot);
+
+app.use(bodyParser.json());
 
 bot.onText(/\/analytics/, (msg, match) => {
 
@@ -15,7 +23,15 @@ bot.onText(/\/analytics/, (msg, match) => {
 });
 
 
+bot.onText(/\Поступление(.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
 
+  bot.sendMessage(chatId, 'Income');
+});
+
+app.listen(PORT, () => {
+  console.log('Bot is up \b Server is running on ' + PORT);
+});
 // bot.on('message', (msg) => {
 //   const chatId = msg.chat.id;
 
