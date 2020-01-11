@@ -1,0 +1,15 @@
+{
+  "name": "budget_bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/KletskovG/budget_bot.git",
+  "author": "Gleb Kletskov <gfgfddgleb@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.8.7",
+    "node-fetch": "^2.6.0",
+    "node-telegram-bot-api": "^0.40.0"
+  }
+}
