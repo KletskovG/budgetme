@@ -1,0 +1,23 @@
+{
+  "owner": "id: string",
+  "amount": "int",
+  "budget": {
+    "deadline": "date: string",
+    "amount": "int",
+    "notify": "percent or number: int || string", 
+    "expenses": [
+      {
+        "name": "taxi",
+        "count": "inr",
+      },
+      {
+        ""
+      }
+    ]
+  },
+  "savings": {
+    "percent": "int",
+    "amount": "int",
+    "save": "int"
+  }
+}
