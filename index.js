@@ -1,9 +1,8 @@
-const fs = require('fs');
-const path = require('path');
 const config = require('./serverConfig');
 const express = require('express');
 const PORT = process.env.PORT || 4200;
 const app = express();
+const db = require('./app/core/dbconnection');
 const bodyParser = require('body-parser');
 
 const TelegramBot = require('node-telegram-bot-api');
@@ -29,11 +28,21 @@ bot.onText(/\Поступление(.+)/, (msg, match) => {
   bot.sendMessage(chatId, 'Income');
 });
 
-app.listen(PORT, () => {
-  console.log('Bot is up \b Server is running on ' + PORT);
-});
+
+
+db()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log('Bot is up \b Server is running on ' + PORT);
+    });
+  })
+  .catch(err => {
+    console.log('An error occured while connecting to db ' + err);
+  });
 // bot.on('message', (msg) => {
 //   const chatId = msg.chat.id;
 
 //   bot.sendMessage(chatId, 'Received your message');
 // });
+
+require.main === module;
