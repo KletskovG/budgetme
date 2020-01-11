@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'serverConfig.json'), 'utf8'));
+const config = require('./serverConfig');
 const express = require('express');
 const PORT = process.env.PORT || 4200;
 const app = express();

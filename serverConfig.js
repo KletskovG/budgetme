@@ -1,0 +1,6 @@
+const config = {
+  token: '717335317:AAGOys6oYNg1Qnzx2l3_bY8-QqJlW-jdWa4',
+  db: 'mongodb://admin:qwerty1@ds259806.mlab.com:59806/budget',
+};
+
+module.exports = config;
