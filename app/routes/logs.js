@@ -8,4 +8,4 @@ function logs(app) {
   });
 }
 
-module.exports = app;
+module.exports = logs;

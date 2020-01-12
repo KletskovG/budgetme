@@ -5,7 +5,7 @@ class Logger {
   constructor( file) {
     this.file = path.join(__dirname, `../logs/${file}`);
 
-    fs.readFileSync(this.file, ' \b ', 'utf8');
+    fs.writeFileSync(this.file, ' \b ', 'utf8');
   };
 
   log(message) {

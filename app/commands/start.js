@@ -3,7 +3,7 @@ const User = require(path.join(__dirname, '../models/User'));
 const Logger = require(path.join(__dirname, '../core/logger'));
 const _logger = new Logger('main.log');
 
-async function startCommand(bot) {
+function startCommand(bot) {
   
   bot.onText(/\/start/, (msg, match) => {
     const chatId = msg.chat.id;
@@ -15,7 +15,7 @@ async function startCommand(bot) {
       wallets: [],
     };
 
-    const isUnique = await isUniqueUser(user);
+    const isUnique = isUniqueUser(user);
     if (isUnique) {
       User.create(user, err => {
         if (err) {
