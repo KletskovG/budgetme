@@ -44,8 +44,6 @@ async function isUniqueUser(user) {
     }
   });
 
-
-
   if (!!_user) {
     _logger.log(`User was find ${_user} \b`)
     return true

@@ -12,7 +12,7 @@ class Logger {
     message += '\b';
     fs.appendFile(this.file, message, function(err) {
       if (err) throw err;
-      console.log('Saved!');
+      console.log(message);
     });
   }
 }
