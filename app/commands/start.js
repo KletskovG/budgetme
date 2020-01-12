@@ -46,10 +46,10 @@ async function isUniqueUser(user) {
 
   if (!!_user) {
     _logger.log(`User was find ${_user} \b`)
-    return true
+    return false;
   }
   _logger.log(`User wasnt found`);
-  return false
+  return true;
 }
 
 module.exports = startCommand;
