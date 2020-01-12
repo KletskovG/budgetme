@@ -3,7 +3,7 @@ const User = require(path.join(__dirname, '../models/User'));
 const Logger = require(path.join(__dirname, '../core/logger'));
 const _logger = new Logger('main.log');
 
-function startCommand(bot) {
+async function startCommand(bot) {
   
   bot.onText(/\/start/, (msg, match) => {
     const chatId = msg.chat.id;
@@ -15,15 +15,20 @@ function startCommand(bot) {
       wallets: [],
     };
 
-    const isUnique = isUniqueUser(user);
-
-    // User.create(user, (err) => {
-    //   if (err) {
-    //     bot.sendMessage(chatId, 'Error while registering user '+ err);
-    //   } else {
-    //     bot.sendMessage(chatId, 'You was registred '+ user.username);
-    //   }
-    // });
+    const isUnique = await isUniqueUser(user);
+    if (isUnique) {
+      User.create(user, err => {
+        if (err) {
+          bot.sendMessage(chatId, 'Error while registering user ' + err);
+          console.log(err);
+        } else {
+          bot.sendMessage(chatId, 'You was registred ' + user.username);
+          _logger.log(`New user was registered ${user.username} \b`);
+        }
+      });
+    } else {
+      bot.sendMessage(chatId, 'You are already registered ' + user.username);
+    }
   });
 }
 

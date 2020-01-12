@@ -13,6 +13,9 @@ registerCommands(bot);
 
 app.use(bodyParser.json());
 
+const logsRoute = require('./app/routes/logs');
+logsRoute(app);
+
 bot.onText(/\/analytics/, (msg, match) => {
 
   const chatId = msg.chat.id;
@@ -44,5 +47,3 @@ db()
 
 //   bot.sendMessage(chatId, 'Received your message');
 // });
-
-require.main === module;
