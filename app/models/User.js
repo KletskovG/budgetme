@@ -7,7 +7,12 @@ const schema = new Schema({
   first_name: String,
   last_name: String,
   username: String,
-  wallets: [Wallet],
+  wallets: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Wallet',
+    },
+  ],
 });
 
 module.exports = mongoose.model('user', schema);
