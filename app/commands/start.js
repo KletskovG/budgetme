@@ -15,22 +15,38 @@ function startCommand(bot) {
       wallets: [],
     };
 
-    const isUnique = isUniqueUser(user);
-    if (isUnique) {
-      User.create(user, err => {
-        if (err) {
-          bot.sendMessage(chatId, 'Error while registering user ' + err);
-          console.log(err);
-        } else {
-          bot.sendMessage(chatId, 'You was registred ' + user.username);
-          _logger.log(`New user was registered ${user.username} \b`);
-        }
-      });
-    } else {
-      bot.sendMessage(chatId, 'You are already registered ' + user.username);
-    }
+    // 
+    
+    const register = registerUser(user);
+    bot.sendMessage(chatId, register);
   });
 }
+
+async function registerUser(user) {
+  const result = await User.findOne({ id: user.id }, (err, usr) => {
+    if (err) {
+      _logger.log(`An error occured while finding user ${user.username} \b ${err}`);
+      return 'An error occured while finding user';
+    }
+
+    if (!!usr) {
+      return 'You are already registered';
+    } else {
+       const answer = await User.create(user, err => {
+         if (err) {
+           _logger.log(`An error occured while creating user ${user.username} \b ${err}`);
+           return 'An error occured while creating user';
+         } else {
+          //  bot.sendMessage(chatId, 'You was registred ' + user.username);
+           _logger.log(`New user was registered ${user.username} \b`);
+           return 'New user was registered';
+         }
+       });
+
+       return answer;
+    }
+  });
+} 
 
 // TODO: Handle error here
 async function isUniqueUser(user) {
