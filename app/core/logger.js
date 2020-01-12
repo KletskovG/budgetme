@@ -4,6 +4,8 @@ const fs = require('fs');
 class Logger {
   constructor( file) {
     this.file = path.join(__dirname, `../logs/${file}`);
+
+    fs.readFileSync(this.file, ' \b ', 'utf8');
   };
 
   log(message) {

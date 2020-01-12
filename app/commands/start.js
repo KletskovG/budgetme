@@ -1,7 +1,10 @@
 const path = require('path');
 const User = require(path.join(__dirname, '../models/User'));
+const Logger = require(path.join(__dirname, '../core/logger'));
+const _logger = new Logger('main.log');
 
 function startCommand(bot) {
+  
   bot.onText(/\/start/, (msg, match) => {
     const chatId = msg.chat.id;
     const user = {
@@ -29,15 +32,21 @@ async function isUniqueUser(user) {
   const _user = await User.findOne(user, (err, usr) => {
     if (err) {
       console.log(err);
+      _logger.log(`An error ocurred while finding user ${err} \b`);
       return null;
     } else {
-      return usr
+      return usr;
     }
   });
 
-  console.log(_user);
 
-  return _user;
+
+  if (!!_user) {
+    _logger.log(`User was find ${_user} \b`)
+    return true
+  }
+  _logger.log(`User wasnt found`);
+  return false
 }
 
 module.exports = startCommand;
