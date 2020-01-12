@@ -34,7 +34,7 @@ function startCommand(bot) {
 
 // TODO: Handle error here
 async function isUniqueUser(user) {
-  const _user = await User.findOne(user, (err, usr) => {
+  const _user = await User.findOne({id: user.id}, (err, usr) => {
     if (err) {
       console.log(err);
       _logger.log(`An error ocurred while finding user ${err} \b`);
