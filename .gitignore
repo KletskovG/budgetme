@@ -105,3 +105,4 @@ dist
 serverConfig.json
 ger/config.js
 ger/src/config.ts
+app/serverConfig.ts

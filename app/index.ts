@@ -2,18 +2,18 @@ const config = require('./serverConfig');
 const express = require('express');
 const PORT = process.env.PORT || 4200;
 const app = express();
-const db = require('./app/core/dbconnection');
+const db = require('./core/dbconnection');
 const bodyParser = require('body-parser');
 
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(config.token,{ polling: true });
 
-const registerCommands = require('./app/commands/commands');
+const registerCommands = require('./commands/commands');
 registerCommands(bot);
 
 app.use(bodyParser.json());
 
-const logsRoute = require('./app/routes/logs');
+const logsRoute = require('./routes/logs');
 logsRoute(app);
 
 bot.onText(/\/analytics/, (msg, match) => {

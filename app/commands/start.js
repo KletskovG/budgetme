@@ -3,6 +3,14 @@ const User = require(path.join(__dirname, '../models/User'));
 const Logger = require(path.join(__dirname, '../core/logger'));
 const _logger = new Logger('main.log');
 
+class StartCommand {
+  constructor(bot){
+    this.bot = bot;
+  };
+
+  this.bot.onText()
+} 
+
 function startCommand(bot) {
   
   bot.onText(/\/start/, (msg, match) => {
@@ -32,18 +40,15 @@ async function registerUser(user) {
     if (!!usr) {
       return 'You are already registered';
     } else {
-       const answer = await User.create(user, err => {
-         if (err) {
-           _logger.log(`An error occured while creating user ${user.username} \b ${err}`);
-           return 'An error occured while creating user';
-         } else {
-          //  bot.sendMessage(chatId, 'You was registred ' + user.username);
-           _logger.log(`New user was registered ${user.username} \b`);
-           return 'New user was registered';
-         }
-       });
+       User.create(user)
+       .then(user => {
+         return user;
+       })
+       .catch(err => {
+         return err;
+       })
 
-       return answer;
+
     }
   });
 } 
