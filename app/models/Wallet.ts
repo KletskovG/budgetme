@@ -1,26 +1,25 @@
-const mongoose = require('mongoose');
-
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const schema = new Schema({
-  owner: String,
   amount: Number,
   budget: {
-    deadline: String,
     amount: Number,
-    notify: String, // 1 - 100% or number
+    deadline: String,
     expenses: [
       {
-        name: String,
         count: Number,
+        name: String,
       },
     ],
+    notify: String, // 1 - 100% or number
   },
+  owner: String,
   savings: {
-    percent: Number,
     amount: Number,
+    percent: Number,
     save: Number,
-  }
+  },
 });
 
-module.exports = mongoose.model('wallet', schema);
+export default mongoose.model('wallet', schema);

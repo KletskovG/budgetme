@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const path = require('path');
-const config = require(path.join(__dirname, '../../serverConfig'));
+import mongoose from 'mongoose';
+import path from 'path';
+import config from '../serverConfig';
 
-module.exports = () =>
+export default () =>
   new Promise((resolve, reject) => {
     mongoose.Promise = global.Promise;
     mongoose.set('debug', true);
@@ -13,4 +13,4 @@ module.exports = () =>
       .once('open', () => resolve(mongoose.connections[0]));
 
     mongoose.connect(config.db, { useNewUrlParser: true, useUnifiedTopology: true });
-  });
+});

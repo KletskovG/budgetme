@@ -1,30 +1,22 @@
-const path = require('path');
-const User = require(path.join(__dirname, '../models/User'));
-const Logger = require(path.join(__dirname, '../core/logger'));
-const _logger = new Logger('main.log');
-
-class StartCommand {
-  constructor(bot){
-    this.bot = bot;
-  };
-
-  this.bot.onText()
-} 
+import path from 'path';
+import Logger from '../core/logger';
+import User from '../models/User';
+const logger = new Logger('main.log');
 
 function startCommand(bot) {
-  
+
   bot.onText(/\/start/, (msg, match) => {
     const chatId = msg.chat.id;
     const user = {
-      id: msg.from.id,
       first_name: msg.from.first_name,
+      id: msg.from.id,
       last_name: msg.from.last_name,
       username: msg.from.username,
       wallets: [],
     };
 
-    // 
-    
+    //
+
     const register = registerUser(user);
     bot.sendMessage(chatId, register);
   });
@@ -33,7 +25,7 @@ function startCommand(bot) {
 async function registerUser(user) {
   const result = await User.findOne({ id: user.id }, (err, usr) => {
     if (err) {
-      _logger.log(`An error occured while finding user ${user.username} \b ${err}`);
+      logger.log(`An error occured while finding user ${user.username} \b ${err}`);
       return 'An error occured while finding user';
     }
 
@@ -46,19 +38,18 @@ async function registerUser(user) {
        })
        .catch(err => {
          return err;
-       })
-
+       });
 
     }
   });
-} 
+}
 
 // TODO: Handle error here
 async function isUniqueUser(user) {
   const _user = await User.findOne({id: user.id}, (err, usr) => {
     if (err) {
       console.log(err);
-      _logger.log(`An error ocurred while finding user ${err} \b`);
+      logger.log(`An error ocurred while finding user ${err} \b`);
       return null;
     } else {
       return usr;
@@ -66,11 +57,11 @@ async function isUniqueUser(user) {
   });
 
   if (!!_user) {
-    _logger.log(`User was find ${_user} \b`)
+    logger.log(`User was find ${_user} \b`);
     return false;
   }
-  _logger.log(`User wasnt found`);
+  logger.log(`User wasnt found`);
   return true;
 }
 
-module.exports = startCommand;
+export default startCommand;

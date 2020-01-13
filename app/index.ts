@@ -1,15 +1,16 @@
-const config = require('./serverConfig');
-const express = require('express');
+import bodyParser from 'body-parser';
+import express from 'express';
+import config from './serverConfig';
+
+import TelegramBot from 'node-telegram-bot-api';
+import db from './core/dbconnection';
+
+import registerCommand from './commands/commands';
+const bot = new TelegramBot(config.token,{ polling: true });
 const PORT = process.env.PORT || 4200;
 const app = express();
-const db = require('./core/dbconnection');
-const bodyParser = require('body-parser');
 
-const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(config.token,{ polling: true });
-
-const registerCommands = require('./commands/commands');
-registerCommands(bot);
+registerCommand(bot);
 
 app.use(bodyParser.json());
 
@@ -42,8 +43,3 @@ db()
   .catch(err => {
     console.log('An error occured while connecting to db ' + err);
   });
-// bot.on('message', (msg) => {
-//   const chatId = msg.chat.id;
-
-//   bot.sendMessage(chatId, 'Received your message');
-// });

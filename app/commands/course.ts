@@ -1,28 +1,36 @@
-const fetch = require('node-fetch');
 const xml2js = require('xml2js').parseString;
+import fetch from 'node-fetch';
+
+interface ICourse {
+  USD: string;
+  EUR: string;
+}
 
 function courseCommand(bot) {
   bot.onText(/\/course/, (msg, match) => {
     const chatId = msg.chat.id;
 
     fetch('http://www.cbr.ru/scripts/XML_daily.asp?')
-      .then(res => res.text())
-      .then(text => {
+      .then((res) => res.text())
+      .then((text) => {
 
         const course = getCourse(text);
         bot.sendMessage(chatId, buildCourseString(course));
         return text;
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   });
 }
 
 function getCourse(xml) {
-  const course = {};
+  const course: ICourse = {
+    EUR: null,
+    USD: null,
+  };
 
   xml2js(xml, (err, result) => {
     const valutes = result.ValCurs.Valute;
-    valutes.forEach(valute => {
+    valutes.forEach((valute) => {
       if (valute.CharCode[0] === 'USD') {
         course.USD = getValuteValue(valute);
       }
@@ -59,4 +67,4 @@ function buildCourseString(course) {
   return result;
 }
 
-module.exports = courseCommand;
+export default courseCommand;
