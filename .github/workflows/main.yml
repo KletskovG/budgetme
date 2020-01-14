@@ -9,6 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: Build app
+      run: |
+        npm run build
     - name: Build docker container
       uses: elgohr/Publish-Docker-Github-Action@master        
       with:
@@ -16,9 +19,6 @@ jobs:
         username: ${{secrets.DOCKER_LOGIN}}
         password: ${{ secrets.DOCKER_PASSWORD }}
         context: ./
-    - name: Build app
-      run: |
-        npm run build
     - name: Pull budget
       run: |
           curl ${{ secrets.PULL_BUDGET }}
