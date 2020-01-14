@@ -5,6 +5,14 @@ import db from './core/dbconnection';
 
 const app = express();
 
+import AuthModule from './modules/auth/authModule';
+import healthCheck from './modules/health/heathModule';
+
+app.use(bodyParser.json());
+
+const authModule = new AuthModule(app);
+healthCheck(app);
+
 db()
   .then(() => {
     app.listen(config.PORT, () => {
