@@ -10,7 +10,8 @@
     "types": [
       "node",
       "express",
-      "mongoose"
+      "mongoose",
+      "node-telegram-bot-api"
     ]
   },
   "quotemark": [
