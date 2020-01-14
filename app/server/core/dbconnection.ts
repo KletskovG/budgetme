@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import path from 'path';
-import config from '../serverConfig';
+import config from '../../config';
 
 export default () =>
   new Promise((resolve, reject) => {
