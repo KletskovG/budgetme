@@ -16,6 +16,9 @@ jobs:
         username: ${{secrets.DOCKER_LOGIN}}
         password: ${{ secrets.DOCKER_PASSWORD }}
         context: ./
+    - name: Build app
+      run: |
+        npm run build
     - name: Pull budget
       run: |
           curl ${{ secrets.PULL_BUDGET }}
