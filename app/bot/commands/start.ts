@@ -24,6 +24,7 @@ function start(bot: TelegramBot) {
     })
       .then(res => res.json())
       .then(res => {
+        console.log(res);
         bot.sendMessage(chatId, 'you was registred');
       })
       .catch(err => {

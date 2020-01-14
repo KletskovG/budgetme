@@ -1,7 +1,10 @@
 import User from 'app/server/models/User';
 import { IUser } from 'app/server/models/IUser';
+import AuthController from './authContoller';
 
 function authRouter(app: any) {
+    const controller = new AuthController();
+    
     app.post('/start', async (req, res) => {
         const user: IUser = {
             first_name: req.body.first_name,
@@ -11,7 +14,17 @@ function authRouter(app: any) {
             wallets: [],
         };
 
-        res.status(200).send(JSON.stringify(user));
+        controller
+          .start(user)
+          .then((result: IUser) => {
+            res.status(200).send(JSON.stringify(result));
+          })
+          .catch(err => {
+            const data = {
+              message: err,
+            };
+            res.status(500).send(JSON.stringify(data));
+          });
     });
 }
 
