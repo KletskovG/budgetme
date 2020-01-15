@@ -8,31 +8,21 @@ function income(bot: TelegramBot) {
     isIncomeEnabled: false,
   };
 
-  bot.onText(/incomeHello/, (msg, match) => {
+  bot.onText(/income/, (msg, match) => {
     const chatId = msg.chat.id;
     store.isIncomeEnabled = true;
     bot.sendMessage(chatId, 'Please, send me amount and category');
   });
 
-  bot.onText(/^([1-9])/, (msg, match) => {
+  bot.onText(/(.+)/, (msg, match) => {
     const chatId = msg.chat.id;
     bot.sendMessage(chatId, 'Received message');
     console.log(`Store : ${store};`)
-    if (store.isIncomeEnabled) {
-      const { text } = msg;
-      let number = '';
-      let category = '';
-      
-      text.split('').forEach((char: string) => {
-        if (isNumber(+char)) {
-          number += Number(char);
-        } else {
-          category += char;
-        }
-      });
-      console.log(number, category);
-
-      bot.sendMessage(chatId, `Amount: ${number}, category: ${category}`);
+    console.log(`Number ${Number(msg.text)}`);
+    
+    if (store.isIncomeEnabled && Number(msg.text) > 0) {
+      // bot.sendMessage(chatId, `Amount: ${number}, category: ${category}`);
+      bot.sendMessage(chatId, `You income is  ${msg.text}`);
 
       store.isIncomeEnabled = false;
     }
