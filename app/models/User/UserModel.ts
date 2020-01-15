@@ -9,9 +9,10 @@ const schema = new Schema({
   last_name: String,
   username: String,
   wallet: {
-    ref: 'wallet',
+    ref: 'Wallet',
     type: mongoose.Schema.Types.ObjectId,
   },
+  store: Object,
 });
 
 export default mongoose.model('user', schema);

@@ -6,4 +6,5 @@ export default interface IUser {
   lastName: string;
   username: string;
   wallet: IWallet;
+  store: object;
 }
