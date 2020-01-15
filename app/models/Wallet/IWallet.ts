@@ -1,4 +1,4 @@
-export interface IWallet {
+export default interface IWallet {
   amount: number;
   budget: {
     amount: number;

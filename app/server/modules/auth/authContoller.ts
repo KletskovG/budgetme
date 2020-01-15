@@ -1,17 +1,16 @@
-import { IUser } from '../../models/IUser';
-import User from '../../models/User';
+import IUser from '../../../models/User/IUser';
+import UserModel from '../../../models/User/UserModel';
 
 class AuthController {
-  
   // TODO: refactor
   public start(user: IUser): Promise<IUser> {
     return new Promise((resolve, reject) => {
-      User.findOne({ id: user.id, username: user.username })
+      UserModel.findOne({ id: user.id, username: user.username })
         .then(findedUser => {
           if (!!findedUser) {
             reject('This user is already exsists');
           } else {
-            User.create(user)
+            UserModel.create(user)
               .then(createdUser => {
                 resolve(user);
               })

@@ -1,5 +1,5 @@
-import User from 'app/server/models/User';
-import { IUser } from 'app/server/models/IUser';
+import User from 'app/models/User/User';
+import IUser from 'app/models/User/IUser';
 import AuthController from './authContoller';
 
 function authRouter(app: any) {
@@ -7,9 +7,9 @@ function authRouter(app: any) {
     
     app.post('/start', async (req, res) => {
         const user: IUser = {
-            first_name: req.body.first_name,
+            firstName: req.body.first_name,
             id: req.body.id,
-            last_name: req.body.last_name,
+            lastName: req.body.last_name,
             username: req.body.username,
             wallet: req.body.wallet,
         };

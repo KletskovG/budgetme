@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
 
+import mongoose from 'mongoose';
+import Wallet from '../Wallet/Wallet';
 const { Schema } = mongoose;
 
 const schema = new Schema({
