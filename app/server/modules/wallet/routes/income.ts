@@ -11,8 +11,8 @@ function income(app: any) {
 
     UserModel.findOne({ id: user.id, username: user.username})
       .then((findedUser) => {
-        const wallet: IWallet = findedUser.wallet;
-        wallet.amount = wallet.amount + transaction.number;
+        // const wallet: IWallet = findedUser.wallet;
+        // wallet.amount = wallet.amount + transaction.number;
       })
       .catch(err => {
         console.log(err);
