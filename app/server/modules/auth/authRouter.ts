@@ -11,7 +11,7 @@ function authRouter(app: any) {
             id: req.body.id,
             last_name: req.body.last_name,
             username: req.body.username,
-            wallets: [],
+            wallet: req.body.wallet,
         };
 
         controller
