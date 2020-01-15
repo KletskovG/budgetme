@@ -4,8 +4,6 @@ import IWallet from 'app/models/Wallet/IWallet';
 
 function income(app: any) {
   app.post('/income', async (req, res) => {
-    // const transaction = req.body.transaction;
-    // const user = req.body.user;
 
     const { user, transaction } = req.body;
 
