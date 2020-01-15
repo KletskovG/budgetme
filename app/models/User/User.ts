@@ -4,8 +4,8 @@ import IWallet from '../Wallet/IWallet';
 
 class User implements IUser {
   public id: number = null;
-  public firstName: string = '';
-  public lastName: string = '';
+  public first_name: string = '';
+  public last_name: string = '';
   public wallet: IWallet = null;
   public username: string = '';
   public store = null;
@@ -14,8 +14,8 @@ class User implements IUser {
 
   public create(message: Message): void {
     this.id = message.from.id;
-    this.firstName = message.from.first_name;
-    this.lastName = message.from.last_name;
+    this.first_name = message.from.first_name;
+    this.last_name = message.from.last_name;
     this.username = message.from.username;
     this.wallet = {
       amount: 0,
@@ -37,6 +37,16 @@ class User implements IUser {
     };
   }
 
+  public get data() {
+    return {
+      id: this.id,
+      first_name: this.first_name,
+      last_name: this.last_name,
+      username: this.username,
+      wallet: this.wallet,
+      store: this.store,
+    }
+  }
 }
 
 export default User;

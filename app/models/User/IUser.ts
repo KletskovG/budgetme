@@ -1,9 +1,9 @@
 import IWallet from '../Wallet/IWallet';
 
 export default interface IUser {
-  firstName: string;
+  first_name: string;
   id: number;
-  lastName: string;
+  last_name: string;
   username: string;
   wallet: IWallet;
   store: object;

@@ -35,6 +35,9 @@ function start(bot: TelegramBot) {
     const newUser: User = new User();
     newUser.create(msg);
 
+    console.log('Genrated user data');
+    console.log(newUser.data)
+
     fetch(`http://localhost:${config.PORT}/start`, {
       method: 'post',
       headers: {

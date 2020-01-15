@@ -6,12 +6,16 @@ function authRouter(app: any) {
     const controller = new AuthController();
     
     app.post('/start', async (req, res) => {
+        // TODO: handle user here
+        console.log('Handling start request');
+        console.log(req.body);
         const user: IUser = {
-            firstName: req.body.first_name,
+            first_name: req.body.first_name,
             id: req.body.id,
-            lastName: req.body.last_name,
+            last_name: req.body.last_name,
             username: req.body.username,
-            wallet: req.body.wallet,
+            wallet: null,
+            store: {},
         };
 
         controller
