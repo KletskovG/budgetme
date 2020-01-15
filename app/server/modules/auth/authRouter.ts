@@ -19,7 +19,7 @@ function authRouter(app: any) {
         };
 
         controller
-          .start(user)
+          .start(req.body)
           .then((result: IUser) => {
             res.status(200).send(JSON.stringify(result));
           })
