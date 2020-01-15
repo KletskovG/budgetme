@@ -8,12 +8,20 @@ import { brotliCompress } from 'zlib';
 function start(bot: TelegramBot) {
   bot.onText(/\/start/, (msg, match) => {
     const chatId = msg.chat.id;
+    const user: IUser = {
+      first_name: msg.from.first_name,
+      last_name: msg.from.last_name,
+      id: msg.from.id,
+      username: msg.from.username,
+      wallet: null,
+      store: null,
+    }
     fetch(`http://localhost:${config.PORT}/start`, {
       method: 'post',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(msg),
+      body: JSON.stringify(user),
     })
       .then((res: Response) => {
         console.log(res.status);
