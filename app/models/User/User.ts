@@ -12,14 +12,14 @@ class User implements IUser {
 
   constructor() {}
 
-  public create(message: Message): void {
-    this.id = message.from.id;
-    this.first_name = message.from.first_name;
-    this.last_name = message.from.last_name;
-    this.username = message.from.username;
+  public create(user: IUser): void {
+    this.id = user.id;
+    this.first_name = user.first_name;
+    this.last_name = user.last_name;
+    this.username = user.username;
     this.wallet = {
       amount: 0,
-      owner: message.from.username,
+      owner: user.username,
       budget: {
         amount: 0,
         deadline: '',

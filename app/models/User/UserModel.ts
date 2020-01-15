@@ -8,10 +8,7 @@ const schema = new Schema({
   id: Number,
   last_name: String,
   username: String,
-  wallet: {
-    ref: 'Wallet',
-    type: mongoose.Schema.Types.ObjectId,
-  },
+  wallet: Object,
   store: Object,
 });
 
