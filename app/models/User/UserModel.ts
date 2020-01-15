@@ -9,7 +9,7 @@ const schema = new Schema({
   last_name: String,
   username: String,
   wallet: {
-    ref: 'Wallet',
+    ref: 'wallet',
     type: mongoose.Schema.Types.ObjectId,
   },
 });

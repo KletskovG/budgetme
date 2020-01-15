@@ -8,6 +8,7 @@ class User implements IUser {
   public lastName: string = '';
   public wallet: IWallet = null;
   public username: string = '';
+  public store = null;
 
   constructor() {}
 
@@ -30,6 +31,9 @@ class User implements IUser {
         percent: 0,
         save: 0,
       },
+    };
+    this.store = {
+      isIncomeEnabled: false,
     };
   }
 
