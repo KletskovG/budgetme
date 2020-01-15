@@ -14,13 +14,6 @@ jobs:
       run: |
         npm i
         npm run build
-  deploy:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node_version: [12]
-    needs: build
-    steps:
     - name: Build docker container
       uses: elgohr/Publish-Docker-Github-Action@master        
       with:
