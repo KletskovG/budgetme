@@ -16,7 +16,8 @@ function income(bot: TelegramBot) {
 
   bot.onText(/^([1-9]) (.+)/, (msg, match) => {
     const chatId = msg.chat.id;
-    
+    bot.sendMessage(chatId, 'Received message');
+    console.log(`Store : ${store};`)
     if (store.isIncomeEnabled) {
       const { text } = msg;
       let number = '';
@@ -29,6 +30,7 @@ function income(bot: TelegramBot) {
           category += char;
         }
       });
+      console.log(number, category);
 
       bot.sendMessage(chatId, `Amount: ${number}, category: ${category}`);
 
