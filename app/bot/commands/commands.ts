@@ -3,11 +3,13 @@
 import courseCommand from './course';
 import helpCommand from './help';
 import start from './start';
+import income from './income';
 
 function registerCommands(bot) {
   helpCommand(bot);
   courseCommand(bot);
   start(bot);
+  income(bot);
 }
 
 export default registerCommands;

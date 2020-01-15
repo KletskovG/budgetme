@@ -7,12 +7,27 @@ function start(bot: TelegramBot) {
   bot.onText(/\/start/, (msg, match) => {
     const chatId = msg.chat.id;
 
+    // TODO: Make own class for that
     const  newUser: IUser  = {
       first_name: msg.from.first_name,
       id: msg.from.id,
       last_name: msg.from.last_name,
       username: msg.from.username,
-      wallets: [],
+      wallet: {
+        amount: 0,
+        owner: msg.from.username,
+        budget: {
+          amount: 0,
+          deadline: '',
+          expenses: null,
+          notify: '',
+        },
+        savings: {
+          amount: 0,
+          percent: 0,
+          save: 0,
+        },
+      },
     };
 
     fetch(`http://localhost:${config.PORT}/start`, {
@@ -22,17 +37,18 @@ function start(bot: TelegramBot) {
       },
       body: JSON.stringify(newUser),
     })
-      .then(res => res.json())
-      .then(res => {
+      .then((res: Response) => {
+        console.log(res.status);
+        return res.json();
+      })
+      .then((res: Response) => {
         console.log(res);
         bot.sendMessage(chatId, 'you was registred');
       })
       .catch(err => {
         console.log(err);
-        bot.sendMessage(chatId, 'Sorry, where was an error: ' + err);
+        bot.sendMessage(chatId, 'Sorry, there was an error: ' + err);
       });
-    // const helpString = '';
-    // bot.sendMessage(chatId, helpString);
   });
 }
 
