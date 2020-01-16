@@ -1,6 +1,8 @@
 import { Message } from 'node-telegram-bot-api';
 import IUser from './IUser';
 import IWallet from '../Wallet/IWallet';
+import TelegramBot = require('node-telegram-bot-api');
+import UserModel from './UserModel';
 
 class User implements IUser {
   public id: number = null;
@@ -27,7 +29,7 @@ class User implements IUser {
         notify: '',
       },
       savings: {
-        amount: 0,
+        amount: 0, 
         percent: 0,
         save: 0,
       },
@@ -46,6 +48,16 @@ class User implements IUser {
       wallet: this.wallet,
       store: this.store,
     }
+  }
+
+  public findFromDB(message: TelegramBot.Message): Promise<any> {
+    return new Promise((resolve, reject) => {
+      UserModel.findOne({ id: message.from.id, username: message.from.username })
+        .then((findedUser) => {
+          resolve(findedUser);
+        })
+        .catch((err: Error) => reject(err));
+    });
   }
 }
 
