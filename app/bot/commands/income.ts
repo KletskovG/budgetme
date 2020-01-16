@@ -1,7 +1,7 @@
 import TelegramBot = require('node-telegram-bot-api');
 import fetch from 'node-fetch';
 import config from '../../config';
-import User from 'app/models/User/User';
+import User from '../../models/User/User';
 
 function income(bot: TelegramBot) {
 
@@ -19,18 +19,11 @@ function income(bot: TelegramBot) {
         console.log(findedUser);
         bot.sendMessage(chatId, findedUser.username);
       })
-      .catch(err => {
+      .catch((err: Error) => {
         console.log(err);
-        bot.sendMessage(chatId, err);
-      })
-
-    // bot.sendMessage(chatId, 'Received message');
-    // if (Number(msg.text) > 0) {
-    //   // bot.sendMessage(chatId, `Amount: ${number}, category: ${category}`);
-    //   bot.sendMessage(chatId, `You income is  ${msg.text}`);
-
-    // }
+        bot.sendMessage(chatId, `${err}`);
+      });
   });
-} 
+}
 
 export default income;
