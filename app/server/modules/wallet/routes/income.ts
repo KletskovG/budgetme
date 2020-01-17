@@ -1,6 +1,4 @@
 import UserModel from '../../../../models/User/UserModel';
-import IUser from 'app/models/User/IUser';
-import IWallet from 'app/models/Wallet/IWallet';
 
 function income(app: any) {
   app.post('/income', async (req, res) => {

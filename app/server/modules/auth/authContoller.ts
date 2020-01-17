@@ -1,9 +1,9 @@
-import IUser from '../../../models/User/IUser';
+import { IUser } from '../../../models/User/UserModel';
 import UserModel from '../../../models/User/UserModel';
 
 class AuthController {
   // TODO: refactor
-  public start(user: IUser): Promise<IUser> {
+  public start(user: Partial<IUser>): Promise<Partial<IUser>> {
     return new Promise((resolve, reject) => {
       UserModel.findOne({ id: user.id, username: user.username })
         .then(findedUser => {

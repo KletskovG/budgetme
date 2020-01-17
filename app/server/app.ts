@@ -9,10 +9,12 @@ const logger = Logger.getInstance();
 
 import AuthModule from './modules/auth/authModule';
 import healthCheck from './modules/health/heathModule';
+import UserModule from './modules/user/userModule';
 
 app.use(bodyParser.json());
 
 const authModule = new AuthModule(app);
+const userModule = new UserModule(app);
 healthCheck(app);
 
 db()

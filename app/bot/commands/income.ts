@@ -9,30 +9,11 @@ function income(bot: TelegramBot) {
 
   bot.onText(/income/, (msg, match) => {
     const chatId = msg.chat.id;
-    bot.sendMessage(chatId, 'Please, send me amount and category');
+    bot.sendMessage(chatId, 'Please, send me amount of transaction');
 
     const user = new User();
     console.log('TRYING TO UPDATE INCOME');
     logger.log('TRYING TO UPDATE INCOME OF ' + msg.from.username);
-    user.findFromDB(msg)
-      .then((findedUser) => {
-        if (findedUser.store.isIncomeEnabled === false) {
-          findedUser.store.isIncomeEnabled = true;
-          user.update(findedUser, findedUser)
-            .then(updatedUser => {
-              const storeString = `Store.isIncomeEnabled: ${updatedUser.store.isIncomeEnabled}`;
-              logger.log('USER WAS UPDATED');
-              logger.log(updatedUser.username + ' ' + user.store.isIncomeEnabled);
-              bot.sendMessage(chatId, storeString);
-            })
-            .catch(err => bot.sendMessage(chatId, err));
-        }
-      })
-      .catch((err: Error) => {
-        console.log(err);
-        bot.sendMessage(chatId, 'There was en error');
-        bot.sendMessage(chatId, `${err}`);
-      });
   });
 
   bot.onText(/(.+)/, (msg, match) => {

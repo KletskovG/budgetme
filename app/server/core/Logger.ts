@@ -14,7 +14,9 @@ class Logger {
 
   public log(message: string): void {
     const currentDate = new Date().toISOString();
-    this.logs.push(`${currentDate}: ${message} \b`);
+    const logString = `${currentDate}: ${message} \b`;
+    console.log(logString);
+    this.logs.push(logString);
 
     if (this.logs.length >= 500) {
       this.logs = [];

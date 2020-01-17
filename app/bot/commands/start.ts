@@ -1,5 +1,5 @@
 import TelegramBot = require('node-telegram-bot-api');
-import IUser from 'app/models/User/IUser';
+import { IUser } from '../..//models/User/UserModel';
 import User from '../../models/User/User';
 import fetch from 'node-fetch';
 import config from '../../config';
@@ -7,7 +7,7 @@ import config from '../../config';
 function start(bot: TelegramBot) {
   bot.onText(/\/start/, (msg, match) => {
     const chatId = msg.chat.id;
-    const user: IUser = {
+    const user: Partial<IUser> = {
       first_name: msg.from.first_name,
       last_name: msg.from.last_name,
       id: msg.from.id,

@@ -1,10 +1,10 @@
 import { Message } from 'node-telegram-bot-api';
-import IUser from './IUser';
+import { IUser, IUserBase } from './UserModel';
 import IWallet from '../Wallet/IWallet';
 import TelegramBot = require('node-telegram-bot-api');
 import UserModel from './UserModel';
 
-class User implements IUser {
+class User implements Partial<IUser> {
   public id: number = null;
   public first_name: string = '';
   public last_name: string = '';
@@ -14,7 +14,7 @@ class User implements IUser {
 
   constructor() {}
 
-  public create(user: IUser): void {
+  public create(user: IUserBase): void {
     this.id = user.id;
     this.first_name = user.first_name;
     this.last_name = user.last_name;
@@ -57,18 +57,6 @@ class User implements IUser {
           resolve(findedUser);
         })
         .catch((err: Error) => reject(err));
-    });
-  }
-
-  public update(user: IUser, update: object): Promise<any> {
-    return new Promise((resolve, reject) => {
-      UserModel.findOneAndUpdate({ id: user.id }, { update })
-      .then((updatedUser) => {
-        console.log('USER WAS UPDATED');
-        console.log(updatedUser);
-        resolve(updatedUser);
-      })
-      .catch((err: Error) => reject(err));
     });
   }
 }
