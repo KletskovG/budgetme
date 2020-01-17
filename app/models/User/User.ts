@@ -63,7 +63,11 @@ class User implements IUser {
   public update(user: IUser, update: object): Promise<any> {
     return new Promise((resolve, reject) => {
       UserModel.findOneAndUpdate({ id: user.id }, { update })
-      .then((updatedUser) => resolve(updatedUser.id))
+      .then((updatedUser) => {
+        console.log('USER WAS UPDATED');
+        console.log(updatedUser);
+        resolve(updatedUser);
+      })
       .catch((err: Error) => reject(err));
     });
   }

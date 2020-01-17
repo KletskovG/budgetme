@@ -10,6 +10,7 @@ function income(bot: TelegramBot) {
     bot.sendMessage(chatId, 'Please, send me amount and category');
 
     const user = new User();
+    console.log('TRYING TO UPDATE INCOME');
     user.findFromDB(msg)
       .then((findedUser) => {
         if (findedUser.store.isIncomeEnabled === false) {

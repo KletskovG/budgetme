@@ -1,5 +1,7 @@
 const xml2js = require('xml2js').parseString;
 import fetch from 'node-fetch';
+import Logger from '../../server/core/Logger';
+import { Message } from 'node-telegram-bot-api';
 
 interface ICourse {
   USD: string;
@@ -7,9 +9,11 @@ interface ICourse {
 }
 
 function courseCommand(bot) {
-  bot.onText(/\/course/, (msg, match) => {
-    const chatId = msg.chat.id;
+  const logger = Logger.getInstance();
 
+  bot.onText(/\/course/, (msg: Message, match) => {
+    const chatId = msg.chat.id;
+    logger.log(`Send course to ${msg.from.username}`);
     fetch('http://www.cbr.ru/scripts/XML_daily.asp?')
       .then((res) => res.text())
       .then((text) => {
