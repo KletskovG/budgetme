@@ -59,6 +59,14 @@ class User implements IUser {
         .catch((err: Error) => reject(err));
     });
   }
+
+  public update(user: IUser, update: object): Promise<any> {
+    return new Promise((resolve, reject) => {
+      UserModel.findOneAndUpdate({ id: user.id }, { update })
+      .then((updatedUser) => resolve(updatedUser.id))
+      .catch((err: Error) => reject(err));
+    });
+  }
 }
 
 export default User;
