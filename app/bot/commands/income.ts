@@ -2,8 +2,10 @@ import TelegramBot = require('node-telegram-bot-api');
 import fetch from 'node-fetch';
 import config from '../../config';
 import User from '../../models/User/User';
+import Logger from '../../server/core/Logger';
 
 function income(bot: TelegramBot) {
+  const logger = Logger.getInstance();
 
   bot.onText(/income/, (msg, match) => {
     const chatId = msg.chat.id;
@@ -11,6 +13,7 @@ function income(bot: TelegramBot) {
 
     const user = new User();
     console.log('TRYING TO UPDATE INCOME');
+    logger.log('TRYING TO UPDATE INCOME OF ' + msg.from.username);
     user.findFromDB(msg)
       .then((findedUser) => {
         if (findedUser.store.isIncomeEnabled === false) {
@@ -18,6 +21,8 @@ function income(bot: TelegramBot) {
           user.update(findedUser, findedUser)
             .then(updatedUser => {
               const storeString = `Store.isIncomeEnabled: ${updatedUser.store.isIncomeEnabled}`;
+              logger.log('USER WAS UPDATED');
+              logger.log(updatedUser.username + ' ' + user.store.isIncomeEnabled);
               bot.sendMessage(chatId, storeString);
             })
             .catch(err => bot.sendMessage(chatId, err));
