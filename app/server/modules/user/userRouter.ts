@@ -27,7 +27,7 @@ function userRouter(app: Express) {
       .catch((err: Error) => res.status(500).send(err));
   });
 
-  // Create
+  // Create user in DB
   app.post('/user', (req, res) => {
     const baseUser: IUserBase = getBaseUser(req);
     const user = new User();
@@ -58,6 +58,7 @@ function userRouter(app: Express) {
     const baseUser = getBaseUser(req);
     const numberOfDeletedUsers = await UserModel.remove({ id: baseUser.id });
     res.status(200).send(numberOfDeletedUsers);
+    logger.log(`User was deleted: ${baseUser.username}`);
   });
 
 }

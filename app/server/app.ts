@@ -10,11 +10,13 @@ const logger = Logger.getInstance();
 import AuthModule from './modules/auth/authModule';
 import healthCheck from './modules/health/heathModule';
 import UserModule from './modules/user/userModule';
+import WalletModule from './modules/wallet/walletModule';
 
 app.use(bodyParser.json());
 
 const authModule = new AuthModule(app);
 const userModule = new UserModule(app);
+const walletModule = new WalletModule(app);
 healthCheck(app);
 
 db()
