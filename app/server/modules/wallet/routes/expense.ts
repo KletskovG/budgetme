@@ -12,7 +12,7 @@ function expense(app: Express) {
       const updatedUser: IUser = updateUserWallet(user, expenseAmount, expenseCategory);
       UserModel.findOneAndUpdate({ id: req.body.id }, updatedUser)
         .then((doc: IUser) => {
-          res.status(200).send(user);
+          res.status(200).send(JSON.stringify(user));
           logger.log(`Add expense to ${user.username} wallet: ${user.wallet.amount} amount: `);
         })
         .catch((err: Error) => {
