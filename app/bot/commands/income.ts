@@ -17,7 +17,8 @@ function income(bot: TelegramBot) {
   bot.onText(/(.+)/, async (msg, match) => {
     const chatId = msg.chat.id;
     const user = await UserModel.findOne({ id: msg.from.id });
-    if (user.store.isIncomeEnabled) {
+    const isIncome = msg.text.includes('income');
+    if (user.store.isIncomeEnabled && isIncome === false) {
       updateWallet(chatId, msg);
       updateStorage(chatId, msg, false);
     } else {
