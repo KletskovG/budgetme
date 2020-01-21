@@ -1,21 +1,16 @@
 import UserModel, { IUser } from '../../../../models/User/UserModel';
 import Logger from '../../../core/Logger';
+import { Express } from 'express';
+
 const logger = Logger.getInstance();
 
-function income(app: any): void {
+function income(app: Express): void {
   app.post('/income', async (req, res) => {
     const user = await UserModel.findOne({ id: req.body.id });
     const incomeAmount = Number(req.body.income);
     if (!!user && !isNaN(incomeAmount) && incomeAmount > 0) {
-      const walletUpdatedValue = user.wallet;
-      try {
-        walletUpdatedValue.amount += Number(req.body.income);
-      } catch (error) {
-        res.status(500).send('Error while adding income');
-        logger.log('Error while adding income');
-        logger.log(`${user.username} ---- income: ${req.body.income}`);
-      }
-      UserModel.findOneAndUpdate({ id: req.body.id }, { wallet: walletUpdatedValue })
+      user.wallet.amount += incomeAmount;
+      UserModel.findOneAndUpdate({ id: req.body.id }, user)
         .then((doc: IUser) => {
           res.status(200).send(JSON.stringify(doc));
           logger.log(`Successfully update income of ${doc.username} --- walletAmount: ${doc.wallet.amount + Number(req.body.income)}`);

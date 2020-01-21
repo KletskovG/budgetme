@@ -1,12 +1,10 @@
 import income from './routes/income';
-
+import expense from './routes/expense';
+import { Express } from 'express';
 class WalletModule {
-  private app: Express.Application = null;
-  
-  constructor(app: Express.Application) {
-    this.app = app;
-
+  constructor(app: Express) {
     income(app);
+    expense(app);
   }
 }
 

@@ -3,7 +3,7 @@ export default interface IWallet {
   budget: {
     amount: number;
     deadline: string;
-    expenses: [{ count: number; name: string }];
+    expenses: [{ count: number; name: string }?];
     notify: string;
   };
   owner: string;
