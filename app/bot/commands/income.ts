@@ -3,35 +3,69 @@ import fetch from 'node-fetch';
 import config from '../../config';
 import User from '../../models/User/User';
 import Logger from '../../server/core/Logger';
+import UserModel, { IUser } from '../../models/User/UserModel';
+const logger = Logger.getInstance();
 
 function income(bot: TelegramBot) {
-  const logger = Logger.getInstance();
-
-  bot.onText(/income/, (msg, match) => {
+  bot.onText(/income/, async (msg, match) => {
     const chatId = msg.chat.id;
-    bot.sendMessage(chatId, 'Please, send me amount of transaction');
-
-    const user = new User();
-    console.log('TRYING TO UPDATE INCOME');
-    logger.log('TRYING TO UPDATE INCOME OF ' + msg.from.username);
+    const incomeRequirementsString = 'Please send me amount of transaction';
+    bot.sendMessage(chatId, incomeRequirementsString);
+    updateStorage(chatId, msg, true);
   });
 
-  bot.onText(/(.+)/, (msg, match) => {
+  bot.onText(/(.+)/, async (msg, match) => {
     const chatId = msg.chat.id;
+    const user = await UserModel.findOne({ id: msg.from.id });
+    if (user.store.isIncomeEnabled) {
+      updateWallet(chatId, msg);
+      updateStorage(chatId, msg, false);
+    } else {
+      logger.log('Dont respond to not income message');
+    }
+  });
 
-    const user = new User();
-    user.findFromDB(msg)
-      .then((findedUser) => {
-        console.log(findedUser);
-        if (findedUser.store.isIncomeEnabled) {
-          bot.sendMessage(chatId, findedUser.username);
-        }
+  function updateStorage(chatId: number, msg: TelegramBot.Message, isIncomeEnabled): void {
+    const data = {
+      id: msg.from.id,
+      isIncomeEnabled,
+    };
+    fetch(`http://localhost:${config.PORT}/income/store`, {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).catch((err: Error) => {
+      bot.sendMessage(chatId, `${err} Telegram`);
+      logger.log(`Error: Telegram cant update isIncome store ${msg.from.id}`);
+    });
+  }
+
+  function updateWallet(chatId: number, msg: TelegramBot.Message): void {
+    const amount = Number(msg.text);
+    if (!!amount && amount > 0) {
+      const data = {
+        id: msg.from.id,
+        income: amount,
+      };
+      fetch(`http://localhost:${config.PORT}/income`, {
+        method: 'post',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(data),
       })
-      .catch((err: Error) => {
-        console.log(err);
-        bot.sendMessage(chatId, `${err}`);
-      });
-  });
-}
+      .then((res: Response) => res.json())
+      .then((res: IUser) => {
+        const userName = res.username;
+        const walletAmount = res.wallet.amount;
 
+        bot.sendMessage(chatId, `${userName} \n Your amount is ${walletAmount}`);
+      })
+      .catch((err: Error) => logger.log(`Error: Telegram ${err} (income)`));
+    }
+  }
+
+}
 export default income;

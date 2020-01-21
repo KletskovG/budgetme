@@ -10,7 +10,7 @@ export interface IUser extends mongoose.Document {
   last_name: string;
   username: string;
   wallet: IWallet;
-  store: object;
+  store: any;
 }
 
 export interface IUserBase {
