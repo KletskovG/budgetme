@@ -10,6 +10,7 @@ function income(app: Express): void {
     const incomeAmount = Number(req.body.income);
     if (!!user && !isNaN(incomeAmount) && incomeAmount > 0) {
       user.wallet.amount += incomeAmount;
+      user.store.isIncomeEnabled = false;
       UserModel.findOneAndUpdate({ id: req.body.id }, user)
         .then((doc: IUser) => {
           res.status(200).send(JSON.stringify(user));

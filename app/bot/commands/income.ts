@@ -20,7 +20,6 @@ function income(bot: TelegramBot) {
     const isIncome = msg.text.includes('income');
     if (user.store.isIncomeEnabled && isIncome === false) {
       updateWallet(chatId, msg);
-      updateStorage(chatId, msg, false);
     } else {
       logger.log('Dont respond to not income message');
     }
