@@ -1,13 +1,12 @@
-import TelegramBot = require('node-telegram-bot-api');
 import fetch from 'node-fetch';
-import config from '../../config';
-import User from '../../models/User/User';
-import Logger from '../../server/core/Logger';
-import UserModel, { IUser } from '../../models/User/UserModel';
-import IStorage from '../../models/BotModels/IStorage';
+import TelegramBot = require('node-telegram-bot-api');
 import { brotliDecompress } from 'zlib';
+import config from '../../config';
+import IStorage from '../../models/BotModels/IStorage';
+import User from '../../models/User/User';
+import UserModel, { IUser } from '../../models/User/UserModel';
+import Logger from '../../server/core/Logger';
 const logger = Logger.getInstance();
-
 
 function expense(bot: TelegramBot) {
     bot.onText(/expense/, async (msg, match) => {
@@ -27,20 +26,21 @@ function expense(bot: TelegramBot) {
         const chatId = msg.chat.id;
         const user = await UserModel.findOne({ id: msg.from.id });
         const isExpense = msg.text.includes('expense');
+        logger.log('Processing expense command');
         if (user.store.isIncomeEnabled && isExpense === false) {
-          addExpense(chatId, msg);
+            bot.sendMessage(chatId, 'Processing expense command');
+            addExpense(chatId, msg);
         } else {
-          logger.log('Dont respond to not expense message');
+          logger.log(`Dont respond to not expense message ${msg.text}`);
         }
       });
-    
 
     function updateStorage(storeToUpdate: IStorage): void {
-        const data = {  
+        const data = {
             id: storeToUpdate.message.from.id,
             ...storeToUpdate,
-        }
-        
+        };
+
         fetch(`http://localhost:${config.PORT}/user/store`, {
             method: 'post',
             headers: {
@@ -55,7 +55,7 @@ function expense(bot: TelegramBot) {
 
     function addExpense(chatId: number, message: TelegramBot.Message): void {
         const text = message.text.trim();
-        const isValidString = parseExpenseString(text)
+        const isValidString = parseExpenseString(text);
         if (isValidString) {
             const amount = Number(text.substr(0, text.indexOf(' ')));
             const category = text.substr(text.indexOf(' '), text.length - 1);
@@ -64,7 +64,7 @@ function expense(bot: TelegramBot) {
                 id: message.from.id,
                 expense: amount,
                 category,
-            }
+            };
             fetch(`http://localhost:${config.PORT}/expense`, {
                 method: 'post',
                 headers: {
@@ -85,12 +85,12 @@ function expense(bot: TelegramBot) {
             });
         } else {
             bot.sendMessage(chatId, 'I cant recognize expense message');
-            logger.logError(`Cant recognize expense message ${text}`, 'Telegram expense')
+            logger.logError(`Cant recognize expense message ${text}`, 'Telegram expense');
         }
     }
 
     // TODO: refactor
-    function parseExpenseString(text: string): boolean {   
+    function parseExpenseString(text: string): boolean {
         const countOfWhiteSpaces = text.match(/ /g).length;
         if (countOfWhiteSpaces === 1) {
             const whiteIndex = text.indexOf(' ');
@@ -99,8 +99,8 @@ function expense(bot: TelegramBot) {
             const onlyAlphabetReg = new RegExp(/^[a-zA-Z]+$/);
             if (amount > 0 && onlyAlphabetReg.test(category)) {
                 return true;
-            } else return false;
-        } else return false;
+            } else { return false; }
+        } else { return false; }
     }
 }
 
