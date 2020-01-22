@@ -2,6 +2,7 @@ import { Express, Request } from 'express';
 import Logger from '../../core/Logger';
 import UserModel, { IUserBase, IUser } from '../../../models/User/UserModel';
 import User from '../../..//models/User/User';
+import IStorage from '../../../models/BotModels/IStorage';
 
 function getBaseUser(req: Request): IUserBase {
   const baseUser: IUserBase = {
@@ -59,6 +60,32 @@ function userRouter(app: Express) {
     const numberOfDeletedUsers = await UserModel.remove({ id: baseUser.id });
     res.status(200).send(numberOfDeletedUsers);
     logger.log(`User was deleted: ${baseUser.username}`);
+  });
+
+  app.post('/user/store', async (req, res) => {
+    const user = await UserModel.findOne({ id: req.body.id });
+    if (!!user) {
+      const store: IStorage = {
+        chatId: req.body.chatId,
+        message: req.body.message,
+        field: req.body.field,
+        isFieldEnabled: req.body.isFieldEnabled,
+      };
+      for (const key in user.store) {
+        if (user.store[key] === store.field) {
+          user.store[key] = store.isFieldEnabled;
+          UserModel.findOneAndUpdate({ id: req.body.id }, user)
+            .then((doc: IUser) => res.status(200).send(user))
+            .catch((err: Error) => {
+              res.status(500).send(`Cant save store of ${req.body.id}`);
+              logger.logError(`Cant save store of ${req.body.id} ${err}`, '(server: /income/store)');
+            })
+        }
+      }
+    } else {
+      logger.logError(`Cant find user ${req.body.id}`, 'server');
+      res.status(500).send(`Cant find user ${req.body.id}`)
+    }
   });
 
 }

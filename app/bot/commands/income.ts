@@ -9,7 +9,7 @@ const logger = Logger.getInstance();
 function income(bot: TelegramBot) {
   bot.onText(/income/, async (msg, match) => {
     const chatId = msg.chat.id;
-    const incomeRequirementsString = 'Please send me amount of transaction';
+    const incomeRequirementsString = 'Please, send me amount of transaction';
     bot.sendMessage(chatId, incomeRequirementsString);
     updateStorage(chatId, msg, true);
   });

@@ -23,6 +23,17 @@ class Logger {
     }
   }
 
+  public logError(message: string, source: string): void {
+    const currentDate = new Date().toISOString();
+    const logString = `${currentDate}: **Error** (${source}): ${message}`;
+    console.log(logString);
+    this.logs.push(logString);
+
+    if (this.logs.length >= 500) {
+      this.logs = [];
+    }
+  }
+
   public getLogs(): string[] {
     return this.logs;
   }
