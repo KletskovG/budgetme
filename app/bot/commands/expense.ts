@@ -38,10 +38,10 @@ function expense(bot: TelegramBot) {
     function updateStorage(storeToUpdate: IStorage): void {
         const data = {  
             id: storeToUpdate.message.from.id,
-            ...storeToUpdate
+            ...storeToUpdate,
         }
         
-        fetch(`http://localhost:${config.PORT}/income/store`, {
+        fetch(`http://localhost:${config.PORT}/user/store`, {
             method: 'post',
             headers: {
                 'Content-type': 'application/json',

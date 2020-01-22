@@ -78,7 +78,7 @@ function userRouter(app: Express) {
         if (key === store.field) {
           user.store[key] = store.isFieldEnabled;
           UserModel.findOneAndUpdate({ id: req.body.id }, user)
-            .then((doc: IUser) => res.status(200).send(user))
+            .then((doc: IUser) => res.status(200).send(JSON.stringify(user)))
             .catch((err: Error) => {
               res.status(500).send(`Cant save store of ${req.body.id}`);
               logger.logError(`Cant save store of ${req.body.id} ${err}`, '(server: /income/store)');
