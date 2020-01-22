@@ -1,2 +1,4 @@
 help - Shows bot menu
 course - Shows actual USD and EUR course
+income - Add income into your wallet
+expense - Add expense into your wallet

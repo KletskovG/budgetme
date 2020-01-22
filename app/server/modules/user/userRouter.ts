@@ -71,15 +71,18 @@ function userRouter(app: Express) {
         field: req.body.field,
         isFieldEnabled: req.body.isFieldEnabled,
       };
+      if (user.store.field === undefined) {
+        user.store[`${store.field}`] = false;
+      }
       for (const key in user.store) {
-        if (user.store[key] === store.field) {
+        if (key === store.field) {
           user.store[key] = store.isFieldEnabled;
           UserModel.findOneAndUpdate({ id: req.body.id }, user)
             .then((doc: IUser) => res.status(200).send(user))
             .catch((err: Error) => {
               res.status(500).send(`Cant save store of ${req.body.id}`);
               logger.logError(`Cant save store of ${req.body.id} ${err}`, '(server: /income/store)');
-            })
+            });
         }
       }
     } else {
