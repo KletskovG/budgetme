@@ -27,11 +27,12 @@ function expense(bot: TelegramBot) {
         const user = await UserModel.findOne({ id: msg.from.id });
         const isExpense = msg.text.includes('expense');
         logger.log('Processing expense command');
-        if (user.store.isIncomeEnabled && isExpense === false) {
+        if (user.store.isExpenseEnabled && isExpense === false) {
             bot.sendMessage(chatId, 'Processing expense command');
             addExpense(chatId, msg);
         } else {
-          logger.log(`Dont respond to not expense message ${msg.text}`);
+          
+            logger.log(`Dont respond to not expense message ${msg.text}`);
         }
       });
 
