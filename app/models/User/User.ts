@@ -1,64 +1,43 @@
-import { Message } from 'node-telegram-bot-api';
-import { IUser, IUserBase } from './UserModel';
-import IWallet from '../Wallet/IWallet';
-import TelegramBot = require('node-telegram-bot-api');
-import UserModel from './UserModel';
 
-class User implements Partial<IUser> {
-  public id: number = null;
-  public first_name: string = '';
-  public last_name: string = '';
-  public wallet: IWallet = null;
-  public username: string = '';
-  public store = null;
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-  constructor() {}
-
-  public create(user: IUserBase): void {
-    this.id = user.id;
-    this.first_name = user.first_name;
-    this.last_name = user.last_name;
-    this.username = user.username;
-    this.wallet = {
-      amount: 0,
-      owner: user.username,
-      budget: {
-        amount: 0,
-        deadline: '',
-        expenses: null,
-        notify: '',
-      },
-      savings: {
-        amount: 0, 
-        percent: 0,
-        save: 0,
-      },
-    };
-    this.store = {
-      isIncomeEnabled: false,
-    };
-  }
-
-  public get data() {
-    return {
-      id: this.id,
-      first_name: this.first_name,
-      last_name: this.last_name,
-      username: this.username,
-      wallet: this.wallet,
-      store: this.store,
-    }
-  }
-
-  public findFromDB(message: TelegramBot.Message): Promise<any> {
-    return new Promise((resolve, reject) => {
-      UserModel.findOne({ id: message.from.id, username: message.from.username })
-        .then((findedUser) => {
-          resolve(findedUser);
-        })
-        .catch((err: Error) => reject(err));
-    });
-  }
+export interface IUser extends mongoose.Document {
+  // first_name: string;
+  // id: number;
+  // last_name: string;
+  // username: string;
+  // wallet: IWallet;
+  // store: any;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  id: number;
 }
+
+export interface IUserBase {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  id: number;
+}
+
+export const schema = new Schema({
+  // first_name: String,
+  // id: Number,
+  // last_name: String,
+  // username: String,
+  // wallet: Object,
+  // store: Object,
+  email: String,
+  password: String,
+  firstName: String,
+  lastName: String,
+  id: Number,
+});
+
+const User = mongoose.model<IUser>('user', schema);
 
 export default User;

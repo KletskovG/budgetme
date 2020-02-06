@@ -1,2 +1,2 @@
 import './server/app';
-import './bot/bot';
+// import './bot/bot';

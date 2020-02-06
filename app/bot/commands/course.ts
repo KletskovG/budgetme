@@ -1,74 +1,74 @@
-const xml2js = require('xml2js').parseString;
-import fetch from 'node-fetch';
-import Logger from '../../server/core/Logger';
-import { Message } from 'node-telegram-bot-api';
+// const xml2js = require('xml2js').parseString;
+// import fetch from 'node-fetch';
+// import Logger from '../../server/core/Logger';
+// import { Message } from 'node-telegram-bot-api';
 
-interface ICourse {
-  USD: string;
-  EUR: string;
-}
+// interface ICourse {
+//   USD: string;
+//   EUR: string;
+// }
 
-function courseCommand(bot) {
-  const logger = Logger.getInstance();
+// function courseCommand(bot) {
+//   const logger = Logger.getInstance();
 
-  bot.onText(/\/course/, (msg: Message, match) => {
-    const chatId = msg.chat.id;
-    logger.log(`Send course to ${msg.from.username}`);
-    fetch('http://www.cbr.ru/scripts/XML_daily.asp?')
-      .then((res) => res.text())
-      .then((text) => {
+//   bot.onText(/\/course/, (msg: Message, match) => {
+//     const chatId = msg.chat.id;
+//     logger.log(`Send course to ${msg.from.username}`);
+//     fetch('http://www.cbr.ru/scripts/XML_daily.asp?')
+//       .then((res) => res.text())
+//       .then((text) => {
 
-        const course = getCourse(text);
-        bot.sendMessage(chatId, buildCourseString(course));
-        return text;
-      })
-      .catch((err) => console.log(err));
-  });
-}
+//         const course = getCourse(text);
+//         bot.sendMessage(chatId, buildCourseString(course));
+//         return text;
+//       })
+//       .catch((err) => console.log(err));
+//   });
+// }
 
-function getCourse(xml) {
-  const course: ICourse = {
-    EUR: null,
-    USD: null,
-  };
+// function getCourse(xml) {
+//   const course: ICourse = {
+//     EUR: null,
+//     USD: null,
+//   };
 
-  xml2js(xml, (err, result) => {
-    const valutes = result.ValCurs.Valute;
-    valutes.forEach((valute) => {
-      if (valute.CharCode[0] === 'USD') {
-        course.USD = getValuteValue(valute);
-      }
+//   xml2js(xml, (err, result) => {
+//     const valutes = result.ValCurs.Valute;
+//     valutes.forEach((valute) => {
+//       if (valute.CharCode[0] === 'USD') {
+//         course.USD = getValuteValue(valute);
+//       }
 
-      if (valute.CharCode[0] === 'EUR') {
-        course.EUR = getValuteValue(valute);
-      }
-    });
-    return course;
-  });
+//       if (valute.CharCode[0] === 'EUR') {
+//         course.EUR = getValuteValue(valute);
+//       }
+//     });
+//     return course;
+//   });
 
-  return course;
-}
+//   return course;
+// }
 
-function getValuteValue(valute) {
-  const value = valute.Value[0].replace(/\,/, '.');
-  return Number(value).toFixed(2);
-}
+// function getValuteValue(valute) {
+//   const value = valute.Value[0].replace(/\,/, '.');
+//   return Number(value).toFixed(2);
+// }
 
-function buildCourseString(course) {
-  console.log(course);
-  let result = '';
+// function buildCourseString(course) {
+//   console.log(course);
+//   let result = '';
 
-  const date = new Date();
-  const currentDay = date.getDate();
-  const currentMonth = +date.getMonth() + 1 ;
-  const currentYear = date.getFullYear();
-  const currentDate = `Today is: ${currentDay}/${currentMonth}/${currentYear} \b`;
-  result += currentDate;
+//   const date = new Date();
+//   const currentDay = date.getDate();
+//   const currentMonth = +date.getMonth() + 1 ;
+//   const currentYear = date.getFullYear();
+//   const currentDate = `Today is: ${currentDay}/${currentMonth}/${currentYear} \b`;
+//   result += currentDate;
 
-  result += `USD course: ${course.USD} \b`;
-  result += `EUR course: ${course.EUR} \b`;
+//   result += `USD course: ${course.USD} \b`;
+//   result += `EUR course: ${course.EUR} \b`;
 
-  return result;
-}
+//   return result;
+// }
 
-export default courseCommand;
+// export default courseCommand;

@@ -1,6 +1,23 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@modules/*": [
+        "src/app/modules/*"
+      ],
+      "@core/*": [
+        "src/app/core/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
+      "@models/*": [
+        "app/models/*"
+      ],
+    },
     "module": "commonjs",
     "esModuleInterop": true,
     "target": "es6",
@@ -12,7 +29,7 @@
       "express",
       "mongoose",
       "node-telegram-bot-api"
-    ]
+    ],
   },
   "quotemark": [
     true,

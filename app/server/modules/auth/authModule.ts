@@ -1,14 +1,9 @@
-import express from 'express';
-import authRouter from './authRouter';
+import { Express } from 'express';
+import RegisterRoute from './RegisterRoute';
 
-class AuthModule {
-  private app: Express.Application = null;
-
-  constructor(app: Express.Application) {
-    console.log('Create new instance of Auth module');
-    
-    this.app = app;
-    authRouter(app);
+class AuthModule { 
+  constructor(app: Express) {
+    const register = new RegisterRoute(app);
   }
 }
 

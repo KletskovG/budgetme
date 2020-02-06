@@ -7,22 +7,17 @@ import Logger from './core/Logger';
 const app = express();
 const logger = Logger.getInstance();
 
-import AuthModule from './modules/auth/authModule';
-import healthCheck from './modules/health/heathModule';
-import UserModule from './modules/user/userModule';
-import WalletModule from './modules/wallet/walletModule';
+import AuthModule from './modules/Auth/AuthModule';
 
 app.use(bodyParser.json());
 
-const authModule = new AuthModule(app);
-const userModule = new UserModule(app);
-const walletModule = new WalletModule(app);
-healthCheck(app);
+const auth = new AuthModule(app);
 
 db()
   .then(() => {
     app.listen(config.PORT, () => {
       console.log('Server is running on ' + config.PORT);
+      console.log('DB is connected');
       logger.log('Server is running on ' + config.PORT);
     });
   })
