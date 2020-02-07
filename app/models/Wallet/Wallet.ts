@@ -57,6 +57,7 @@ export const schema = new Schema({
       timestamp: String,
     }
   ],
+  name: String,
 });
 
 const Wallet = mongoose.model<IWallet>('wallet', schema);
