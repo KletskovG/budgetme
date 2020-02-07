@@ -11,17 +11,15 @@ export interface IUser extends mongoose.Document {
   // store: any;
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
-  id: number;
+  firstName?: string;
+  lastName?: string;
 }
 
 export interface IUserBase {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
-  id: number;
+  firstName?: string;
+  lastName?: string;
 }
 
 export const schema = new Schema({
@@ -38,6 +36,6 @@ export const schema = new Schema({
   id: Number,
 });
 
-const User = mongoose.model<IUser>('user', schema);
+export const  User = mongoose.model<IUser>('user', schema);
 
-export default User;
+
