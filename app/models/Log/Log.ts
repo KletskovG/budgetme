@@ -8,6 +8,7 @@ export interface ILog extends mongoose.Document {
 
 export const schema = new Schema({
   text: String,
+  type: String,
 }, {
   timestamps: true,
 });

@@ -1,13 +1,16 @@
 import { Express } from 'express';
 import { User } from '../../../models/User/User';
 import Wallet, { IWallet, IWalletBase } from '../../../models/Wallet/Wallet';
+import Logger from '../../core/Logger';
 
 // TODO: add validation of req parameters and search for exsisting wallet
 
 class CreateWallet {
   private app: Express = null;
+  private logger: Logger = null;
   constructor(app: Express) {
     this.app = app;
+    this.logger = new Logger();
     this.createWallet();
   }
 
@@ -27,9 +30,13 @@ class CreateWallet {
 
             Wallet.create({...wallet})
               .then((createdWallet) => res.status(200).send('Wallet was created'))
-              .catch((err: Error) => res.status(500).send(err));
+              .catch((err: Error) => {
+                res.status(500).send(err);
+                this.logger.log('Cant create wallet (Create wallet)', 'error');
+              });
           } else {
             res.status(500).send('Cant find user');
+            this.logger.log('Cant find user (Create wallet)', 'error');
           }
         })
         .catch((err: Error) => res.status(500).send(err));
