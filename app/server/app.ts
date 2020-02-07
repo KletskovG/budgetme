@@ -8,10 +8,12 @@ const app = express();
 const logger = Logger.getInstance();
 
 import AuthModule from './modules/Auth/AuthModule';
+import WalletModule from './modules/Wallet/WalletModule';
 
 app.use(bodyParser.json());
 
 const auth = new AuthModule(app);
+const wallet = new WalletModule(app);
 
 db()
   .then(() => {
