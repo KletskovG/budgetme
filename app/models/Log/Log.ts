@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 export interface ILog extends mongoose.Document {
-  text: string
+  text: string;
+  type: string;
 }
 
 export const schema = new Schema({
@@ -12,3 +13,5 @@ export const schema = new Schema({
 });
 
 const Log = mongoose.model<ILog>('log', schema);
+
+export default Log;

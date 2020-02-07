@@ -19,9 +19,7 @@ class DeleteWallet {
         .then((findedWallet) => {
           if (!!findedWallet) {
             Wallet.deleteOne({ owner: email, name })
-              .then(deletedWallet => {
-                res.status(200).send(`Wallet ${name} was deleted`);
-              })
+              .then(deletedWallet => res.status(200).send(`Wallet ${name} was deleted`))
               .catch((err: Error) => res.status(500).send(err));
           } else {
             res.status(500).send('Cant find this wallet');

@@ -1,43 +1,24 @@
+import Log from '../../models/Log/Log';
+
 class Logger {
-  private static instance: Logger;
-  public logs: string[] = [];
 
-  private constructor() {}
-
-  public static getInstance(): Logger {
-    if (!Logger.instance) {
-      Logger.instance = new Logger();
-    }
-
-    return Logger.instance;
-  }
-
-  public log(message: string): void {
+  public logError(text: string) {
     const currentDate = new Date().toISOString();
-    const logString = `${currentDate}: ${message} \b`;
-    console.log(logString);
-    this.logs.push(logString);
-
-    if (this.logs.length >= 500) {
-      this.logs = [];
-    }
+    const message = `**!!Error!!** -- ${currentDate}  -- ${text}`;
+    Log.create({ text: message, type: 'error' });
   }
 
-  public logError(message: string, source: string): void {
-    const currentDate = new Date().toISOString();
-    const logString = `${currentDate}: **Error** (${source}): ${message}`;
-    console.log(logString);
-    this.logs.push(logString);
+  public logInfo() {
 
-    if (this.logs.length >= 500) {
-      this.logs = [];
-    }
   }
 
-  public getLogs(): string[] {
-    return this.logs;
+  public logMessage() {
+
   }
-  
+
+  private clear() {
+
+  }
 }
 
 export default Logger;
