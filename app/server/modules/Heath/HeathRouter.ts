@@ -12,7 +12,11 @@ class Health {
   private logsRoute(): void {
     this.app.get('/logs', async (req, res) => {
       const logs = await Log.find({});
-      res.status(200).send(logs.map((log: ILog) => `<p> ${log.text} </p>`).toString());
+      let logsString = '';
+      logs.forEach((log: ILog) => {
+        logsString += `<p> ${log.text} </p>`;
+      });
+      res.status(200).send(logsString);
     });
   }
 

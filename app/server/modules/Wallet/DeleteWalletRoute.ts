@@ -26,8 +26,7 @@ class DeleteWallet {
           }
         })
         .catch((err: Error) => res.status(500).send(err));
-      
-    })
+    });
   }
 }
 

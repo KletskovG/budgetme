@@ -15,10 +15,12 @@ class Logger {
         message = `${value} ${text} /// ${currentDate}`;
       }
     });
-    
     Log.create({ text: message, type})
       .then(() => this.clear())
-      .catch(err => console.log(err));
+      .catch((err: Error) => {
+        console.log(err)
+        this.clear();
+      });
   }
 
   private async clear(): Promise<any> {

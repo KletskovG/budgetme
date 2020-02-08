@@ -9,7 +9,7 @@
         "src/app/modules/*"
       ],
       "@core/*": [
-        "src/app/core/*"
+        "app/server/core/*"
       ],
       "@shared/*": [
         "src/app/shared/*"
