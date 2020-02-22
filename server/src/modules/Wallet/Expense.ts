@@ -1,8 +1,8 @@
 import { Express } from 'express';
-import IExpense from '../../../../testserver/models/Wallet/IExpense';
+import IExpense from '../../../models/Wallet/IExpense';
 import Logger from '../../core/Logger';
 import ValidEmail from '../../core/Validation/Email';
-import Wallet from '../../../../testserver/models/Wallet/Wallet';
+import Wallet from '../../../models/Wallet/Wallet';
 
 class Expense {
   private app: Express = null;

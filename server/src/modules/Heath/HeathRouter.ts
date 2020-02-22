@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import Log, { ILog } from '../../../../testserver/models/Log/Log';
+import Log, { ILog } from '../../../models/Log/Log';
 
 class Health {
   private app: Express = null;
