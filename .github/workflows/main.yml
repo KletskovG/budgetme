@@ -21,6 +21,7 @@ jobs:
         name: kletskovg/budget:latest
         username: ${{secrets.DOCKER_LOGIN}}
         password: ${{ secrets.DOCKER_PASSWORD }}
+        context: ./server
     - name: Pull budget
       run: |
           curl ${{ secrets.PULL_BUDGET }}
