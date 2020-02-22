@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import Wallet from '../../../models/Wallet/Wallet';
+import Wallet from '../../../../testserver/models/Wallet/Wallet';
 
 // TODO: add req validation
 

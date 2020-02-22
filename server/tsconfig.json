@@ -28,7 +28,6 @@
       "node",
       "express",
       "mongoose",
-      "node-telegram-bot-api"
     ],
   },
   "quotemark": [

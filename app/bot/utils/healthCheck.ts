@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from '../../../server/config';
 import fetch from 'node-fetch';
 
 async function healthCheck(): Promise<boolean> {

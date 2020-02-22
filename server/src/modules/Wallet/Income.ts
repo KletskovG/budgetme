@@ -1,6 +1,6 @@
 import { Express } from 'express';
-import IIncome from '../../../models/Wallet/IIncome';
-import Wallet, { IWallet } from '../../../models/Wallet/Wallet';
+import IIncome from '../../../../testserver/models/Wallet/IIncome';
+import Wallet, { IWallet } from '../../../../testserver/models/Wallet/Wallet';
 import Logger from '../../core/Logger';
 
 // TODO: add validation

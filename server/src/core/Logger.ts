@@ -1,4 +1,4 @@
-import Log, { ILog } from '../../models/Log/Log';
+import Log, { ILog } from '../../../testserver/models/Log/Log';
 
 class Logger {
   private loggerMap = new Map();

@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 module.exports = {
-  entry: './app/index.ts',
+  entry: './index.ts',
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
@@ -13,7 +13,10 @@ module.exports = {
   module: {
     rules: [
       // all files with a `.ts` extension will be handled by `ts-loader`
-      { test: /\.ts$/, loader: 'ts-loader', exclude: '/node_modules/' },
+      {
+        test: /\.ts/,
+        loader: 'ts-loader',
+      },
     ],
   },
   target: 'node',

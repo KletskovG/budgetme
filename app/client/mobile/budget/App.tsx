@@ -5,6 +5,7 @@ import AppNavigator from './Stack';
 import Wallets from './components/pages/Wallets/Wallets';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import { Text, View } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -12,21 +13,17 @@ const MyStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen 
-          name="Home"
-          component={Home}
-        />
-        <Stack.Screen name="Wallets" component={Wallets}/>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Wallets" component={Wallets} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
 const App = () => {
-  
   return (
-    <MyStack />
-  )
+    <MyStack/>
+  );
 };
 
 export default App;

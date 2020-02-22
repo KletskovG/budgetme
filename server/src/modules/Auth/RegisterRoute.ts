@@ -1,5 +1,5 @@
 // import { User } from '@models/User/User';
-import { User, IUser, IUserBase } from '../../../models/User/User';
+import { User, IUser, IUserBase } from '../../../../testserver/models/User/User';
 import { Express } from 'express';
 
 // TODO: add user info validation

@@ -1,6 +1,6 @@
 import { Express } from 'express';
-import { User } from '../../../models/User/User';
-import Wallet, { IWallet, IWalletBase } from '../../../models/Wallet/Wallet';
+import { User } from '../../../../testserver/models/User/User';
+import Wallet, { IWallet, IWalletBase } from '../../../../testserver/models/Wallet/Wallet';
 import Logger from '../../core/Logger';
 
 // TODO: add validation of req parameters and search for exsisting wallet
