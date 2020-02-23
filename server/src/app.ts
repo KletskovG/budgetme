@@ -8,6 +8,7 @@ const app = express();
 import AuthModule from './modules/Auth/AuthModule';
 import WalletModule from './modules/Wallet/WalletModule';
 import Heath from './modules/Heath/HeathRouter';
+import Log from '../models/Log/Log';
 
 app.use(bodyParser.json());
 
@@ -21,6 +22,8 @@ db()
       console.log('Server is running on ' + config.PORT);
       console.log('DB is connected');
     });
+
+    Log.deleteMany({}).then(() => console.log('Logs was cleared'));
   })
   .catch(err => {
     console.log('An error occured while connecting to db ' + err);

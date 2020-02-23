@@ -1,11 +1,13 @@
 // import { User } from '@models/User/User';
 import { User, IUser, IUserBase } from '../../../models/User/User';
 import { Express } from 'express';
+import Logger from '../../core/Logger';
 
 // TODO: add user info validation
 
 class RegisterRoute {
   private app: Express = null;
+  private logger: Logger = new Logger();
   constructor(app: Express) {
     this.app = app;
 
@@ -25,13 +27,23 @@ class RegisterRoute {
         .then((isUnique: boolean) => {
           if (isUnique) {
             this.createUser(user)
-              .then((message) => res.status(200).send(message))
-              .catch((err: Error) => res.status(500).send(err));
+              .then((message) => {
+                res.status(200).send(message);
+                this.logger.log(`User ${email} was created`, 'info');
+              })
+              .catch((err: Error) => {
+                res.status(500).send(err);
+                this.logger.log('Error while user for unique', 'error');
+              });
           } else {
             res.status(500).send('This is email is declared');
+            this.logger.log(`Try to create exsisting user ${email}`, 'error');
           }
         })
-        .catch((err: Error) => res.status(500).send(err));
+        .catch((err: Error) => {
+          res.status(500).send(err);
+          this.logger.log('Error in UniqueUser /register', 'error');
+        });
     });
   }
 

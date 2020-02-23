@@ -21,7 +21,7 @@ class Health {
   }
 
   private heathRoute(): void {
-    this.app.get('/heath', (req, res) => {
+    this.app.get('/health', (req, res) => {
       const data = {
         uptime: process.uptime(),
         message: 'OK',
