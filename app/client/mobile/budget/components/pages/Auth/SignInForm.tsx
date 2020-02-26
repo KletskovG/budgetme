@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import Loader from '../../../shared/components/loader';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
 import ValidEmail from '../../../shared/ValidEmail';
 import {mainGreenColor, mainBrandColor} from '../../../shared/styles/mainStyle';
 
-const SignInForm = ({navigation, toggleSignIn}) => {
+const SignInForm = ({toggleSignIn, auth}) => {
   let [emailValue, setEmail] = useState('');
   let [passwordValue, setPassword] = useState('');
-  
+
   const signIn = (email: string, password: string) => {
     const isValidEmail = new ValidEmail(email).isValid;
     if (password.trim().length > 6 && isValidEmail) {
       // TODO: send request to sign in
-      navigation.navigate('Main');
+      auth();
     } else {
       // TODO: handle invalid data
     }
-  }
+  };
   return (
     <View style={styles.container}>
       <TextInput
@@ -36,18 +35,20 @@ const SignInForm = ({navigation, toggleSignIn}) => {
 
       <Text
         style={styles.signInButton}
-        onPress={() => signIn(emailValue, passwordValue)}
-      >
+        onPress={() => signIn(emailValue, passwordValue)}>
         Sign in
       </Text>
-      
+
       <View style={styles.textWithLink}>
         <Text> Dont have an account?</Text>
-        <Text style={styles.link} onPress={() => toggleSignIn()} > Create one </Text>
+        <Text style={styles.link} onPress={() => toggleSignIn()}>
+          {' '}
+          Create one{' '}
+        </Text>
       </View>
     </View>
   );
-}
+};
 
 const baseInput = StyleSheet.create({
   input: {
@@ -73,7 +74,6 @@ const styles = StyleSheet.create({
   link: {
     textDecorationLine: 'underline',
     color: mainBrandColor,
-
   },
   emailInput: {
     ...baseInput.input,

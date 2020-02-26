@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import { View, StyleSheet, Button, Alert, Text } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import {View, StyleSheet, Alert, Text} from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
 import ValidEmail from '../../../shared/ValidEmail';
 import Loader from '../../../shared/components/loader';
-import { mainBrandColor, mainGreenColor } from '../../../shared/styles/mainStyle';
+import {mainBrandColor, mainGreenColor} from '../../../shared/styles/mainStyle';
 
-const SignUpForm = ({navigation, toggleSignIn}) => {
+const SignUpForm = ({toggleSignIn, auth}) => {
   let [emailValue, setEmail] = useState('');
   let [passwordValue, setPassword] = useState('');
   let [repeatPasswordValue, setRepeatPassword] = useState('');
@@ -44,12 +44,14 @@ const SignUpForm = ({navigation, toggleSignIn}) => {
       //     return Alert.alert('Error', '', [{text: `${err}`}]);
       //   });
 
-      setModalVisible(true);
+      auth();
     } else {
       // TODO: handle invalid data
-      return Alert.alert('Error', '', [{text: 'Invalid data', onPress: () => {}}]);
+      return Alert.alert('Error', '', [
+        {text: 'Invalid data', onPress: () => {}},
+      ]);
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -67,26 +69,27 @@ const SignUpForm = ({navigation, toggleSignIn}) => {
         value={passwordValue}
       />
 
-      <TextInput 
+      <TextInput
         style={baseInput.input}
         placeholder={'Repeat your password'}
-        onChangeText={text => setRepeatPassword(text) }
+        onChangeText={text => setRepeatPassword(text)}
         value={repeatPasswordValue}
       />
 
-      <Text style={styles.signUpButton}>
-        Sign up
-      </Text>
+      <Text style={styles.signUpButton}>Sign up</Text>
 
       <View style={styles.textWithLink}>
         <Text> Already have an account?</Text>
-        <Text style={styles.link} onPress={() => toggleSignIn()} > Sign in </Text>
+        <Text style={styles.link} onPress={() => toggleSignIn()}>
+          {' '}
+          Sign in{' '}
+        </Text>
       </View>
 
       <Loader isVisible={isModalVisible} />
     </View>
   );
-}
+};
 
 const baseInput = StyleSheet.create({
   input: {

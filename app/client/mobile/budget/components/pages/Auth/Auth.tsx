@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import SignUpForm from './SignUpForm';
 import SignInForm from './SignInForm';
-import { mainBrandColor, whiteColor } from '../../../shared/styles/mainStyle';
+import {mainBrandColor, whiteColor} from '../../../shared/styles/mainStyle';
 
-const AuthPage = ({navigation}) => {
+const AuthPage = ({navigateToHome}) => {
   let [isSignInToggled, setSignIn] = useState(true);
 
   const toggleSignIn = (): void => {
-    setSignIn(prevValue => {
+    setSignIn(() => {
       return !isSignInToggled;
     });
-  }
+  };
 
   if (isSignInToggled) {
     // Sign in
@@ -19,7 +19,7 @@ const AuthPage = ({navigation}) => {
       <View style={styles.container}>
         <View style={styles.formContainer}>
           <Text style={styles.textColor}> Welcome to Budget App! </Text>
-          <SignInForm navigation={navigation} toggleSignIn={toggleSignIn} />
+          <SignInForm auth={navigateToHome} toggleSignIn={toggleSignIn} />
         </View>
       </View>
     );
@@ -27,12 +27,12 @@ const AuthPage = ({navigation}) => {
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          <SignUpForm navigation={navigation} toggleSignIn={toggleSignIn} />
+          <SignUpForm auth={navigateToHome} toggleSignIn={toggleSignIn} />
         </View>
       </View>
     );
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   textColor: {
     color: 'white',
-  }
+  },
 });
 
 export default AuthPage;
