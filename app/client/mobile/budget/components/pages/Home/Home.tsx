@@ -9,7 +9,7 @@ const Home = ({navigation}) => {
         title="Go to wallets"
         onPress={() => navigation.navigate('Wallets')}/> 
     </View>
-  )
+  );
 }
 
 export default Home;
