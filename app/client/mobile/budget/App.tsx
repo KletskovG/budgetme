@@ -22,14 +22,12 @@ const App = () => {
       return <AuthPage navigateToHome={authUser} />;
     } else {
       return (
-        <View>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="Main" component={Home} />
-              <Stack.Screen name="Wallets" component={Wallets} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </View>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Main" component={Home} />
+            <Stack.Screen name="Wallets" component={Wallets} />
+          </Stack.Navigator>
+        </NavigationContainer>
       );
     }
   };

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import SignUpForm from './SignUpForm';
 import SignInForm from './SignInForm';
 import {mainBrandColor, whiteColor} from '../../../shared/styles/mainStyle';
@@ -29,11 +29,11 @@ const AuthPage = ({navigateToHome}) => {
             AsyncStorage.setItem('@password', password);
             navigateToHome();
           } else {
-            // return Alert.alert('Error', 'Server error');
+            return Alert.alert('Error', 'Server error');
           }
         })
         .catch(err => {
-          // return Alert.alert('Error', 'Cant auth');
+          return Alert.alert('Error', 'Cant auth');
         });
     } else {
       // setErrorStyle(errorStyles.text);
