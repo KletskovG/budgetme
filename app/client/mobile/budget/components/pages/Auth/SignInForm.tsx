@@ -10,13 +10,14 @@ const SignInForm = ({toggleSignIn, auth}) => {
 
   const signIn = (email: string, password: string) => {
     const isValidEmail = new ValidEmail(email).isValid;
-    if (password.trim().length > 6 && isValidEmail) {
-      // TODO: send request to sign in
+    if (password.trim().length >= 6 && isValidEmail) {
+      fetch('http://kletskovg.tech:5051/')
       auth();
     } else {
       // TODO: handle invalid data
     }
   };
+
   return (
     <View style={styles.container}>
       <TextInput
