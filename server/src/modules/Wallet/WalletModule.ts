@@ -3,13 +3,15 @@ import CreateWalletRoute from './CreateWalletRoute';
 import DeleteWalletRoute from './DeleteWalletRoute';
 import Income from './Income';
 import Expense from './Expense';
+import GetWallets from './GetWallets';
 
 class Wallet {
   constructor(app: Express) {
-    const create = new CreateWalletRoute(app);
-    const deleteRoute = new DeleteWalletRoute(app);
-    const income = new Income(app);
-    const expense = new Expense(app);
+    const create: CreateWalletRoute = new CreateWalletRoute(app);
+    const deleteRoute: DeleteWalletRoute = new DeleteWalletRoute(app);
+    const income: Income = new Income(app);
+    const expense: Expense = new Expense(app);
+    const getWallet: GetWallets = new GetWallets(app);
   }
 }
 

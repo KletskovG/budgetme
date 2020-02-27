@@ -13,7 +13,7 @@ export default interface IWallet {
     {
       count: number;
       category: string;
-      timestamp: string;g
+      timestamp: string;
     }?,
   ];
 }
