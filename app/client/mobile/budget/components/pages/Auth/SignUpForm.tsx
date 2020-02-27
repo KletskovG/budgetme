@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, Alert, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, Alert, Text, AsyncStorage} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import ValidEmail from '../../../shared/ValidEmail';
 import Loader from '../../../shared/components/loader';
 import {mainBrandColor, mainGreenColor} from '../../../shared/styles/mainStyle';
+import {errorStyles, emailInputStyles} from './formStyles';
 
 const SignUpForm = ({toggleSignIn, auth}) => {
   let [emailValue, setEmail] = useState('');
@@ -29,6 +30,8 @@ const SignUpForm = ({toggleSignIn, auth}) => {
       })
         .then(res => {
           if (res.status === 200) {
+            AsyncStorage.setItem('@email', email);
+            AsyncStorage.setItem('@password', password);
             auth();
           } else {
             return Alert.alert('Error', 'You wasnt reggistred', [
@@ -110,28 +113,6 @@ const baseInput = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     padding: 10,
-  },
-});
-
-const errorStyles = StyleSheet.create({
-  text: {
-    display: 'flex',
-    color: 'red',
-    marginBottom: 20,
-  },
-  textHidden: {
-    display: 'none',
-    color: 'red',
-  }
-});
-
-const emailInputStyles = StyleSheet.create({
-  emailInput: {
-    ...baseInput.input,
-    marginBottom: 20,
-  },
-  emailInputOnError: {
-    ...baseInput.input,
   },
 });
 
