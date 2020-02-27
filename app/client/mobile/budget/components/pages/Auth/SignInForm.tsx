@@ -24,6 +24,8 @@ const SignInForm = ({toggleSignIn, auth}) => {
         placeholder={'Your email'}
         onChangeText={text => setEmail(text)}
         value={emailValue}
+        autoCapitalize={'none'}
+        autoCompleteType={'email'}
       />
 
       <TextInput
@@ -31,6 +33,9 @@ const SignInForm = ({toggleSignIn, auth}) => {
         placeholder={'Your password'}
         onChangeText={text => setPassword(text)}
         value={passwordValue}
+        autoCapitalize={'none'}
+        autoCompleteType={'password'}
+        secureTextEntry={true}
       />
 
       <Text
