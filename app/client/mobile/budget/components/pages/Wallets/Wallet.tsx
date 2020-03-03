@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-const Wallet = () => {
+const Wallet = ({wallet}) => {
   return (
     <Text> Wallet works </Text>
   )

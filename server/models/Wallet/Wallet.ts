@@ -62,25 +62,3 @@ export const schema = new Schema({
 
 const Wallet = mongoose.model<IWallet>('wallet', schema);
 export default Wallet;
-// const schema = new Schema({
-//   amount: Number,
-//   budget: {
-//     amount: Number,
-//     deadline: String,
-//     expenses: [
-//       {
-//         count: Number,
-//         name: String,
-//       },
-//     ],
-//     notify: String, // 1 - 100% or number
-//   },
-//   owner: String,
-//   savings: {
-//     amount: Number,
-//     percent: Number,
-//     save: Number,
-//   },
-// });
-
-// export default mongoose.model('wallet', schema);

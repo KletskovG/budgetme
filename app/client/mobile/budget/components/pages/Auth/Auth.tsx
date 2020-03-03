@@ -52,7 +52,7 @@ const AuthPage = ({navigateToHome}) => {
       }
     }
     getValues();
-  });
+  }, []);
 
   const toggleSignIn = (): void => {
     setSignIn(!isSignInToggled);

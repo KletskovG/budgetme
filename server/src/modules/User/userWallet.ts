@@ -1,0 +1,45 @@
+import { Express } from 'express';
+import Logger from '../../core/Logger';
+import Wallet from '../../../models/Wallet/Wallet';
+
+class UserWallet  {
+  private app: Express = null;
+  private logger: Logger = new Logger();
+  constructor(app: Express) {
+    this.app = app;
+
+    this.getWallet();
+    this.getWallets();
+  }
+
+  private getWallet() {
+    this.app.get('/user/:email/wallet', async (req, res) => {
+      const email = req.params.email;
+      const wallets = await Wallet.find({ owner: email });
+      if (!!wallets) {
+        res.status(200).send(JSON.stringify(wallets));
+        this.logger.log(`${email} get wallets`, 'info');
+      } else {
+        res.status(500).send('Cant find wallets');
+        this.logger.log(`Cant find wallets for ${email}`, 'error');
+      }
+    });
+  }
+
+  private getWallets() {
+    this.app.get('/user/:email/wallets', async (req, res) => {
+      const email = req.params.email;
+      const walletName = req.params.name;
+      const wallet = await Wallet.findOne({ owner: email, name: walletName });
+      if (!!wallet) {
+        res.status(200).send(JSON.stringify(wallet));
+        this.logger.log(`Send wallet ${walletName} to ${email}`, 'info');
+      } else {
+        res.status(500).send('Cant find this wallet');
+        this.logger.log(`Cant find wallet ${walletName} of ${email}`, 'error');
+      }
+    });
+  }
+}
+
+export default UserWallet;

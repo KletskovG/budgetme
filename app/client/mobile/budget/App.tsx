@@ -6,7 +6,7 @@ import AuthPage from './components/pages/Auth/Auth';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Navigation from './shared/components/navigation';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +33,7 @@ const App = () => {
   };
 
   return <MyStack />;
+  // return <Text> Hello Android App </Text>
 };
 
 const styles = StyleSheet.create({

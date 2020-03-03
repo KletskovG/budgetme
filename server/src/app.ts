@@ -9,12 +9,15 @@ import AuthModule from './modules/Auth/AuthModule';
 import WalletModule from './modules/Wallet/WalletModule';
 import Heath from './modules/Heath/HeathRouter';
 import Log from '../models/Log/Log';
+import UserModule from './modules/User/userModule';
+import FrontLog from 'models/Log/FrontLog';
 
 app.use(bodyParser.json());
 
 const auth = new AuthModule(app);
 const wallet = new WalletModule(app);
 const heath = new Heath(app);
+const user = new UserModule(app);
 
 db()
   .then(() => {
@@ -22,8 +25,8 @@ db()
       console.log('Server is running on ' + config.PORT);
       console.log('DB is connected');
     });
-
-    Log.deleteMany({}).then(() => console.log('Logs was cleared'));
+    FrontLog.deleteMany({}).then(() => console.log('Front logs was cleared'));
+    // Log.deleteMany({}).then(() => console.log('Logs was cleared'));
   })
   .catch(err => {
     console.log('An error occured while connecting to db ' + err);
