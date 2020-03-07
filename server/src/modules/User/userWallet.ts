@@ -30,9 +30,9 @@ class UserWallet  {
     this.app.get('/user/:email/wallets', async (req, res) => {
       const email = req.params.email;
       const walletName = req.params.name;
-      const wallet = await Wallet.findOne({ owner: email, name: walletName });
-      if (!!wallet) {
-        res.status(200).send(JSON.stringify(wallet));
+      const wallets = await Wallet.find({ owner: email });
+      if (!!wallets) {
+        res.status(200).send(JSON.stringify(wallets));
         this.logger.log(`Send wallet ${walletName} to ${email}`, 'info');
       } else {
         res.status(500).send('Cant find this wallet');
