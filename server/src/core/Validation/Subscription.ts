@@ -44,12 +44,12 @@ class ValidPeriodExpense {
       },
     ];
 
-     rules.forEach(rule => {
-       if (rule.isValid === false) {
-        result.isValid = false;
-        result.message.push(rule.message);
-      }
-     });
+    //  rules.forEach(rule => {
+    //    if (rule.isValid === false) {
+    //     result.isValid = false;
+    //     result.message.push(rule.message);
+    //   }
+    //  });
     
      return result;
   }

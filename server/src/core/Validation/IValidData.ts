@@ -1,4 +1,4 @@
 export  default interface IValidData {
   isValid: boolean;
-  message: string[];
+  message: string[] | string;
 };

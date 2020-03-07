@@ -10,7 +10,7 @@ import WalletModule from './modules/Wallet/WalletModule';
 import Heath from './modules/Heath/HeathRouter';
 import Log from '../models/Log/Log';
 import UserModule from './modules/User/userModule';
-import FrontLog from 'models/Log/FrontLog';
+import FrontLog from '../models/Log/FrontLog';
 
 app.use(bodyParser.json());
 
