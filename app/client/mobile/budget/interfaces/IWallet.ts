@@ -1,4 +1,5 @@
 export default interface IWallet {
+  _id?: object;
   amount: number;
   owner: string;
   name: string;
@@ -7,13 +8,13 @@ export default interface IWallet {
       count: number;
       category: string;
       timestamp: string;
-    }?,
+    }?
   ];
   incomes: [
     {
       count: number;
       category: string;
       timestamp: string;
-    }?,
+    }?
   ];
 }

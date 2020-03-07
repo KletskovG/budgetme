@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
-import { View, Modal, Alert, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
-import { emailInputStyles } from '../Auth/formStyles';
-import { mainBrandColor, mainGreenColor } from '../../../shared/styles/mainStyle';
+import React, {useState} from 'react';
+import {
+  View,
+  Modal,
+  Alert,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
+import {emailInputStyles} from '../Auth/formStyles';
+import {mainBrandColor, mainGreenColor} from '../../../shared/styles/mainStyle';
+import {config} from '../../../core/config';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const CreateWallet = ({isModalVisible, setModal}) => {
+const CreateWallet = ({isModalVisible, setModal, addWallet}) => {
   let [testText, setText] = useState<string | string>('Hide modal');
+  let [nameOfTheWallet, setWalletName] = useState<string | string>('');
 
   return (
     <View>
@@ -23,6 +33,11 @@ const CreateWallet = ({isModalVisible, setModal}) => {
             <TextInput
               placeholder={'Type name of wallet'}
               style={styles.emailInputStyles}
+              autoCapitalize={'none'}
+              value={nameOfTheWallet}
+              onChangeText={text => {
+                setWalletName(text);
+              }}
             />
 
             <TouchableHighlight
@@ -31,12 +46,22 @@ const CreateWallet = ({isModalVisible, setModal}) => {
               }}>
               <View style={styles.flex}>
                 <Text
+                  onPress={() => addWallet(nameOfTheWallet)}
                   style={{
                     ...styles.modalButton,
                     backgroundColor: mainGreenColor,
                   }}>
+                  OK
                 </Text>
-                <Text> Cancel </Text>
+                <Text
+                  style={{
+                    ...styles.modalButton,
+                    backgroundColor: 'red',
+                    marginLeft: 10,
+                  }}>
+                  {' '}
+                  Cancel{' '}
+                </Text>
               </View>
             </TouchableHighlight>
           </View>
@@ -44,7 +69,7 @@ const CreateWallet = ({isModalVisible, setModal}) => {
       </Modal>
     </View>
   );
-}
+};
 
 const styles = {
   mainContainer: {
@@ -77,14 +102,16 @@ const styles = {
     justifyContent: 'center',
   },
   modalButton: {
-    padding: 5,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 15,
+    paddingRight: 15,
     color: 'white',
-    width: '50%',
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 10,
     borderRadius: 5,
-  }
+  },
 };
 
 export default CreateWallet;

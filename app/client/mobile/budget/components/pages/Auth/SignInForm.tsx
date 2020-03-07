@@ -9,7 +9,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 const SignInForm = ({toggleSignIn, auth}) => {
   let [emailValue, setEmail] = useState('');
   let [passwordValue, setPassword] = useState('');
-  let [errorStyle, setErrorStyle] = useState<object | undefined>(errorStyles.textHidden);
+  let [errorStyle, setErrorStyle] = useState<object | undefined>(
+    errorStyles.textHidden,
+  );
   let [emailInputStyle, setEmailInputStyle] = useState<object | undefined>(
     emailInputStyles.emailInput,
   );
@@ -28,18 +30,18 @@ const SignInForm = ({toggleSignIn, auth}) => {
           password,
         }),
       })
-      .then(res => {
-        if (res.status === 200) {
-          AsyncStorage.setItem('@email', email);
-          AsyncStorage.setItem('@password', password);
-          auth();
-        } else {
-          return Alert.alert('Error', 'Server error')
-        }
-      })
-      .catch(err => {
-        return Alert.alert('Error', 'Cant auth');
-      })
+        .then(res => {
+          if (res.status === 200) {
+            AsyncStorage.setItem('@email', email);
+            AsyncStorage.setItem('@password', password);
+            auth();
+          } else {
+            return Alert.alert('Error', 'Server error');
+          }
+        })
+        .catch(err => {
+          return Alert.alert('Error', 'Cant auth');
+        });
     } else {
       setErrorStyle(errorStyles.text);
       setEmailInputStyle(emailInputStyles.emailInputOnError);
