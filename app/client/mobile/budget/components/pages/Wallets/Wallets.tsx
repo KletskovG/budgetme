@@ -17,7 +17,7 @@ const Wallets = () => {
     const email = await AsyncStorage.getItem('@email');
     console.log('Trying to get wallets');
     //kletskovg.tech:5051/wallet/dim.drakon2013@yandex.ru
-    http: fetch(`http://kletskovg.tech:5051/${email}/wallets`)
+    http: fetch(`${config.baseUrl}/user/${email}/wallets`)
       .then(res => {
         if (res.status === 200) {
           return res.json();
@@ -25,7 +25,6 @@ const Wallets = () => {
       })
       .then(res => {
         if (res) {
-          Alert.alert('Hello wallets');
           setWallets(res);
           console.log(res);
         } else {
@@ -83,9 +82,15 @@ const Wallets = () => {
 
   if (wallets.length > 0) {
     return (
-      <View>
-        <Text> {`${wallets[0].name}`} </Text>
-      </View>
+      <FlatList
+        data={wallets}
+        renderItem={({item}) => (
+          <View>
+            <Text>{item.name}</Text>
+          </View>
+        )}
+        keyExtractor={item => item._id}
+      />
     );
   } else {
     return (

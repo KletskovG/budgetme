@@ -8,6 +8,39 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Navigation from './shared/components/navigation';
 import {View, StyleSheet, Text} from 'react-native';
 
+
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
+
+// function MyTabs() {
+//   return (
+//     <View style={{flex: 1}}>
+//       <NavigationContainer>
+//         <Tab.Navigator
+//           initialRouteName="Feed"
+//           tabBarOptions={{
+//             activeTintColor: '#e91e63',
+//           }}>
+//           <Tab.Screen
+//             name="Home"
+//             component={Home}
+//             options={{
+//               tabBarLabel: 'Home',
+//             }}
+//           />
+//           <Tab.Screen
+//             name="Wallets"
+//             component={Wallets}
+//             options={{
+//               tabBarLabel: 'Profile',
+//             }}
+//           />
+//         </Tab.Navigator>
+//       </NavigationContainer>
+//     </View>
+//   );
+// }
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -28,6 +61,7 @@ const App = () => {
             <Stack.Screen name="Wallets" component={Wallets} />
           </Stack.Navigator>
         </NavigationContainer>
+        // <MyTabs />
       );
     }
   };
