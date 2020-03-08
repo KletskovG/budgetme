@@ -7,90 +7,39 @@ import {FlatList, TextInput} from 'react-native-gesture-handler';
 import {mainGreenColor} from '../../../shared/styles/mainStyle';
 import CreateWallet from './CreateWallet';
 import {config} from '../../../core/config';
-
+import WalletList from './WalletList';
+import WalletService from './WalletsService';
 const Wallets = () => {
   let [wallets, setWallets] = useState<IWallet[] | IWallet[]>([]);
-  let [requestCount, setRequest] = useState<number | number>(0);
   let [isCreateWallet, setToggle] = useState<boolean | boolean>(false);
-
-  async function getWallets() {
-    const email = await AsyncStorage.getItem('@email');
-    console.log('Trying to get wallets');
-    //kletskovg.tech:5051/wallet/dim.drakon2013@yandex.ru
-    http: fetch(`${config.baseUrl}/user/${email}/wallets`)
-      .then(res => {
-        if (res.status === 200) {
-          return res.json();
-        }
-      })
-      .then(res => {
-        if (res) {
-          setWallets(res);
-          console.log(res);
-        } else {
-          setWallets([]);
-        }
-        setRequest(requestCount + 1);
-      })
-      .catch((err: Error) => {
-        setWallets([]);
-        console.log(err); // TODO: replace with FrontEnd log
-      });
-  }
-
-  const addWallet = async (name: string) => {
-    const email = await AsyncStorage.getItem('@email');
-    console.log(name);
-    const newWallet: IWallet = {
-      name,
-      expenses: [],
-      incomes: [],
-      amount: 0,
-      owner: `${email}`,
-    };
-
-    fetch(`${config.baseUrl}/wallet/create`, {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email,
-        name,
-      }),
-    })
-      .then(res => {
-        if (res.status === 200) {
-          setWallets([...wallets, newWallet]);
-        } else {
-          return Alert.alert('Add Error server');
-        }
-      })
-      .catch((err: Error) => {
-        console.log(err);
-        return Alert.alert('Add Error promise');
-      });
-  };
-
-  // getWallets();
+  const _walletService = new WalletService();
 
   useEffect(() => {
     getWallets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  async function getWallets() {
+    _walletService.getWallets()
+      .then(wallets => setWallets(wallets))
+      .catch(err => {
+        Alert.alert('Cant find wallets');
+        console.log(err);
+        setWallets([]);
+      }); 
+  }
+
+  const addWallet = async (name: string) => {
+    _walletService.addWallet(name)
+      .then((createdWallet: IWallet) => {
+        setWallets([...wallets, createdWallet]);
+      })
+      .catch((err: Error) => {})
+  };
+
   if (wallets.length > 0) {
     return (
-      <FlatList
-        data={wallets}
-        renderItem={({item}) => (
-          <View>
-            <Text>{item.name}</Text>
-          </View>
-        )}
-        keyExtractor={item => item._id}
-      />
+      <WalletList wallets={wallets}/>
     );
   } else {
     return (
