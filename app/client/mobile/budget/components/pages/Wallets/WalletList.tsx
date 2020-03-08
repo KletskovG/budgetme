@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import IWallet from '../../../interfaces/IWallet';
 import { View, Text, StyleSheet } from 'react-native';
 import { mainTextColor } from '../../../shared/styles/mainStyle';
 import {createStackNavigator} from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigationProp } from '@react-navigation/native';
 import Wallet from './Wallet';
 
 
@@ -20,26 +20,38 @@ const WalletAmount = ({amount}: {amount: number}) => {
   }
 }
 
+
+
 const WalletList = ({wallets}: {wallets: IWallet[]}) => {
-  // return (
-  //   <FlatList
-  //     data={wallets}
-  //     renderItem={({item}) => (
-  //       <View style={styles.container}>
-  //         <View style={styles.child}>
-  //           <Text style={styles.walletName}> {item.name} </Text>
-  //           <WalletAmount amount={item.amount}/>
-  //         </View>
-  //       </View>
-  //     )}
-  //     keyExtractor={(item, index) => item._id}
-  //   />
-  // );
+ const WholeList = ({navigation}: any) => {
+   return (
+    <FlatList
+      data={wallets}
+      renderItem={({item}) => (
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => {navigation.navigate(`${item.name}`)}} style={styles.child}>
+            <Text style={styles.walletName}> {item.name} </Text>
+            <WalletAmount amount={item.amount}/>
+          </TouchableOpacity>
+        </View>
+      )}
+      keyExtractor={(item, index) => item._id}
+    />
+  );
+}
 
   return (
-    <View>
-      
-    </View>
+    <WalletStack.Navigator initialRouteName={'WalletList'}>
+      <WalletStack.Screen name={'WalletList'} component={WholeList} />
+      {/* <WalletStack.Screen name={'First Wallet'} component={Wallet} /> */}
+      {
+        wallets.map(wallet => {
+          return (
+            <WalletStack.Screen name={`${wallet.name}`} component={Wallet}/>
+          )
+        })
+      }
+    </WalletStack.Navigator>
   )
 };
 
