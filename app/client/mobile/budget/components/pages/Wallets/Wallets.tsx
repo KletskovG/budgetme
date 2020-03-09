@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, Alert, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Wallet from './Wallet';
 import IWallet from 'interfaces/IWallet';
@@ -9,13 +9,45 @@ import CreateWallet from './CreateWallet';
 import {config} from '../../../core/config';
 import WalletList from './WalletList';
 import WalletService from './WalletsService';
+
 const Wallets = () => {
   let [wallets, setWallets] = useState<IWallet[] | IWallet[]>([]);
   let [isCreateWallet, setToggle] = useState<boolean | boolean>(false);
+  let [isNavigate, setNavigate] = useState<boolean | boolean>(true);
+
+  let styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    createButton: {
+      backgroundColor: mainGreenColor,
+      padding: 5,
+      color: 'white',
+      width: '50%',
+      textAlign: 'center',
+      marginTop: 10,
+      marginBottom: 10,
+      borderRadius: 5,
+      // display: isNavigate ? 'flex' : 'none',
+    },
+    baseContainer: {
+      height: Dimensions.get('window').height,
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  });
+
+  const onNavigateToWallet = (isToggle: boolean): void => {
+    setNavigate(isToggle);
+  }
   const _walletService = new WalletService();
 
   useEffect(() => {
     getWallets();
+    console.log('Effect was triggered')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -34,13 +66,31 @@ const Wallets = () => {
       .then((createdWallet: IWallet) => {
         console.log(createdWallet);
         setWallets([...wallets, createdWallet]);
+        setToggle(false);
       })
       .catch((err: Error) => {})
   };
 
   if (wallets.length > 0) {
     return (
-      <WalletList wallets={wallets}/>
+      <View style={styles.baseContainer}>
+        <WalletList wallets={wallets} onNavigateToWallet={onNavigateToWallet} addWallet={addWallet}/>
+        {/* <Text
+          onPress={() => setToggle(!isCreateWallet)}
+          style={styles.createButton}>
+          Add wallet
+        </Text>
+
+        {isCreateWallet ? (
+          <CreateWallet
+            setModal={setToggle}
+            isModalVisible={isCreateWallet}
+            addWallet={addWallet}
+          />
+        ) : (
+          <Text style={{display: 'none'}} />
+        )} */}
+      </View>
     );
   } else {
     return (
@@ -67,22 +117,6 @@ const Wallets = () => {
   }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  createButton: {
-    backgroundColor: mainGreenColor,
-    padding: 5,
-    color: 'white',
-    width: '50%',
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-  },
-});
+
 
 export default Wallets;

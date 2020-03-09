@@ -11,10 +11,10 @@ const Transaction = ({transaction}) => {
 
   return (
     <View style={transactionStyles.container}>
-      <Text>{category}</Text>
-      <Text>{transaction.count}</Text>
+      <Text style={{color: 'white'}}>{category}</Text>
+      <Text style={{color: 'white'}}>{transaction.count}</Text>
     </View>
-  )
+  );
 }
 
 const ExpenseSwitcher = ({transactions}: 
@@ -62,7 +62,15 @@ const transactionStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-  }
+    width: Dimensions.get('window').width * 0.75,
+    paddingLeft: '15%',
+    paddingRight: '15%',
+    marginTop: 30,
+    backgroundColor: mainBrandColor,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+
 });
 
 const styles = StyleSheet.create({

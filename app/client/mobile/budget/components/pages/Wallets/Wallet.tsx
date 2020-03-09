@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import IWallet from '../../../interfaces/IWallet';
 import ExpenseSwitcher from './ExpenseSwitcher';
 import { mainTextColor, mainGreenColor } from '../../../shared/styles/mainStyle';
@@ -36,16 +36,19 @@ const Wallet = ({route}: any) => {
       </View>
       <View style={{...styles.balanse, marginBottom: 0}}>
         <Text style={{...styles.baseText}}> Expenses: </Text>
-        <Text style={{...styles.baseText, color: 'red'}}>
-          {sumOfExpenses}
-        </Text>
+        <Text style={{...styles.baseText, color: 'red'}}>{sumOfExpenses}</Text>
       </View>
       <View style={styles.balanse}>
         <Text style={styles.baseText}> Incomes: </Text>
-        <Text style={{...styles.baseText, color: mainGreenColor}}>{sumOfIncomes}</Text>
+        <Text style={{...styles.baseText, color: mainGreenColor}}>
+          {sumOfIncomes}
+        </Text>
       </View>
 
       <ExpenseSwitcher transactions={transactions} />
+      <TouchableOpacity style={styles.addButton}>
+        <Text style={styles.addButtonText}> + </Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -71,6 +74,27 @@ const styles = StyleSheet.create({
   },
   baseText: {
     fontSize: 20,
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: '20%',
+    right: '10%',
+    borderRadius: 50,
+    padding: 5,
+    backgroundColor: mainGreenColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    flex: 1,
+  },
+  addButtonText: {
+    color: 'white',
+    transform: [{rotate: '90deg'}],
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  addButtonText2: {
+    transform: undefined,
   }
 });
 
