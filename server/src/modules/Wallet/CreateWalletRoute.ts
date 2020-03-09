@@ -29,7 +29,7 @@ class CreateWallet {
             };
 
             Wallet.create({...wallet})
-              .then((createdWallet) => res.status(200).send('Wallet was created'))
+              .then((createdWallet) => res.status(200).send(JSON.stringify(createdWallet)))
               .catch((err: Error) => {
                 res.status(500).send(err);
                 this.logger.log('Cant create wallet (Create wallet)', 'error');

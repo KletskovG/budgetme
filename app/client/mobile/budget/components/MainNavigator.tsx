@@ -10,33 +10,6 @@ const Stack = createStackNavigator()
 
 const Tab = createBottomTabNavigator();
 
-// const Feed = ({navigation}) => {
-//   return (
-//     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-//       <Text> Feed page </Text>
-//       <Text onPress={() => navigation.navigate('Messages')}> Go to messages! </Text>
-//     </View>
-//   )
-// }
-
-
-// const Messages = () => {
-//   return (
-//     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-//       <Text> Messages page </Text>
-//     </View>
-//   );
-// };
-
-// const HomeScreen = () => {
-//   return (
-//     <Stack.Navigator>
-//       <Stack.Screen name="Feed" component={Feed} />
-//       <Stack.Screen name="Messages" component={Messages} />
-//     </Stack.Navigator>
-//   );
-// }
-
 const MainNavigator = () => {
   return (
     <NavigationContainer>

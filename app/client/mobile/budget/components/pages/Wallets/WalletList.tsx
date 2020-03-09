@@ -2,25 +2,20 @@ import React, { useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import IWallet from '../../../interfaces/IWallet';
 import { View, Text, StyleSheet } from 'react-native';
-import { mainTextColor } from '../../../shared/styles/mainStyle';
+import { mainTextColor, mainGreenColor } from '../../../shared/styles/mainStyle';
 import {createStackNavigator} from '@react-navigation/stack';
-import { NavigationContainer, NavigationProp } from '@react-navigation/native';
 import Wallet from './Wallet';
 
 
 const WalletStack = createStackNavigator();
 
-
-
 const WalletAmount = ({amount}: {amount: number}) => {
-  if (amount > 0) {
-    return <Text style={{...styles.walletAmount, color: 'red'}}> {amount} </Text>
+  if (amount >= 0) {
+    return <Text style={{...styles.walletAmount, color: mainGreenColor}}> {amount} </Text>
   } else {
-    return <Text style={{...styles.walletAmount, color: mainTextColor}}> {amount} </Text>
+    return <Text style={{...styles.walletAmount, color: 'red'}}> {amount} </Text>
   }
 }
-
-
 
 const WalletList = ({wallets}: {wallets: IWallet[]}) => {
  const WholeList = ({navigation}: any) => {
@@ -29,21 +24,21 @@ const WalletList = ({wallets}: {wallets: IWallet[]}) => {
       data={wallets}
       renderItem={({item}) => (
         <View style={styles.container}>
-          <TouchableOpacity onPress={() => {navigation.navigate(`${item.name}`)}} style={styles.child}>
+          <TouchableOpacity onPress={() => {navigation.navigate(`${item.name}`, {wallet: item})}} style={styles.child}>
             <Text style={styles.walletName}> {item.name} </Text>
             <WalletAmount amount={item.amount}/>
           </TouchableOpacity>
         </View>
       )}
-      keyExtractor={(item, index) => item._id}
+      key={(item) => item._id}
+      keyExtractor={(item) => item._id}
     />
   );
 }
 
   return (
     <WalletStack.Navigator initialRouteName={'WalletList'}>
-      <WalletStack.Screen name={'WalletList'} component={WholeList} />
-      {/* <WalletStack.Screen name={'First Wallet'} component={Wallet} /> */}
+      <WalletStack.Screen name={'Wallets'} component={WholeList} />
       {
         wallets.map(wallet => {
           return (

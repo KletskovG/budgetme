@@ -1,5 +1,5 @@
 export default interface IWallet {
-  _id?: object;
+  _id: string;
   amount: number;
   owner: string;
   name: string;

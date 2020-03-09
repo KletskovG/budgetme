@@ -12,37 +12,6 @@ import {View, StyleSheet, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MainNavigator from './components/MainNavigator';
 
-const Tab = createBottomTabNavigator();
-
-function MyTabs() {
-  return (
-    <View style={{flex: 1, marginTop: 42,}}>
-      <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName="Home"
-          tabBarOptions={{
-            activeTintColor: '#e91e63',
-          }}>
-          <Tab.Screen
-            name="Home"
-            component={Home}
-            options={{
-              tabBarLabel: 'Home',
-            }}
-          />
-          <Tab.Screen
-            name="Wallets"
-            component={Wallets}
-            options={{
-              tabBarLabel: 'Wallets',
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </View>
-  );
-}
-const Stack = createStackNavigator();
 
 const App = () => {
   let [isAuth, setAuth] = useState(true);
@@ -52,21 +21,13 @@ const App = () => {
   };
 
   const MyStack = () => {
-    // if (isAuth) {
-    //   return <AuthPage navigateToHome={authUser} />;
-    // } else {
-    //   return (
-    //     // <NavigationContainer>
-    //     //   <Stack.Navigator>
-    //     //     <Stack.Screen name="Main" component={Home} />
-    //     //     <Stack.Screen name="Wallets" component={Wallets} />
-    //     //   </Stack.Navigator>
-    //     // </NavigationContainer>
-    //     // <MyTabs />
-        
-    //   );
-    // }
-    return <MainNavigator />;
+    if (isAuth) {
+      return <AuthPage navigateToHome={authUser} />;
+    } else {
+      return (
+        <MainNavigator />
+      );
+    }
   };
 
   return <MyStack />;

@@ -30,7 +30,7 @@ class Income {
             findedWallet.incomes.push({ count, category, timestamp });
             findedWallet.amount += count;
             findedWallet.save();
-            res.status(200).send('Income was added to your wallet');
+            res.status(200).send(JSON.stringify(findedWallet));
             this.logger.log(`Add income to ${email} -- Wallet: ${name} -- ${count}`, 'info');
           } else {
             res.status(500).send('Cant find wallet');

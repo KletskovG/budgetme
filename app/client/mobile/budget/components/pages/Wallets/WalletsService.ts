@@ -23,14 +23,7 @@ class WalletsService {
 
   public async addWallet(name: string): Promise<IWallet> {
     const email = await AsyncStorage.getItem('@email');
-    const newWallet: IWallet = {
-      name,
-      expenses: [],
-      incomes: [],
-      amount: 0,
-      owner: `${email}`,
-    };
-
+    // TODO: validate data here
     return new Promise((resolve, reject) => {
       if (name.trim().length > 0) {
         fetch(`${config.baseUrl}/wallet/create`, {
@@ -44,13 +37,15 @@ class WalletsService {
             name,
           }),
         })
-          .then(res => {
+          .then((res) => {
             if (res.status === 200) {
-              // TODO: check id here
-              resolve(newWallet);
+              return res.json();
             } else {
               reject('Server error');
             }
+          })
+          .then((createdWallet: IWallet) => {
+            resolve(createdWallet);
           })
           .catch((err: Error) => {
             console.log(err);

@@ -13,15 +13,16 @@ class UserWallet  {
   }
 
   private getWallet() {
-    this.app.get('/user/:email/wallet', async (req, res) => {
+    this.app.get('/user/:email/wallet/:id', async (req, res) => {
       const email = req.params.email;
-      const wallets = await Wallet.find({ owner: email });
-      if (!!wallets) {
-        res.status(200).send(JSON.stringify(wallets));
-        this.logger.log(`${email} get wallets`, 'info');
+      const id = req.params.id;
+      const wallet = await Wallet.findById(id);
+      if (!!wallet) {
+        res.status(200).send(JSON.stringify(wallet));
+        this.logger.log(`${email} get wallet  --- ${id}`, 'info');
       } else {
-        res.status(500).send('Cant find wallets');
-        this.logger.log(`Cant find wallets for ${email}`, 'error');
+        res.status(500).send('Cant find wallet');
+        this.logger.log(`Cant find wallet -- ${id} for ${email}`, 'error');
       }
     });
   }

@@ -32,6 +32,7 @@ const Wallets = () => {
   const addWallet = async (name: string) => {
     _walletService.addWallet(name)
       .then((createdWallet: IWallet) => {
+        console.log(createdWallet);
         setWallets([...wallets, createdWallet]);
       })
       .catch((err: Error) => {})
