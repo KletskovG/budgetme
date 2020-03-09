@@ -34,7 +34,7 @@ class UserWallet  {
       const wallets = await Wallet.find({ owner: email });
       if (!!wallets) {
         res.status(200).send(JSON.stringify(wallets));
-        this.logger.log(`Send wallet ${walletName} to ${email}`, 'info');
+        this.logger.log(`Send wallets list to ${email}`, 'info');
       } else {
         res.status(500).send('Cant find this wallet');
         this.logger.log(`Cant find wallet ${walletName} of ${email}`, 'error');
