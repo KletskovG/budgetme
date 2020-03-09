@@ -8,6 +8,24 @@ class Logger {
     this.loggerMap.set('info', '--INFO--');
     this.loggerMap.set('message', '----');
   }
+
+  private findDeleteIndexes(logs: ILog[]): number[] {
+    const indexes: number[] = [];
+    const currentDate = new Date(new Date().toISOString()).getTime();
+    logs.forEach((log: ILog, index: number) => {
+      const logDate = new Date(log.createdAt).getTime();
+      const diff = currentDate - logDate;
+      if (log.type === 'error') {
+        if (currentDate - logDate > 86400000 * 10) {
+          indexes.push(index);
+        }
+      } else if (currentDate - logDate > 86400000 * 3) {
+        indexes.push(index);
+      }
+    });
+
+    return indexes;
+  }
   
   private async clear(): Promise<any> {
   // Dont do anything
@@ -15,15 +33,17 @@ class Logger {
   // clear all logs and infos older then one week
   const logs = await Log.find({});
   const frontLogs = await FrontLog.find({});
-  const currentDate = new Date().toISOString();
-  const errors = logs.filter(
-    (log: ILog) => log.type === 'error'
-  );
-
-  // const oldLogs = logs.filter(
-  // )
-
-  
+  const deleteIndexes = this.findDeleteIndexes(logs);
+  try {
+    deleteIndexes.forEach((index: number) => {
+      const logId = logs[index].id;
+      Log.findByIdAndDelete(logId);
+    });    
+  } catch (error) {
+    console.log('Cant clear logs');
+    console.log(error);
+  }
+  console.log(`${deleteIndexes.length} logs was cleared`);
 }
 
   public log(text: string, type: 'error' | 'info' | 'message') {
