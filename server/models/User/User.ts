@@ -23,12 +23,6 @@ export interface IUserBase {
 }
 
 export const schema = new Schema({
-  // first_name: String,
-  // id: Number,
-  // last_name: String,
-  // username: String,
-  // wallet: Object,
-  // store: Object,
   email: String,
   password: String,
   firstName: String,
