@@ -1,0 +1,4 @@
+- Check for sum of expense and incomes in User wallet
+- Add Password reset function
+- Update Logger for clearing data
+- Add Sync function

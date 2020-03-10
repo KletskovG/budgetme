@@ -19,13 +19,12 @@ const WalletAmount = ({amount}: {amount: number}) => {
   }
 }
 
-const WalletList = ({wallets, onNavigateToWallet, addWallet}: 
+const WalletList = ({wallets, addWallet}: 
   IWalletList
 ) => {
  const WholeList = ({navigation}: any) => {
   const navigateToWallet = (wallet: IWallet): void => {
-    navigation.navigate(`${wallet._id}`, {wallet: wallet});
-    onNavigateToWallet(false);
+    navigation.navigate(`${wallet._id}`, {wallet: wallet}); 
   }
 
   let [isCreateWallet, setToggle] = useState<boolean | boolean>(false);

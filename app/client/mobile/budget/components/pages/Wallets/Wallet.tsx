@@ -3,9 +3,10 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import IWallet from '../../../interfaces/IWallet';
 import ExpenseSwitcher from './ExpenseSwitcher';
 import { mainTextColor, mainGreenColor } from '../../../shared/styles/mainStyle';
+import CreateTransaction from './CreateTransaction';
 
 const Wallet = ({route}: any) => {
-  let [isExpensesToggled, toggleExpenses] = useState(false);
+  let [isCreateTransaction, toggleCreateTransaction] = useState(false);
 
   const wallet: IWallet = route.params.wallet as IWallet
   const transactions = {
@@ -46,9 +47,12 @@ const Wallet = ({route}: any) => {
       </View>
 
       <ExpenseSwitcher transactions={transactions} />
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}> + </Text>
-      </TouchableOpacity>
+      
+      {isCreateTransaction ? (
+        <CreateTransaction />
+      ) : (
+        <Text style={{display: 'none'}} />
+      )}
     </View>
   );
 }

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { mainBrandColor, mainTextColor } from '../../../shared/styles/mainStyle';
+import { mainBrandColor, mainTextColor, mainGreenColor } from '../../../shared/styles/mainStyle';
+import ITransaction from './Interfaces/ITransaction';
+import CreateTransaction from './CreateTransaction';
 
-const Transaction = ({transaction}) => {
+const Transaction = ({transaction}: ITransaction) => {
   let category: string = 'Empty category';
   if (!!transaction.category) {
     category = transaction.category;
@@ -47,6 +49,7 @@ const ExpenseSwitcher = ({transactions}:
           </Text>
         </TouchableOpacity>
       </View>
+      <CreateTransaction />
       <FlatList
         data={isExpensesActive ? transactions.expenses : transactions.incomes}
         renderItem={({item}: any) => <Transaction transaction={item}/>}
@@ -92,6 +95,24 @@ const styles = StyleSheet.create({
   transactionSwitcher: {
     padding: 20,
     paddingLeft: 0,
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: '20%',
+    right: '10%',
+    borderRadius: 50,
+    padding: 5,
+    backgroundColor: mainGreenColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    flex: 1,
+  },
+  addButtonText: {
+    color: 'white',
+    transform: [{rotate: '90deg'}],
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });
 

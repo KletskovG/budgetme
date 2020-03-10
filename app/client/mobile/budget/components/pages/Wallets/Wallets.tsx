@@ -40,9 +40,6 @@ const Wallets = () => {
     },
   });
 
-  const onNavigateToWallet = (isToggle: boolean): void => {
-    setNavigate(isToggle);
-  }
   const _walletService = new WalletService();
 
   useEffect(() => {
@@ -74,7 +71,7 @@ const Wallets = () => {
   if (wallets.length > 0) {
     return (
       <View style={styles.baseContainer}>
-        <WalletList wallets={wallets} onNavigateToWallet={onNavigateToWallet} addWallet={addWallet}/>
+        <WalletList wallets={wallets} addWallet={addWallet}/>
         {/* <Text
           onPress={() => setToggle(!isCreateWallet)}
           style={styles.createButton}>
