@@ -2,11 +2,15 @@ import { Express } from 'express';
 import IExpense from '../../../models/Wallet/IExpense';
 import Logger from '../../core/Logger';
 import ValidEmail from '../../core/Validation/Email';
-import Wallet from '../../../models/Wallet/Wallet';
+import BudgetService from '../Budget/BudgetService';
+import ITransaction from 'interfaces/ITransaction';
+import { Budget } from '../../../models/Budget/Budget';
+import Wallet, { IWallet } from '../../../models/Wallet/Wallet';
 
 class Expense {
   private app: Express = null;
   private logger: Logger = null;
+  private budgetService: BudgetService = new BudgetService();
   constructor(app: Express) {
     this.app = app;
     this.logger = new Logger();
@@ -35,6 +39,7 @@ class Expense {
         wallet.save();
         res.status(200).send(JSON.stringify(wallet));
         this.logger.log(`Add expense to ${expenseData.email} -- Wallet: ${expenseData.name} -- ${expenseData.count}`, 'info');
+        this.handleBudget(wallet, expenseData);
       } else {
         res.status(500).send('Your data was invalid or unable to find this wallet');
         this.logger.log('Invalid data in /expense \n ' + expenseData + '\n or cant find wallet' , 'error');
@@ -56,6 +61,23 @@ class Expense {
       }
     });
     return result;
+  }
+
+  // TODO: Test it
+  private async handleBudget(wallet: IWallet, expense: IExpense) {
+    const transaction: ITransaction = {
+      category: expense.category,
+      count: expense.count,
+      timestamp: expense.timestamp,
+    };
+
+    const budget = await Budget.findOne({ walletId: wallet.id, owner: wallet.owner });
+
+    if (!!budget) {
+      this.budgetService.addTransactionToBudget(budget.id, transaction);
+    } else {
+
+    }
   }
 }
 

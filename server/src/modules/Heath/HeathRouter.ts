@@ -25,7 +25,7 @@ class Health {
       const data = {
         uptime: process.uptime(),
         message: 'OK',
-        timestamp: Date.now(),
+        timestamp: new Date(new Date().toISOString()),
       };
 
       res.status(200).send(JSON.stringify(data));
