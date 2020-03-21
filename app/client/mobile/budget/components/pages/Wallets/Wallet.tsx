@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import IWallet from '../../../interfaces/IWallet';
 import ExpenseSwitcher from './ExpenseSwitcher';
-import { mainTextColor, mainGreenColor } from '../../../shared/styles/mainStyle';
+import { mainGreenColor } from '../../../shared/styles/mainStyle';
 import CreateTransaction from './CreateTransaction';
+import {styles} from './styles/Wallet';
 
 const Wallet = ({route}: any) => {
   let [isCreateTransaction, toggleCreateTransaction] = useState(false);
@@ -57,49 +58,5 @@ const Wallet = ({route}: any) => {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  balanse: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    borderWidth: 1,
-    borderColor: mainTextColor,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    padding: 15,
-    marginBottom: 30,
-  },
-  baseText: {
-    fontSize: 20,
-  },
-  addButton: {
-    position: 'absolute',
-    bottom: '20%',
-    right: '10%',
-    borderRadius: 50,
-    padding: 5,
-    backgroundColor: mainGreenColor,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    flex: 1,
-  },
-  addButtonText: {
-    color: 'white',
-    transform: [{rotate: '90deg'}],
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  addButtonText2: {
-    transform: undefined,
-  }
-});
 
 export default Wallet;

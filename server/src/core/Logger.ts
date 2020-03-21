@@ -16,10 +16,10 @@ class Logger {
       const logDate = new Date(log.createdAt).getTime();
       const diff = currentDate - logDate;
       if (log.type === 'error') {
-        if (currentDate - logDate > 86400000 * 10) {
+        if (diff > 86400000 * 10) {
           indexes.push(index);
         }
-      } else if (currentDate - logDate > 86400000 * 3) {
+      } else if (diff > 86400000 * 3) {
         indexes.push(index);
       }
     });

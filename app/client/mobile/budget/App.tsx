@@ -11,7 +11,11 @@ import {View, StyleSheet, Text} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MainNavigator from './components/MainNavigator';
+import { createStore } from 'redux';
+import {Provider} from 'react-redux';
+import {WalletReducer} from './store/Wallet/walletReducer';
 
+const store = createStore(WalletReducer)
 
 const App = () => {
   let [isAuth, setAuth] = useState(true);
@@ -30,7 +34,11 @@ const App = () => {
     }
   };
 
-  return <MyStack />;
+  return (
+    <Provider store={store}>
+      <MyStack />
+    </Provider>
+  );
 };
 
 const styles = StyleSheet.create({

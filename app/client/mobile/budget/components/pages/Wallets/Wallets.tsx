@@ -9,11 +9,14 @@ import CreateWallet from './CreateWallet';
 import {config} from '../../../core/config';
 import WalletList from './WalletList';
 import WalletService from './WalletsService';
+import { useDispatch, useSelector } from 'react-redux';
+import { WalletState } from '../../../store/Wallet/walletReducer';
+import { GetWallets } from '../../../store/Wallet/actions';
 
 const Wallets = () => {
-  let [wallets, setWallets] = useState<IWallet[] | IWallet[]>([]);
+  const dispatch = useDispatch();
+  const wallets = useSelector((state: WalletState) => state.wallets)
   let [isCreateWallet, setToggle] = useState<boolean | boolean>(false);
-  let [isNavigate, setNavigate] = useState<boolean | boolean>(true);
 
   let styles = StyleSheet.create({
     container: {
@@ -30,7 +33,6 @@ const Wallets = () => {
       marginTop: 10,
       marginBottom: 10,
       borderRadius: 5,
-      // display: isNavigate ? 'flex' : 'none',
     },
     baseContainer: {
       height: Dimensions.get('window').height,
@@ -50,7 +52,7 @@ const Wallets = () => {
 
   async function getWallets() {
     _walletService.getWallets()
-      .then(wallets => setWallets(wallets))
+      .then(wallets => dispatch(GetWallets(wallets)))
       .catch(err => {
         Alert.alert('Cant find wallets');
         console.log(err);

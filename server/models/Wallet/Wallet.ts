@@ -9,6 +9,8 @@ export interface IWallet extends mongoose.Document {
       count: number;
       category: string;
       timestamp: string;
+      createdAt?: string;
+      updatedAt?: string;
     }?
   ];
   incomes: [
