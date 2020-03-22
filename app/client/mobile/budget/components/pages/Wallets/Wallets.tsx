@@ -11,7 +11,7 @@ import WalletList from './WalletList';
 import WalletService from './WalletsService';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletState } from '../../../store/Wallet/walletReducer';
-import { GetWallets } from '../../../store/Wallet/actions';
+import { GetWallets, ClearWallets, AddWallet } from '../../../store/Wallet/actions';
 
 const Wallets = () => {
   const dispatch = useDispatch();
@@ -46,7 +46,6 @@ const Wallets = () => {
 
   useEffect(() => {
     getWallets();
-    console.log('Effect was triggered')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -55,16 +54,14 @@ const Wallets = () => {
       .then(wallets => dispatch(GetWallets(wallets)))
       .catch(err => {
         Alert.alert('Cant find wallets');
-        console.log(err);
-        setWallets([]);
+        dispatch(ClearWallets());
       }); 
   }
 
   const addWallet = async (name: string) => {
     _walletService.addWallet(name)
       .then((createdWallet: IWallet) => {
-        console.log(createdWallet);
-        setWallets([...wallets, createdWallet]);
+        dispatch(AddWallet(createdWallet));
         setToggle(false);
       })
       .catch((err: Error) => {})
@@ -74,21 +71,6 @@ const Wallets = () => {
     return (
       <View style={styles.baseContainer}>
         <WalletList wallets={wallets} addWallet={addWallet}/>
-        {/* <Text
-          onPress={() => setToggle(!isCreateWallet)}
-          style={styles.createButton}>
-          Add wallet
-        </Text>
-
-        {isCreateWallet ? (
-          <CreateWallet
-            setModal={setToggle}
-            isModalVisible={isCreateWallet}
-            addWallet={addWallet}
-          />
-        ) : (
-          <Text style={{display: 'none'}} />
-        )} */}
       </View>
     );
   } else {

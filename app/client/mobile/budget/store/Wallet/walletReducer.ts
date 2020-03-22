@@ -1,5 +1,5 @@
 import IWallet from '../../interfaces/IWallet';
-import { WalletAction, ADD_WALLET, GET_WALLET } from './actions';
+import { WalletAction, ADD_WALLET, GET_WALLET, CLEAR_WALLETS } from './types';
 
 export type WalletState = {
   wallets: IWallet[];
@@ -21,6 +21,11 @@ export function WalletReducer (
     case GET_WALLET: {
       return {
         wallets: [...action.payload as IWallet[]]
+      }
+    }
+    case CLEAR_WALLETS: {
+      return {
+        wallets: [],
       }
     }
   
