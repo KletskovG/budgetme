@@ -11,7 +11,8 @@ import WalletList from './WalletList';
 import WalletService from './WalletsService';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletState } from '../../../store/Wallet/walletReducer';
-import { GetWallets, ClearWallets, AddWallet } from '../../../store/Wallet/actions';
+import { ClearWallets, AddWallet } from '../../../store/Wallet/actions';
+import {GetWallets} from '../../../store/Wallet/getWallets';
 
 const Wallets = () => {
   const dispatch = useDispatch();
@@ -45,18 +46,8 @@ const Wallets = () => {
   const _walletService = new WalletService();
 
   useEffect(() => {
-    getWallets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(GetWallets());
   }, []);
-
-  async function getWallets() {
-    _walletService.getWallets()
-      .then(wallets => dispatch(GetWallets(wallets)))
-      .catch(err => {
-        Alert.alert('Cant find wallets');
-        dispatch(ClearWallets());
-      }); 
-  }
 
   const addWallet = async (name: string) => {
     _walletService.addWallet(name)

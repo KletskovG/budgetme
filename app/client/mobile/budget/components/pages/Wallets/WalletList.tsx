@@ -45,12 +45,13 @@ const WalletList = ({wallets, addWallet}:
             </TouchableOpacity>
           </View>
         )}
-        key={item => item._id}
         keyExtractor={item => item._id}
       />
 
       <Text
-        onPress={() => {setToggle(true)}}
+        onPress={() => {
+          setToggle(true);
+        }}
         style={styles.createButton}>
         Add wallet
       </Text>

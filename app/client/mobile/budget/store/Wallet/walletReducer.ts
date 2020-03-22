@@ -1,12 +1,24 @@
 import IWallet from '../../interfaces/IWallet';
-import { WalletAction, ADD_WALLET, GET_WALLET, CLEAR_WALLETS } from './types';
+import { 
+  WalletAction,
+  GET_WALLETS_PENDING,
+  GET_WALLETS_SUCCESS,
+  GET_WALLETS_FAILURE,
+  ADD_WALLET_PENDING,
+  ADD_WALLET_ERROR,
+  ADD_WALLET_SUCCESS
+} from './types';
 
 export type WalletState = {
   wallets: IWallet[];
+  loading: boolean;
+  error: Error | null;
 }
 
 const initialWalletState: WalletState = {
-  wallets: []
+  wallets: [],
+  loading: false,
+  error: null,
 }
 
 export function WalletReducer (
@@ -14,21 +26,49 @@ export function WalletReducer (
   action: WalletAction,
 ): WalletState {
   switch (action.type) {
-    case ADD_WALLET:
+    case GET_WALLETS_PENDING: {
       return {
-        wallets: [...state.wallets, action.payload as IWallet],
-      }
-    case GET_WALLET: {
-      return {
-        wallets: [...action.payload as IWallet[]]
+        wallets: [...state.wallets],
+        loading: true,
+        error: null,
       }
     }
-    case CLEAR_WALLETS: {
+    case GET_WALLETS_SUCCESS: {
+      console.log('Processing api wallets');
       return {
-        wallets: [],
+        wallets: [...action.payload as IWallet[]],
+        loading: false,
+        error: null,
       }
     }
-  
+    case GET_WALLETS_FAILURE: {
+      return {
+        wallets: [...state.wallets],
+        loading: false,
+        error: null,
+      }
+    }  
+    case ADD_WALLET_PENDING: {
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      }
+    }
+    case ADD_WALLET_SUCCESS: {
+      return {
+        wallets: [...state.wallets, action.payload],
+        loading: false,
+        error: null,
+      }
+    }
+    case ADD_WALLET_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      }
+    }
     default: {
       return state
     }

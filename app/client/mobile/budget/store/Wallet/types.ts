@@ -1,13 +1,11 @@
-export const ADD_WALLET = 'ADD_WALLET';
-export const GET_WALLET = 'GET_WALLET';
-export const CLEAR_WALLETS = 'CLEAR_WALLETS';
+export const ADD_WALLET_PENDING = 'ADD_WALLET_PENDING';
+export const ADD_WALLET_SUCCESS = 'ADD_WALLET_SUCCESS';
+export const ADD_WALLET_ERROR = 'ADD_WALLET_ERROR';
 export const GET_WALLETS_PENDING = 'GET_WALLETS_PENDING';
-export const GET_WALLETS_SUCESS = 'GET_WALLETS_PENDING';
-export const GET_WALLETS_FAILURE = 'GET_WALLETS_PENDING';
+export const GET_WALLETS_SUCCESS = 'GET_WALLETS_SUCCESS';
+export const GET_WALLETS_FAILURE = 'GET_WALLETS_FAILURE';
 
 import * as actions from './actions';
-
-
-type InferValueTypes<T> = T extends { [key in string]: infer U } ? U : never;
+import { InferValueTypes } from '../typeFunctions';
 
 export type WalletAction = ReturnType<InferValueTypes<typeof actions>>;

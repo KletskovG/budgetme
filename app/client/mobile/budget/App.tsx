@@ -9,6 +9,8 @@ import {WalletReducer} from './store/Wallet/walletReducer';
 import thunk from 'redux-thunk';
 
 const store = createStore(WalletReducer, applyMiddleware(thunk));
+console.log(store.getState());
+store.subscribe(() => console.log(store.getState()));
 
 const App = () => {
   let [isAuth, setAuth] = useState(true);
