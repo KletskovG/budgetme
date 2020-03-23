@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import Wallet from '../../../models/Wallet/Wallet';
+import Wallet, { IWallet } from '../../../models/Wallet/Wallet';
 
 // TODO: add req validation
 
@@ -11,21 +11,13 @@ class DeleteWallet {
   }
 
   private deleteWallet() {
-    this.app.post('/wallet/delete', (req, res) => {
+    this.app.post('/wallet/delete', async (req, res) => {
       const email = req.body.email;
-      const name = req.body.name;
+      const id = req.body.id;
 
-      Wallet.findOne({ owner: email, name })
-        .then((findedWallet) => {
-          if (!!findedWallet) {
-            Wallet.deleteOne({ owner: email, name })
-              .then(deletedWallet => res.status(200).send(JSON.stringify(deletedWallet)))
-              .catch((err: Error) => res.status(500).send(err));
-          } else {
-            res.status(500).send('Cant find this wallet');
-          }
-        })
-        .catch((err: Error) => res.status(500).send(err));
+      Wallet.findOneAndDelete({ owner: email, _id: id })
+        .then((deletedWallet: IWallet) => res.status(200).send(JSON.stringify(deletedWallet)))
+        .catch((err: Error) => res.status(500).send(err))
     });
   }
 }
