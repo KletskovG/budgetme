@@ -6,7 +6,8 @@ import {
   GET_WALLETS_FAILURE,
   ADD_WALLET_PENDING,
   ADD_WALLET_ERROR,
-  ADD_WALLET_SUCCESS
+  ADD_WALLET_SUCCESS,
+  DELETE_WALLET
 } from './types';
 
 export type WalletState = {
@@ -34,7 +35,6 @@ export function WalletReducer (
       }
     }
     case GET_WALLETS_SUCCESS: {
-      console.log('Processing api wallets');
       return {
         wallets: [...action.payload as IWallet[]],
         loading: false,
@@ -67,6 +67,12 @@ export function WalletReducer (
         ...state,
         loading: false,
         error: action.payload,
+      }
+    }
+    case DELETE_WALLET: {
+      return {
+        ...state,
+        wallets: state.wallets.filter((wallet: IWallet) => wallet._id !== action.payload._id),
       }
     }
     default: {

@@ -13,9 +13,9 @@ import {mainBrandColor, mainGreenColor} from '../../../shared/styles/mainStyle';
 import {config} from '../../../core/config';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useDispatch } from 'react-redux';
-import { AddWallet } from '../../../store/Wallet/addWallet';
+import { addWalletAction } from '../../../store/Wallet/addWallet';
 
-const CreateWallet = ({isModalVisible, setModal, addWallet}) => {
+const CreateWallet = ({isModalVisible, setModal }) => {
   let [testText, setText] = useState<string | string>('Hide modal');
   let [nameOfTheWallet, setWalletName] = useState<string | string>('');
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const CreateWallet = ({isModalVisible, setModal, addWallet}) => {
               }}>
               <View style={styles.flex}>
                 <Text
-                  onPress={() => dispatch(AddWallet(nameOfTheWallet))}
+                  onPress={() => dispatch(addWalletAction(nameOfTheWallet))}
                   style={{
                     ...styles.modalButton,
                     backgroundColor: mainGreenColor,

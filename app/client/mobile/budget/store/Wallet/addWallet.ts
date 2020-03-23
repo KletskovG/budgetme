@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { config } from '../../core/config';
 import { addWalletPending, addWalletSuccess, addWalletFailure } from './actions';
 
-export const AddWallet = (name: string) => {
+export const addWalletAction = (name: string) => {
   return async (dispatch: Dispatch<any>) => {
     const email = await AsyncStorage.getItem('@email');
     dispatch(addWalletPending());

@@ -8,11 +8,9 @@ import {mainGreenColor} from '../../../shared/styles/mainStyle';
 import CreateWallet from './CreateWallet';
 import {config} from '../../../core/config';
 import WalletList from './WalletList';
-import WalletService from './WalletsService';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletState } from '../../../store/Wallet/walletReducer';
-import { ClearWallets, AddWallet } from '../../../store/Wallet/actions';
-import {GetWallets} from '../../../store/Wallet/getWallets';
+import {getWalletsAction} from '../../../store/Wallet/getWallets';
 
 const Wallets = () => {
   const dispatch = useDispatch();
@@ -43,25 +41,14 @@ const Wallets = () => {
     },
   });
 
-  const _walletService = new WalletService();
-
   useEffect(() => {
-    dispatch(GetWallets());
+    dispatch(getWalletsAction());
   }, []);
-
-  const addWallet = async (name: string) => {
-    _walletService.addWallet(name)
-      .then((createdWallet: IWallet) => {
-        dispatch(AddWallet(createdWallet));
-        setToggle(false);
-      })
-      .catch((err: Error) => {})
-  };
 
   if (wallets.length > 0) {
     return (
       <View style={styles.baseContainer}>
-        <WalletList wallets={wallets} addWallet={addWallet}/>
+        <WalletList wallets={wallets}/>
       </View>
     );
   } else {
@@ -79,7 +66,6 @@ const Wallets = () => {
           <CreateWallet
             setModal={setToggle}
             isModalVisible={isCreateWallet}
-            addWallet={addWallet}
           />
         ) : (
           <Text style={{display: 'none'}} />

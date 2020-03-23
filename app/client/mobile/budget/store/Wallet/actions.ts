@@ -1,6 +1,6 @@
 import { WalletState } from "./walletReducer";
 import IWallet from "interfaces/IWallet";
-import { GET_WALLETS_PENDING, GET_WALLETS_SUCCESS, GET_WALLETS_FAILURE, ADD_WALLET_PENDING, ADD_WALLET_SUCCESS, ADD_WALLET_ERROR } from "./types";
+import { GET_WALLETS_PENDING, GET_WALLETS_SUCCESS, GET_WALLETS_FAILURE, ADD_WALLET_PENDING, ADD_WALLET_SUCCESS, ADD_WALLET_ERROR, DELETE_WALLET } from "./types";
 import { inferStringLiteral } from "../typeFunctions";
 
 export const addWalletPending = () => ({
@@ -31,4 +31,9 @@ export const getWalletsSuccess = (wallets: IWallet[]) => ({
 export const getWalletsError = (error: Error) => ({
   type: inferStringLiteral(GET_WALLETS_FAILURE),
   payload: error,
+});
+
+export const deleteWallet = (wallet: IWallet) => ({
+  type: inferStringLiteral(DELETE_WALLET),
+  payload: wallet,
 });

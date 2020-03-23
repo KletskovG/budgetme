@@ -5,7 +5,7 @@ import IWallet from "../../interfaces/IWallet";
 import { Dispatch } from "react";
 
 
-export function GetWallets() {
+export function getWalletsAction() {
   return async (dispatch: Dispatch<any>) => {
     const email = await AsyncStorage.getItem('@email');
     dispatch(getWalletsPending());

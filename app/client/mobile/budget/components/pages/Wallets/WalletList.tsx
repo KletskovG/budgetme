@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import IWallet from '../../../interfaces/IWallet';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { mainTextColor, mainGreenColor } from '../../../shared/styles/mainStyle';
 import {createStackNavigator} from '@react-navigation/stack';
 import Wallet from './Wallet';
 import CreateWallet from './CreateWallet';
 import { IWalletList } from './Interfaces/IWalletList';
+import { useDispatch } from 'react-redux';
+import { deleteWalletAction } from '../../../store/Wallet/deleteWallet';
+import {styles} from './styles/WalletList';
 
 
 const WalletStack = createStackNavigator();
@@ -19,13 +22,25 @@ const WalletAmount = ({amount}: {amount: number}) => {
   }
 }
 
-const WalletList = ({wallets, addWallet}: 
+
+const WalletList = ({wallets }: 
   IWalletList
 ) => {
- const WholeList = ({navigation}: any) => {
+
+  const dispatch = useDispatch();
+  const DeleteWalletAlert = (wallet: IWallet) => {
+    return Alert.alert(`Delete ${wallet.name}?`, '', [
+      {text: 'OK', onPress: () => dispatch(deleteWalletAction(wallet))},
+      {text: 'cancel', onPress: () => console.log('Cancel was pressed')},
+    ]);
+  };
+
+
+  const WholeList = ({navigation}: any) => {
   const navigateToWallet = (wallet: IWallet): void => {
     navigation.navigate(`${wallet._id}`, {wallet: wallet}); 
   }
+
 
   let [isCreateWallet, setToggle] = useState<boolean | boolean>(false);
   
@@ -39,6 +54,7 @@ const WalletList = ({wallets, addWallet}:
               onPress={() => {
                 navigateToWallet(item);
               }}
+              onLongPress={() => DeleteWalletAlert(item)}
               style={styles.child}>
               <Text style={styles.walletName}> {item.name} </Text>
               <WalletAmount amount={item.amount} />
@@ -60,7 +76,6 @@ const WalletList = ({wallets, addWallet}:
         <CreateWallet
           setModal={setToggle}
           isModalVisible={isCreateWallet}
-          addWallet={addWallet}
         />
       ) : (
         <Text style={{display: 'none'}} />
@@ -86,41 +101,5 @@ const WalletList = ({wallets, addWallet}:
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  child: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingRight: 10,
-    paddingLeft: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    backgroundColor: '#fafafa',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    marginBottom: 10,
-  },
-  walletName: {
-    fontSize: 20,
-  },
-  walletAmount: {
-    fontSize: 20,
-  },
-  createButton: {
-    backgroundColor: mainGreenColor,
-    padding: 5,
-    color: 'white',
-    width: '50%',
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 50,
-    borderRadius: 5,
-    alignSelf: 'center',
-  },
-});
 
 export default WalletList;
