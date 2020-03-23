@@ -13,7 +13,7 @@ import {mainBrandColor, mainGreenColor} from '../../../shared/styles/mainStyle';
 import {config} from '../../../core/config';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useDispatch } from 'react-redux';
-import { addWalletAction } from '../../../store/Wallet/addWallet';
+import { addWalletAction } from '../../../store/Wallet/actions/addWallet';
 
 const CreateWallet = ({isModalVisible, setModal }) => {
   let [testText, setText] = useState<string | string>('Hide modal');

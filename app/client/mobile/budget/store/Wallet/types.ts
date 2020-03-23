@@ -5,6 +5,8 @@ export const GET_WALLETS_PENDING = 'GET_WALLETS_PENDING';
 export const GET_WALLETS_SUCCESS = 'GET_WALLETS_SUCCESS';
 export const GET_WALLETS_FAILURE = 'GET_WALLETS_FAILURE';
 export const DELETE_WALLET = 'DELETE_WALLET';
+export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const ADD_INCOME = 'ADD_INCOME';
 
 import * as actions from './actions';
 import { InferValueTypes } from '../typeFunctions';

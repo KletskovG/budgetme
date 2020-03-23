@@ -1,7 +1,7 @@
-import { getWalletsPending, getWalletsSuccess, getWalletsError } from "./actions"
+import { getWalletsPending, getWalletsSuccess, getWalletsError } from "../actions"
 import AsyncStorage from "@react-native-community/async-storage";
-import {config} from '../../core/config';
-import IWallet from "../../interfaces/IWallet";
+import {config} from '../../../core/config';
+import IWallet from "../../../interfaces/IWallet";
 import { Dispatch } from "react";
 
 

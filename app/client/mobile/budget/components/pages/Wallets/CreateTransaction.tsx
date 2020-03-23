@@ -1,64 +1,100 @@
-import React from 'react';
-import { View, Modal, Alert, Text, StyleSheet } from 'react-native';
-import { TouchableOpacity, TextInput, TouchableHighlight } from 'react-native-gesture-handler';
-import { mainGreenColor } from '../../../shared/styles/mainStyle';
-import { emailInputStyles } from '../Auth/formStyles';
+import React, { useState, useEffect } from 'react'
+import { View, Modal, TouchableOpacity, TextInput, TouchableHighlight, Text, StyleSheet } from 'react-native'
+import { styles } from './styles/CreateTransaction';
+import { ICreateTransaction } from './Interfaces/ICreateTransaction';
+import { mainBrandColor, mainGreenColor } from '../../../shared/styles/mainStyle';
 
-const CreateTransaction = () => {
+
+const CreateTransaction = ({isCreateTransaction, close}: ICreateTransaction) => {
+
+  const [isExpenseActive, setExpense] = useState<boolean>(true);
+  const [isToday, setToday] = useState<boolean>(true);
+  const [transaction, setTransaction] = useState({});
+  const expenseBlockStyle = (isActive: boolean) => {
+    const computedStyle = {
+      backgroundColor: isActive? mainBrandColor: 'white',
+      color: isActive? 'white': 'black',
+    };
+
+    return StyleSheet.flatten([styles.expenseBlock, computedStyle]);
+  } 
+  
+  useEffect(() => {
+    setExpense(true);
+    setToday(true);
+  }, [isCreateTransaction])
+
   return (
     <View>
-      <TextInput 
-        placeholder={'Type category here'}
-      />
-      <TextInput 
-        placeholder={'Amount'}
-        keyboardType={'numeric'}
-      />
-    </View>
-  )
-}
+      <Modal
+        transparent={true}
+        visible={isCreateTransaction}
+        onRequestClose={() => {}}
+        animationType={'fade'}>
+        <TouchableOpacity
+          onPress={() => close(false)}
+          style={styles.container}
+          activeOpacity={1}>
+          <TouchableOpacity
+            onPress={() => close(true)}
+            activeOpacity={1}
+            style={styles.formContainer}>
+            <View style={styles.expenseContainer}>
+              <View style={styles.expenseContainerChild}>
+                <Text
+                  onPress={() => setExpense(!isExpenseActive)}
+                  style={expenseBlockStyle(isExpenseActive)}>
+                  Expense
+                </Text>
+                <Text
+                  onPress={() => setExpense(!isExpenseActive)}
+                  style={expenseBlockStyle(!isExpenseActive)}>
+                  Income
+                </Text>
+              </View>
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  formContainer: {
-    backgroundColor: 'white',
-    padding: 40,
-    borderRadius: 5,
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0, 0.5)',
-  },
-  emailInputStyles: {
-    ...emailInputStyles.emailInput,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-  },
-  flex: {
-    marginTop: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalButton: {
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 15,
-    paddingRight: 15,
-    color: 'white',
-    textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-  },
-});
+              <View style={styles.expenseContainerChild}>
+                <Text
+                  onPress={() => setToday(!isToday)}
+                  style={expenseBlockStyle(isToday)}>
+                  Yesterday
+                </Text>
+                <Text
+                  onPress={() => setToday(!isToday)}
+                  style={expenseBlockStyle(!isToday)}>
+                  Today
+                </Text>
+              </View>
+            </View>
+            <View>
+              <TextInput
+                placeholder={'Category'}
+                autoCapitalize={'none'}
+                style={styles.baseInput}
+              />
+
+              <TextInput
+                keyboardType={'numeric'}
+                placeholder={'0.00'}
+                style={styles.baseInput}
+              />
+
+              <View style={styles.buttonsContainer}>
+                <TouchableOpacity
+                  style={{...styles.button, backgroundColor: mainGreenColor}}>
+                  <Text>OK</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{...styles.button, backgroundColor: 'red'}}>
+                  <Text>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </Modal>
+    </View>
+  );
+}
 
 export default CreateTransaction;

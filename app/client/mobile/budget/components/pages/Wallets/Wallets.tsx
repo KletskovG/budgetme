@@ -10,7 +10,7 @@ import {config} from '../../../core/config';
 import WalletList from './WalletList';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletState } from '../../../store/Wallet/walletReducer';
-import {getWalletsAction} from '../../../store/Wallet/getWallets';
+import {getWalletsAction} from '../../../store/Wallet/actions/getWallets';
 
 const Wallets = () => {
   const dispatch = useDispatch();

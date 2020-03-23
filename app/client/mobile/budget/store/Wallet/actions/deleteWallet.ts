@@ -1,8 +1,8 @@
-import IWallet from '../../interfaces/IWallet';
+import IWallet from '../../../interfaces/IWallet';
 import { Dispatch } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { config } from '../../core/config';
-import { deleteWallet } from './actions';
+import { config } from '../../../core/config';
+import { deleteWallet } from '../actions';
 
 export const deleteWalletAction = (wallet: IWallet) => {
   console.log('Should delelte wallet');

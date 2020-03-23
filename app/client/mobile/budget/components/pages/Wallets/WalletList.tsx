@@ -8,7 +8,7 @@ import Wallet from './Wallet';
 import CreateWallet from './CreateWallet';
 import { IWalletList } from './Interfaces/IWalletList';
 import { useDispatch } from 'react-redux';
-import { deleteWalletAction } from '../../../store/Wallet/deleteWallet';
+import { deleteWalletAction } from '../../../store/Wallet/actions/deleteWallet';
 import {styles} from './styles/WalletList';
 
 

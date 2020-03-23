@@ -1,20 +1,11 @@
+import IExpense from "./IExpense";
+import IIncome from "./IIncome";
+
 export default interface IWallet {
   _id: string;
   amount: number;
   owner: string;
   name: string;
-  expenses: [
-    {
-      count: number;
-      category: string;
-      timestamp: string;
-    }?
-  ];
-  incomes: [
-    {
-      count: number;
-      category: string;
-      timestamp: string;
-    }?
-  ];
+  expenses: IExpense[];
+  incomes: IIncome[];
 }

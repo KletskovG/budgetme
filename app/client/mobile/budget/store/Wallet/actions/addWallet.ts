@@ -1,8 +1,8 @@
-import IWallet from '../../interfaces/IWallet';
+import IWallet from '../../../interfaces/IWallet';
 import { Dispatch } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { config } from '../../core/config';
-import { addWalletPending, addWalletSuccess, addWalletFailure } from './actions';
+import { config } from '../../../core/config';
+import { addWalletPending, addWalletSuccess, addWalletFailure } from '../actions';
 
 export const addWalletAction = (name: string) => {
   return async (dispatch: Dispatch<any>) => {

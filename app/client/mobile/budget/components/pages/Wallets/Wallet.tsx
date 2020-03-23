@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import IWallet from '../../../interfaces/IWallet';
-import ExpenseSwitcher from './ExpenseSwitcher';
 import { mainGreenColor } from '../../../shared/styles/mainStyle';
-import CreateTransaction from './CreateTransaction';
 import {styles} from './styles/Wallet';
+import CreateTransaction from './CreateTransaction';
 
 const Wallet = ({route}: any) => {
-  let [isCreateTransaction, toggleCreateTransaction] = useState(false);
+  const [isCreateTransaction, setIsCreateTransaction] = useState<boolean>(false);
+
 
   const wallet: IWallet = route.params.wallet as IWallet
   const transactions = {
@@ -47,13 +47,13 @@ const Wallet = ({route}: any) => {
         </Text>
       </View>
 
-      <ExpenseSwitcher transactions={transactions} />
-      
-      {isCreateTransaction ? (
-        <CreateTransaction />
-      ) : (
-        <Text style={{display: 'none'}} />
-      )}
+      <TouchableOpacity
+        onPress={() => setIsCreateTransaction(true)}
+        style={styles.addButton}>
+        <Text style={{color: 'white'}}> + </Text>
+      </TouchableOpacity>
+
+      <CreateTransaction  isCreateTransaction={isCreateTransaction} close={setIsCreateTransaction} />
     </View>
   );
 }
