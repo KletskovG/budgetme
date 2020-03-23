@@ -9,7 +9,8 @@ import {
   ADD_WALLET_SUCCESS,
   DELETE_WALLET,
   ADD_INCOME,
-  ADD_EXPENSE
+  ADD_EXPENSE,
+  ADD_TRANSACTION
 } from './types';
 
 export type WalletState = {
@@ -77,20 +78,14 @@ export function WalletReducer (
         wallets: state.wallets.filter((wallet: IWallet) => wallet._id !== action.payload._id),
       }
     }
-    case ADD_INCOME: {
-      const walletForIncome = <IWallet>state.wallets.find(wallet => wallet._id === action.payload.id);
-      const walletIndex = state.wallets.indexOf(walletForIncome);
-      state.wallets[walletIndex].incomes.push(action.payload.income);
-      return {
-        ...state
-      }
-    }
-    case ADD_EXPENSE: {
-      const walletForExpense = <IWallet>state.wallets.find(wallet => wallet._id === action.payload.id);
-      const walletIndex = state.wallets.indexOf(walletForExpense);
-      state.wallets[walletIndex].expenses.push(action.payload.expense);
+    case ADD_TRANSACTION: {
+      const requiredWallet = state.wallets.find((wallet: IWallet) => wallet._id === action.payload._id);
+      const walletIndex = state.wallets.indexOf(requiredWallet as IWallet);
+      const wallets = [...state.wallets];
+      wallets[walletIndex] = action.payload;
       return {
         ...state,
+        wallets,
       }
     }
     default: {

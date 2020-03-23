@@ -3,13 +3,16 @@ import { View, Modal, TouchableOpacity, TextInput, TouchableHighlight, Text, Sty
 import { styles } from './styles/CreateTransaction';
 import { ICreateTransaction } from './Interfaces/ICreateTransaction';
 import { mainBrandColor, mainGreenColor } from '../../../shared/styles/mainStyle';
+import { useDispatch } from 'react-redux';
+import ITransaction from '../../../interfaces/ITransaction';
+import { addTransactionAction } from '../../../store/Wallet/actions/addTransaction';
 
 
-const CreateTransaction = ({isCreateTransaction, close}: ICreateTransaction) => {
-
+const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction) => {
+  const dispatch = useDispatch();
   const [isExpenseActive, setExpense] = useState<boolean>(true);
   const [isToday, setToday] = useState<boolean>(true);
-  const [transaction, setTransaction] = useState({});
+  const [transaction, setTransaction] = useState<ITransaction>({ count: 0, category: ''});
   const expenseBlockStyle = (isActive: boolean) => {
     const computedStyle = {
       backgroundColor: isActive? mainBrandColor: 'white',
@@ -18,6 +21,12 @@ const CreateTransaction = ({isCreateTransaction, close}: ICreateTransaction) => 
 
     return StyleSheet.flatten([styles.expenseBlock, computedStyle]);
   } 
+
+  const createTransaction = (isExpense: boolean, transaction: ITransaction) => {
+    dispatch(addTransactionAction(id, transaction, isExpense));
+    setTransaction({count: 0, category: ''});
+    close(false);
+  }
   
   useEffect(() => {
     setExpense(true);
@@ -71,9 +80,11 @@ const CreateTransaction = ({isCreateTransaction, close}: ICreateTransaction) => 
                 placeholder={'Category'}
                 autoCapitalize={'none'}
                 style={styles.baseInput}
+                onChangeText={category => setTransaction({...transaction, category})}
               />
 
               <TextInput
+                onChangeText={count => setTransaction({...transaction, count: Number(count)})}
                 keyboardType={'numeric'}
                 placeholder={'0.00'}
                 style={styles.baseInput}
@@ -81,10 +92,12 @@ const CreateTransaction = ({isCreateTransaction, close}: ICreateTransaction) => 
 
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
+                  onPress={() => createTransaction(isExpenseActive, transaction)}
                   style={{...styles.button, backgroundColor: mainGreenColor}}>
                   <Text>OK</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  onPress={() => close(false)}
                   style={{...styles.button, backgroundColor: 'red'}}>
                   <Text>Cancel</Text>
                 </TouchableOpacity>

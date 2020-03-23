@@ -7,6 +7,7 @@ export const GET_WALLETS_FAILURE = 'GET_WALLETS_FAILURE';
 export const DELETE_WALLET = 'DELETE_WALLET';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const ADD_INCOME = 'ADD_INCOME';
+export const ADD_TRANSACTION = 'ADD_TRANSACTION';
 
 import * as actions from './actions';
 import { InferValueTypes } from '../typeFunctions';

@@ -4,12 +4,19 @@ import IWallet from '../../../interfaces/IWallet';
 import { mainGreenColor } from '../../../shared/styles/mainStyle';
 import {styles} from './styles/Wallet';
 import CreateTransaction from './CreateTransaction';
+import { useSelector } from 'react-redux';
+import { WalletState } from 'store/Wallet';
 
 const Wallet = ({route}: any) => {
   const [isCreateTransaction, setIsCreateTransaction] = useState<boolean>(false);
 
 
-  const wallet: IWallet = route.params.wallet as IWallet
+  // const wallet: IWallet = route.params.wallet as IWallet
+  const wallet = useSelector((state: WalletState) => {
+    const requiredWallet = state.wallets.find((wallet: IWallet) => wallet._id === route.params.wallet._id); 
+    const walletIndex = state.wallets.indexOf(requiredWallet);
+    return state.wallets[walletIndex];
+  })
   const transactions = {
     expenses: wallet.expenses,
     incomes: wallet.incomes,
@@ -53,7 +60,7 @@ const Wallet = ({route}: any) => {
         <Text style={{color: 'white'}}> + </Text>
       </TouchableOpacity>
 
-      <CreateTransaction  isCreateTransaction={isCreateTransaction} close={setIsCreateTransaction} />
+      <CreateTransaction  isCreateTransaction={isCreateTransaction} close={setIsCreateTransaction} id={wallet._id} />
     </View>
   );
 }
