@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { mainTextColor, mainGreenColor } from "../../../../shared/styles/mainStyle";
 
 export const styles = StyleSheet.create({
@@ -25,15 +25,16 @@ export const styles = StyleSheet.create({
   },
   addButton: {
     position: 'absolute',
-    bottom: '20%',
+    bottom: '10%',
     right: '10%',
     borderRadius: 50,
-    padding: 5,
+    padding: 10,
     backgroundColor: mainGreenColor,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
     flex: 1,
+    zIndex: 2,
   },
   addButtonText: {
     color: 'white',
@@ -44,4 +45,7 @@ export const styles = StyleSheet.create({
   addButtonText2: {
     transform: undefined,
   },
+  transactions: {
+    width: Dimensions.get('window').width,
+  }
 });

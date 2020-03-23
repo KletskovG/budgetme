@@ -6,6 +6,9 @@ import {styles} from './styles/Wallet';
 import CreateTransaction from './CreateTransaction';
 import { useSelector } from 'react-redux';
 import { WalletState } from 'store/Wallet';
+import { FlatList } from 'react-native-gesture-handler';
+import Transaction from './Transaction';
+import ITransaction from 'interfaces/ITransaction';
 
 const Wallet = ({route}: any) => {
   const [isCreateTransaction, setIsCreateTransaction] = useState<boolean>(false);
@@ -14,13 +17,20 @@ const Wallet = ({route}: any) => {
   // const wallet: IWallet = route.params.wallet as IWallet
   const wallet = useSelector((state: WalletState) => {
     const requiredWallet = state.wallets.find((wallet: IWallet) => wallet._id === route.params.wallet._id); 
-    const walletIndex = state.wallets.indexOf(requiredWallet);
+    const walletIndex = state.wallets.indexOf(requiredWallet as IWallet);
     return state.wallets[walletIndex];
   })
-  const transactions = {
-    expenses: wallet.expenses,
-    incomes: wallet.incomes,
-  };
+
+  const expensesLength = wallet.expenses.length;
+  for (let i = 0; i < expensesLength; i++) {
+    wallet.expenses[i].isExpense = true;
+  }
+  const incomesLength = wallet.incomes.length;
+  for (let i = 0; i < incomesLength; i++) {
+    wallet.incomes[i].isExpense = false;
+  }
+  const transactions: ITransaction[] = [...wallet.expenses.reverse(), ...wallet.incomes.reverse()];
+
 
   const sumOfExpenses = wallet.expenses.reduce((prev, curr) => {
     let num: number = 0;
@@ -57,10 +67,17 @@ const Wallet = ({route}: any) => {
       <TouchableOpacity
         onPress={() => setIsCreateTransaction(true)}
         style={styles.addButton}>
-        <Text style={{color: 'white'}}> + </Text>
+        <Text style={{color: 'white', fontSize: 25}}> + </Text>
       </TouchableOpacity>
 
       <CreateTransaction  isCreateTransaction={isCreateTransaction} close={setIsCreateTransaction} id={wallet._id} />
+
+      <FlatList 
+        style={styles.transactions}
+        data={transactions}
+        renderItem={({item}) => <Transaction isExpense={item.isExpense as boolean} transaction={item}/>}
+        
+      />
     </View>
   );
 }
