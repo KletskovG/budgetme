@@ -5,7 +5,7 @@ import ValidEmail from '../../core/Validation/Email';
 import BudgetService from '../Budget/BudgetService';
 import ITransaction from 'interfaces/ITransaction';
 import { Budget } from '../../../models/Budget/Budget';
-import Wallet, { IWallet } from '../../../models/Wallet/Wallet';
+import Wallet, { IWallet, IWalletBase } from '../../../models/Wallet/Wallet';
 
 class Expense {
   private app: Express = null;
@@ -19,16 +19,14 @@ class Expense {
 
   private expense(): void {
     this.app.post('/wallet/expense', async (req, res) => {
-      const id = req.body.id;
       const expenseData: IExpense = {
-        email: req.body.email,
-        name: req.body.name,
+        id: req.body.id,
         count: req.body.count,
         category: req.body.category,
         timestamp: new Date().toISOString(),
       };
       console.log(expenseData);
-      const wallet = await Wallet.findById(id);
+      const wallet = await Wallet.findById(expenseData.id);
       if (this.isValidData(expenseData) && !!wallet) {
         wallet.expenses.push({
           count: expenseData.count,
@@ -38,7 +36,7 @@ class Expense {
         wallet.amount -= expenseData.count;
         wallet.save();
         res.status(200).send(JSON.stringify(wallet));
-        this.logger.log(`Add expense to ${expenseData.email} -- Wallet: ${expenseData.name} -- ${expenseData.count}`, 'info');
+        this.logger.log(`Add expense to ${expenseData.id} -- Wallet:  -- ${expenseData.count}`, 'info');
         this.handleBudget(wallet, expenseData);
       } else {
         res.status(500).send('Your data was invalid or unable to find this wallet');
@@ -48,11 +46,9 @@ class Expense {
   }
 
   private isValidData(expense: IExpense): boolean {
-    const validEmail = new ValidEmail(expense.email).isValid;
-    const isValidName = expense.name.trim().length > 0;
     const positiveCount = Number(expense.count) > 0;
     const notEmptyCategory = expense.category.trim().length > 0;
-    const rules = [validEmail, isValidName, positiveCount, notEmptyCategory];
+    const rules = [positiveCount, notEmptyCategory];
 
     let result = true;
     rules.forEach((rule: boolean) => {

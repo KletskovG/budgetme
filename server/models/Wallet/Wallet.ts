@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import IIncome from './IIncome';
 const { Schema } = mongoose;
 
 export interface IWallet extends mongoose.Document {
@@ -13,13 +14,7 @@ export interface IWallet extends mongoose.Document {
       updatedAt?: string;
     }?
   ];
-  incomes: [
-    {
-      count: number;
-      category: string;
-      timestamp: string;
-    }?
-  ];
+  incomes: IIncome[];
 }
 
 export interface IWalletBase {
@@ -45,6 +40,7 @@ export interface IWalletBase {
 export const schema = new Schema({
   amount: Number,
   owner: String,
+  name: String,
   expenses: [
     {
       count: Number,
@@ -56,10 +52,12 @@ export const schema = new Schema({
     {
       count: Number,
       category: String,
-      timestamp: String,
+      timestamp: {
+        type: String,
+        required: false,
+      },
     }
   ],
-  name: String,
 });
 
 const Wallet = mongoose.model<IWallet>('wallet', schema);

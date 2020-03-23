@@ -1,6 +1,5 @@
 export default interface IExpense {
-  email: string;
-  name: string;
+  id: string; // Id of the wallet
   count: number;
   category: string;
   timestamp: string;

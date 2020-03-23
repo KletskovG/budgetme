@@ -15,33 +15,43 @@ class Income {
   }
 
   private income() {
-    this.app.post('/wallet/income', (req, res) => {
-      const {
-        email,
-        name,
-        count,
-        category,
-       } = req.body;
-      const timestamp = new Date().toISOString();
+    this.app.post('/wallet/income', async (req, res) => {
+      const id = req.body.id;
+      const incomeData: IIncome = {
+        count: req.body.count,
+        category: req.body.category,
+        timestamp: new Date().toISOString(),
+      }
 
-      Wallet.findOne({ owner: email, name })
-        .then((findedWallet: IWallet) => {
-          if (!!findedWallet) {
-            findedWallet.incomes.push({ count, category, timestamp });
-            findedWallet.amount += count;
-            findedWallet.save();
-            res.status(200).send(JSON.stringify(findedWallet));
-            this.logger.log(`Add income to ${email} -- Wallet: ${name} -- ${count}`, 'info');
-          } else {
-            res.status(500).send('Cant find wallet');
-            this.logger.log('Cant find wallet (add income)', 'error');
-          }
-        })
-        .catch((err: Error) => {
-          console.log(err);
-          this.logger.log('Cant find wallet in income', 'error');
-          res.status(500).send(`${err}`);
-        });
+      const wallet = await Wallet.findById(id);
+      if (!!wallet) {
+        wallet.incomes.push(incomeData);
+        wallet.amount += incomeData.count;
+        wallet.save();
+        res.status(200).send(JSON.stringify(wallet));
+        this.logger.log(`Add income to -- Wallet: ${id} -- ${incomeData.count}`, 'info');
+      } else {
+        res.status(500).send('Cant find wallet');
+        this.logger.log('Cant find wallet (add income)', 'error');
+      }
+      // Wallet.findOne({ owner: email, name })
+      //   .then((findedWallet: IWallet) => {
+      //     if (!!findedWallet) {
+      //       findedWallet.incomes.push({ count, category, timestamp });
+      //       findedWallet.amount += count;
+      //       findedWallet.save();
+      //       res.status(200).send(JSON.stringify(findedWallet));
+            // this.logger.log(`Add income to ${email} -- Wallet: ${name} -- ${count}`, 'info');
+      //     } else {
+            // res.status(500).send('Cant find wallet');
+            // this.logger.log('Cant find wallet (add income)', 'error');
+      //     }
+      //   })
+      //   .catch((err: Error) => {
+      //     console.log(err);
+      //     this.logger.log('Cant find wallet in income', 'error');
+      //     res.status(500).send(`${err}`);
+      //   });
     });
   }
 }
