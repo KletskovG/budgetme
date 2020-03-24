@@ -19,14 +19,14 @@ class Expense {
 
   private expense(): void {
     this.app.post('/wallet/expense', async (req, res) => {
+      const id = req.body.id;
       const expenseData: IExpense = {
-        id: req.body.id,
         count: req.body.count,
         category: req.body.category,
         timestamp: new Date().toISOString(),
       };
       console.log(expenseData);
-      const wallet = await Wallet.findById(expenseData.id);
+      const wallet = await Wallet.findById(id);
       if (this.isValidData(expenseData) && !!wallet) {
         wallet.expenses.push({
           count: expenseData.count,
@@ -36,7 +36,7 @@ class Expense {
         wallet.amount -= expenseData.count;
         wallet.save();
         res.status(200).send(JSON.stringify(wallet));
-        this.logger.log(`Add expense to ${expenseData.id} -- Wallet:  -- ${expenseData.count}`, 'info');
+        this.logger.log(`Add expense to ${id} -- Wallet:  -- ${expenseData.count}`, 'info');
         this.handleBudget(wallet, expenseData);
       } else {
         res.status(500).send('Your data was invalid or unable to find this wallet');
