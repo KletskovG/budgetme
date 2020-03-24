@@ -23,6 +23,7 @@ class userSummary {
         wallets = await Wallet.find({ owner: user.email });
         const summary: ISummary = this.countSummary(wallets);
         res.status(200).send(JSON.stringify(summary));
+        this.logger.log(`Send user summary to  --- ${user.email} --- summary: ${JSON.stringify(summary)}`, 'info');
       } else {
         res.statusMessage = 'Cant find this user';
         res.status(500).send();
