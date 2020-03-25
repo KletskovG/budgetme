@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Home from './pages/Home/Home';
 import Wallets from './pages/Wallets/Wallets';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, StyleSheet, ImageSourcePropType } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
@@ -28,19 +28,30 @@ const MainNavigator = () => {
         screenOptions={({route}: any) => ({
           tabBarIcon: ({focused, color, size}) => {
             let iconName: string;
-
+            const imageStyle = StyleSheet.create({
+              image: {
+                width: 30,
+                height: 30,
+                marginTop: 20,
+              },
+            }); 
             if (route.name === 'Wallets') {
-              iconName = '../assets/images/wallet.png';
+              iconName = focused
+                ? require('../assets/images/wallet-active.png')
+                : require('../assets/images/wallet.png');
               return (
                 <Image
-                  source={require('../assets/images/wallet.png')}
-                  style={{width: 30, height: 30}}></Image>
+                  source={iconName as ImageSourcePropType}
+                  style={imageStyle.image}></Image>
               );
             } else if (route.name === 'Home') {
+              iconName = focused
+                ? require('../assets/images/home-active.png')
+                : require('../assets/images/home.png');
               return (
                 <Image
-                  source={require('../assets/images/home.png')}
-                  style={{width: 30, height: 30}}></Image>
+                  source={iconName as ImageSourcePropType}
+                  style={imageStyle.image}></Image>
               );
             }
 
