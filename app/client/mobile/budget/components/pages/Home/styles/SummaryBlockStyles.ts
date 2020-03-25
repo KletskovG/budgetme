@@ -1,16 +1,6 @@
 import { StyleSheet } from "react-native";
 
-export const SummaryStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  balanse: {},
-  balanseText: {
-    fontSize: 25,
-  },
+export const SummaryBlockStyles = StyleSheet.create({
   summaryBlock: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -23,9 +13,17 @@ export const SummaryStyles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     marginBottom: 10,
-    marginTop: 20,
   },
-  summaryDate: {
+  text: {
+    fontSize: 25,
+  },
+  childContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
+  arrow: {
+    width: 30,
+    height: 20,
+    marginLeft: 10,
+  }
 });

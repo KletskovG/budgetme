@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { SummaryStyles } from './styles';
 import { mainGreenColor } from '../../../shared/styles/mainStyle';
 import { getMonthFromNumber } from '../../../shared/utils/getMonthFromNumber';
+import SummaryBlock from './SummaryBlock';
 
 const Summary = () => {
   const dispatch = useDispatch();
@@ -45,16 +46,16 @@ const Summary = () => {
             {homeState.summary.balanse}
           </Text>
         </View>
-        <View style={SummaryStyles.summaryBlock}>
-          <Text style={balanseColorStyle(-1)}>Expenses:</Text>
-          <Text style={balanseColorStyle(-1)}>
-            {homeState.summary.expenses}
-          </Text>
-        </View>
-        <View style={SummaryStyles.summaryBlock}>
-          <Text style={balanseColorStyle(1)}>Incomes:</Text>
-          <Text style={balanseColorStyle(1)}>{homeState.summary.incomes}</Text>
-        </View>
+        <SummaryBlock
+          fontColorMatch={-1}
+          amount={homeState.summary.expenses}
+          title={'Expenses'}
+        />
+        <SummaryBlock
+          fontColorMatch={1}
+          amount={homeState.summary.incomes}
+          title={'Incomes'}
+        />
       </View>
     </View>
   );
