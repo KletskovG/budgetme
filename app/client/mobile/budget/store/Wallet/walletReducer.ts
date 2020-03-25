@@ -19,7 +19,7 @@ export type WalletState = {
   error: Error | null;
 }
 
-const initialWalletState: WalletState = {
+export const initialWalletState: WalletState = {
   wallets: [],
   loading: false,
   error: null,

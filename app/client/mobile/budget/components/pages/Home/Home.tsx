@@ -1,23 +1,18 @@
-import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import React, { useEffect } from 'react';
+import {View} from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Summary from './Summary';
+
+const HomeStack = createStackNavigator();
 
 const Home = ({navigation}) => {
   return (
-    <View>
-      <Text> Hello world </Text>
-      <Button 
-        title="Go to wallets"
-        onPress={() => navigation.navigate('Wallets')}/> 
+    <View style={{flex: 1, width: '100%'}}>
+      <HomeStack.Navigator initialRouteName={'Summary'}>
+        <HomeStack.Screen name={'Summary'} component={Summary} />
+      </HomeStack.Navigator>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
-})
 
 export default Home;

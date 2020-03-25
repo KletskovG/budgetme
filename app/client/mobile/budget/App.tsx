@@ -3,12 +3,15 @@ import 'react-native-gesture-handler';
 import AuthPage from './components/pages/Auth/Auth';
 import {StyleSheet} from 'react-native';
 import MainNavigator from './components/MainNavigator';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import {Provider} from 'react-redux';
 import {WalletReducer} from './store/Wallet/walletReducer';
 import thunk from 'redux-thunk';
+import { HomeReducer } from './store/Home/homeReducer';
 
-const store = createStore(WalletReducer, applyMiddleware(thunk));
+
+const rootReducer = combineReducers({ walletState: WalletReducer, homeState: HomeReducer });
+const store = createStore(rootReducer, applyMiddleware(thunk));
 console.log(store.getState());
 store.subscribe(() => console.log(store.getState()));
 

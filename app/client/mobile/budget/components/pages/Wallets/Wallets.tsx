@@ -1,20 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useReducer} from 'react';
 import {View, Text, StyleSheet, Alert, Dimensions} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import Wallet from './Wallet';
-import IWallet from 'interfaces/IWallet';
-import {FlatList, TextInput} from 'react-native-gesture-handler';
 import {mainGreenColor} from '../../../shared/styles/mainStyle';
 import CreateWallet from './CreateWallet';
-import {config} from '../../../core/config';
 import WalletList from './WalletList';
 import { useDispatch, useSelector } from 'react-redux';
-import { WalletState } from '../../../store/Wallet/walletReducer';
 import {getWalletsAction} from '../../../store/Wallet/actions/getWallets';
+import { RootState } from '../../../store/typeFunctions';
 
 const Wallets = () => {
   const dispatch = useDispatch();
-  const wallets = useSelector((state: WalletState) => state.wallets)
+  const wallets = useSelector((state: RootState) => state.walletState.wallets);
   let [isCreateWallet, setToggle] = useState<boolean | boolean>(false);
 
   let styles = StyleSheet.create({

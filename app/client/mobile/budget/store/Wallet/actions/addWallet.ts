@@ -19,8 +19,10 @@ export const addWalletAction = (name: string) => {
         name,
       }),
     })
-    .then(res => res.json())
-    .then(createdWallet => dispatch(addWalletSuccess(createdWallet)))
-    .catch((err: Error) => dispatch(addWalletFailure(err)));
+      .then(res => res.json())
+      .then((createdWallet: IWallet) =>
+        dispatch(addWalletSuccess(createdWallet)),
+      )
+      .catch((err: Error) => dispatch(addWalletFailure(err)));
   }
 }

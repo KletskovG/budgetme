@@ -9,16 +9,17 @@ import { WalletState } from 'store/Wallet';
 import { FlatList } from 'react-native-gesture-handler';
 import Transaction from './Transaction';
 import ITransaction from 'interfaces/ITransaction';
+import { RootState } from '../../../store/typeFunctions';
 
 const Wallet = ({route}: any) => {
   const [isCreateTransaction, setIsCreateTransaction] = useState<boolean>(false);
 
 
-  // const wallet: IWallet = route.params.wallet as IWallet
-  const wallet = useSelector((state: WalletState) => {
-    const requiredWallet = state.wallets.find((wallet: IWallet) => wallet._id === route.params.wallet._id); 
-    const walletIndex = state.wallets.indexOf(requiredWallet as IWallet);
-    return state.wallets[walletIndex];
+  const wallet = useSelector((state: RootState) => {
+    const wallets = state.walletState.wallets;
+    const requiredWallet = wallets.find((wallet: IWallet) => wallet._id === route.params.wallet._id); 
+    const walletIndex = wallets.indexOf(requiredWallet as IWallet);
+    return wallets[walletIndex];
   })
 
   const expensesLength = wallet.expenses.length;

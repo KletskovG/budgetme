@@ -1,9 +1,6 @@
-import { WalletState } from "./walletReducer";
 import IWallet from "interfaces/IWallet";
 import { GET_WALLETS_PENDING, GET_WALLETS_SUCCESS, GET_WALLETS_FAILURE, ADD_WALLET_PENDING, ADD_WALLET_SUCCESS, ADD_WALLET_ERROR, DELETE_WALLET, ADD_INCOME, ADD_EXPENSE, ADD_TRANSACTION } from "./types";
 import { inferStringLiteral } from "../typeFunctions";
-import IExpense from "../../interfaces/IExpense";
-import IIncome from "../../interfaces/IIncome";
 
 export const addWalletPending = () => ({
   type: inferStringLiteral(ADD_WALLET_PENDING),

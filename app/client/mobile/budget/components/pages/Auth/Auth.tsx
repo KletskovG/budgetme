@@ -25,12 +25,16 @@ const AuthPage = ({navigateToHome}) => {
       })
         .then(res => {
           if (res.status === 200) {
-            AsyncStorage.setItem('@email', email);
-            AsyncStorage.setItem('@password', password);
-            navigateToHome();
+            return res.json();
           } else {
             return Alert.alert('Error', 'Server error');
           }
+        })
+        .then(user => {
+          AsyncStorage.setItem('@email', email);
+          AsyncStorage.setItem('@password', password);
+          AsyncStorage.setItem('@id', user._id);
+          navigateToHome();
         })
         .catch(err => {
           return Alert.alert('Error', 'Cant auth');
