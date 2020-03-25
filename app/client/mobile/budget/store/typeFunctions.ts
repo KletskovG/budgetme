@@ -1,5 +1,6 @@
 import { WalletState } from "./Wallet";
 import { HomeState } from "./Home/homeReducer";
+import { AuthState } from "./Auth";
 
 export type InferValueTypes<T> = T extends { [key in string]: infer U } ? U : never;
 
@@ -14,4 +15,5 @@ export function inferStringLiteral<T extends string>(arg: T): T {
 export type RootState = {
   walletState: WalletState,
   homeState: HomeState,
+  authState: AuthState,
 }

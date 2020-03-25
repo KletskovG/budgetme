@@ -8,11 +8,11 @@ import {Provider} from 'react-redux';
 import {WalletReducer} from './store/Wallet/walletReducer';
 import thunk from 'redux-thunk';
 import { HomeReducer } from './store/Home/homeReducer';
+import { AuthReducer } from './store/Auth';
 
 
-const rootReducer = combineReducers({ walletState: WalletReducer, homeState: HomeReducer });
+const rootReducer = combineReducers({ walletState: WalletReducer, homeState: HomeReducer, authState: AuthReducer });
 const store = createStore(rootReducer, applyMiddleware(thunk));
-console.log(store.getState());
 store.subscribe(() => console.log(store.getState()));
 
 const App = () => {
