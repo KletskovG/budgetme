@@ -3,6 +3,7 @@ import { config } from "../../../core/config";
 import { Dispatch } from "react";
 import {addTransaction} from '../actions';
 import IWallet from "../../../interfaces/IWallet";
+import { updateSummary } from "../../../store/Home/actions";
 
 export const addTransactionAction = (id: string, transaction: ITransaction, isExpense: boolean) => {
   const apiString = `${config.baseUrl}/wallet/${isExpense? 'expense/': 'income/'}`;
@@ -24,6 +25,7 @@ export const addTransactionAction = (id: string, transaction: ITransaction, isEx
     })
     .then((updatedWallet: IWallet) => {
       dispatch(addTransaction(updatedWallet));
+      dispatch(updateSummary({...transaction, isExpense}));
     })
     .catch((err: Error) => {
       console.table(err, err.name, err.message);

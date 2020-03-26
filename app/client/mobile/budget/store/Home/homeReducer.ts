@@ -1,5 +1,5 @@
 import ISummary from "../../interfaces/ISummary";
-import { HomeAction, GET_SUMMARY_PENDING, GET_SUMMARY_SUCCESS, GET_SUMMARY_ERROR } from "./types";
+import { HomeAction, GET_SUMMARY_PENDING, GET_SUMMARY_SUCCESS, GET_SUMMARY_ERROR, UPDATE_SUMMARY } from "./types";
 
 export type HomeState = {
   summary: ISummary;
@@ -34,6 +34,20 @@ export const HomeReducer = (state = initialHomeState, action: HomeAction): HomeS
         ...state,
         loading: false,
         error: action.payload,
+      }
+    }
+    case UPDATE_SUMMARY: {
+      const updatedSummary = {...state.summary};
+      if (action.payload.isExpense) {
+        updatedSummary.balanse -= action.payload.count;
+        updatedSummary.expenses -= action.payload.count;
+      } else {
+        updatedSummary.balanse += action.payload.count;
+        updatedSummary.incomes += action.payload.count;
+      }
+      return {
+        ...state,
+        summary: updatedSummary,
       }
     }
     default:
