@@ -34,24 +34,6 @@ class Income {
         res.status(500).send('Cant find wallet');
         this.logger.log('Cant find wallet (add income)', 'error');
       }
-      // Wallet.findOne({ owner: email, name })
-      //   .then((findedWallet: IWallet) => {
-      //     if (!!findedWallet) {
-      //       findedWallet.incomes.push({ count, category, timestamp });
-      //       findedWallet.amount += count;
-      //       findedWallet.save();
-      //       res.status(200).send(JSON.stringify(findedWallet));
-            // this.logger.log(`Add income to ${email} -- Wallet: ${name} -- ${count}`, 'info');
-      //     } else {
-            // res.status(500).send('Cant find wallet');
-            // this.logger.log('Cant find wallet (add income)', 'error');
-      //     }
-      //   })
-      //   .catch((err: Error) => {
-      //     console.log(err);
-      //     this.logger.log('Cant find wallet in income', 'error');
-      //     res.status(500).send(`${err}`);
-      //   });
     });
   }
 }

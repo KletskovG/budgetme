@@ -25,7 +25,6 @@ class Expense {
         category: req.body.category,
         timestamp: req.body.timestamp,
       };
-      console.log(expenseData);
       const wallet = await Wallet.findById(id);
       if (this.isValidData(expenseData) && !!wallet) {
         wallet.expenses.push({
