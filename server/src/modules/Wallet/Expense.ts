@@ -23,7 +23,7 @@ class Expense {
       const expenseData: IExpense = {
         count: req.body.count,
         category: req.body.category,
-        timestamp: new Date().toISOString(),
+        timestamp: req.body.timestamp,
       };
       console.log(expenseData);
       const wallet = await Wallet.findById(id);

@@ -6,21 +6,67 @@ import { mainBrandColor, mainGreenColor } from '../../../shared/styles/mainStyle
 import { useDispatch } from 'react-redux';
 import ITransaction from '../../../interfaces/ITransaction';
 import { addTransactionAction } from '../../../store/Wallet/actions/addTransaction';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+import TransactionSelector from './TransactionSelector';
+
+type transactionTime = 'yesterday' | 'today' | 'other';
+const initialSelectorState = {
+  expenseButtons: [
+    {
+      title: 'Expense',
+      isActive: true,
+    },
+    {
+      title: 'Income',
+      isActive: false,
+    },
+  ],
+  dateButtons: [
+    {
+      title: 'Yesterday',
+      isActive: false,
+    },
+    {
+      title: 'Today',
+      isActive: true,
+    },
+    {
+      title: 'Other',
+      isActive: false,
+    },
+  ],
+};
 
 
 const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction) => {
   const dispatch = useDispatch();
   const [isExpenseActive, setExpense] = useState<boolean>(true);
-  const [isToday, setToday] = useState<boolean>(true);
+  const [time, setTime] = useState<transactionTime>('today');
   const [transaction, setTransaction] = useState<ITransaction>({ count: 0, category: ''});
-  const expenseBlockStyle = (isActive: boolean) => {
-    const computedStyle = {
-      backgroundColor: isActive? mainBrandColor: 'white',
-      color: isActive? 'white': 'black',
-    };
+  const [selector, setSelector] = useState<typeof initialSelectorState>(initialSelectorState);
+  
+  const changeSelector = (item: string) => {
+    setSelector(selector => {
+      for (const key in selector) {
+        if (selector[key].some(element => element.title === item)) {
+          selector[key].forEach(element => {
+            if (element.title === item) {
+              element.isActive = true;
+            } else {
+              element.isActive = false;
+            }
+          })
+        }
+      }
 
-    return StyleSheet.flatten([styles.expenseBlock, computedStyle]);
-  } 
+      const otherDate = selector.dateButtons.find(element => element.title === 'Other');
+      if (otherDate?.isActive) {
+        setTime('other');
+      }
+      return {...selector};
+    });
+  }
 
   const createTransaction = (isExpense: boolean, transaction: ITransaction) => {
     dispatch(addTransactionAction(id, transaction, isExpense));
@@ -30,8 +76,18 @@ const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction)
   
   useEffect(() => {
     setExpense(true);
-    setToday(true);
-  }, [isCreateTransaction])
+    setTime('today');
+  }, [isCreateTransaction]);
+
+  useEffect(() => {
+    setTime(time => {
+      return selector.dateButtons
+        .find(element => element.isActive)
+        ?.title.toLowerCase() as transactionTime;
+    })
+  }, [selector])
+
+  
 
   return (
     <View>
@@ -49,50 +105,45 @@ const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction)
             activeOpacity={1}
             style={styles.formContainer}>
             <View style={styles.expenseContainer}>
-              <View style={styles.expenseContainerChild}>
-                <Text
-                  onPress={() => setExpense(!isExpenseActive)}
-                  style={expenseBlockStyle(isExpenseActive)}>
-                  Expense
-                </Text>
-                <Text
-                  onPress={() => setExpense(!isExpenseActive)}
-                  style={expenseBlockStyle(!isExpenseActive)}>
-                  Income
-                </Text>
-              </View>
-
-              <View style={styles.expenseContainerChild}>
-                <Text
-                  onPress={() => setToday(!isToday)}
-                  style={expenseBlockStyle(isToday)}>
-                  Yesterday
-                </Text>
-                <Text
-                  onPress={() => setToday(!isToday)}
-                  style={expenseBlockStyle(!isToday)}>
-                  Today
-                </Text>
-              </View>
+              <TransactionSelector
+                buttons={selector.expenseButtons}
+                change={changeSelector}
+              />
+              <TransactionSelector
+                buttons={selector.dateButtons}
+                change={changeSelector}
+              />
             </View>
             <View>
               <TextInput
                 placeholder={'Category'}
                 autoCapitalize={'none'}
                 style={styles.baseInput}
-                onChangeText={category => setTransaction({...transaction, category})}
+                onChangeText={category =>
+                  setTransaction({...transaction, category})
+                }
               />
 
               <TextInput
-                onChangeText={count => setTransaction({...transaction, count: Number(count)})}
+                onChangeText={count =>
+                  setTransaction({...transaction, count: Number(count)})
+                }
                 keyboardType={'numeric'}
                 placeholder={'0.00'}
                 style={styles.baseInput}
               />
-
+              {time === 'other' ? (
+                <DateTimePicker
+                  mode="date"
+                  value={new Date(new Date().getTime())}
+                  onChange={(event, date) => setTransaction({...transaction, timestamp: `${date}`})}
+                />
+              ) : null}
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
-                  onPress={() => createTransaction(isExpenseActive, transaction)}
+                  onPress={() =>
+                    createTransaction(isExpenseActive, transaction)
+                  }
                   style={{...styles.button, backgroundColor: mainGreenColor}}>
                   <Text>OK</Text>
                 </TouchableOpacity>

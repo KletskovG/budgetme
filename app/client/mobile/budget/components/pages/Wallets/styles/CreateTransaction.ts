@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
   expenseContainerChild: {
     flexDirection: 'row',
     marginTop: 10,
+    position: 'relative',
   },
   expenseBlock: {
     padding: 10,

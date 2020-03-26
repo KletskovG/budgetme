@@ -20,7 +20,7 @@ const Transaction = ({isExpense, transaction}: ITransactionProperties) => {
     <TouchableOpacity 
     activeOpacity={0.8}
     style={TransactionStyles.container}>
-      <Text style={computeTextStyle(isExpense)} > {transaction.category} --- {transaction.count} </Text>
+      <Text style={computeTextStyle(isExpense)} > {transaction.category} --- {transaction.count}  --- {transaction.timestamp} </Text>
     </TouchableOpacity>
   )
 }

@@ -20,7 +20,7 @@ class Income {
       const incomeData: IIncome = {
         count: req.body.count,
         category: req.body.category,
-        timestamp: new Date().toISOString(),
+        timestamp: req.body.timestamp,
       }
 
       const wallet = await Wallet.findById(id);
