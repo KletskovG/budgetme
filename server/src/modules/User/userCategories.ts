@@ -38,23 +38,22 @@ export class userCategories {
   }
 
   private deleteCategory() {
-    this.app.delete('/category/', async (req, res) => {
+    this.app.delete('/category', async (req, res) => {
       const user = await User.findById(req.body.id);
-      const categoryToDelete = req.body.category as ICategory;
+      const categoryId = req.body.categoryId;
       if (!!user) {
-        user.categories.filter(element => {
-          return element.isExpense = categoryToDelete.isExpense;
-        })
-        .forEach((category, index) => {
-          const categoryStr = `${category.emoji} ${category.name}`;
-          const updateStr = `${categoryToDelete.emoji} ${categoryToDelete.name}`;
-          if (categoryStr === updateStr) {
-            user.categories.splice(1, index);
-          }
-        });
+        const category = user.categories.find(
+          element => `${element._id}` === `${categoryId}`
+        );
+        const index = user.categories.indexOf(category);
+        if (index === 0) {
+          user.categories.shift();
+        } else {
+          user.categories.splice(1, index);
+        }
         user.save();
         res.status(200).send(JSON.stringify(user.categories));
-        this.logger.log(`Delete category ${JSON.stringify(categoryToDelete)} for ${req.body.id}`, 'info');
+        this.logger.log(`Delete category ${JSON.stringify(category)} for ${req.body.id}`, 'info');
       } else {
         this.cantFindUser(res);
       }
