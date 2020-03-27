@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 import ITransaction from '../../../interfaces/ITransaction';
 import { addTransactionAction } from '../../../store/Wallet/actions/addTransaction';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
 import TransactionSelector from './TransactionSelector';
 
 type transactionTime = 'yesterday' | 'today' | 'other';
@@ -41,16 +40,16 @@ const initialSelectorState = {
 
 const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction) => {
   const dispatch = useDispatch();
-  const [isExpenseActive, setExpense] = useState<boolean>(true);
   const [time, setTime] = useState<transactionTime>('today');
   const [transaction, setTransaction] = useState<ITransaction>({ count: 0, category: ''});
   const [selector, setSelector] = useState<typeof initialSelectorState>(initialSelectorState);
+  const [selectedDate, setDate] = useState<Date>(new Date(new Date().getTime()));
   
   const changeSelector = (item: string) => {
     setSelector(selector => {
       for (const key in selector) {
-        if (selector[key].some(element => element.title === item)) {
-          selector[key].forEach(element => {
+        if (selector[key].some((element: any) => element.title === item)) {
+          selector[key].forEach((element: any) => {
             if (element.title === item) {
               element.isActive = true;
             } else {
@@ -68,14 +67,34 @@ const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction)
     });
   }
 
-  const createTransaction = (isExpense: boolean, transaction: ITransaction) => {
-    dispatch(addTransactionAction(id, transaction, isExpense));
-    setTransaction({count: 0, category: ''});
+  const createTransaction = (transaction: ITransaction) => {
+    const expenseTitle = selector.expenseButtons.find(element => {
+      return element.isActive;
+    })?.title.toLowerCase();
+    const time = selector.dateButtons.find(element => {
+      return element.isActive;
+    })?.title.toLowerCase();
+    
+    if (time === 'today') {
+      transaction.timestamp = `${new Date().toISOString()}`;
+    } else if (time === 'yesterday') {
+      transaction.timestamp = `${new Date(
+        new Date().getTime() - 86400000,
+      ).toISOString()}`;
+    }
+
+    const transactionData: ITransaction = {
+      count: transaction.count,
+      category: transaction.category,
+      isExpense: expenseTitle === 'expense'? true: false,
+      timestamp: transaction.timestamp,
+    }
+
+    dispatch(addTransactionAction(id, transactionData, !!transactionData.isExpense));
     close(false);
   }
   
   useEffect(() => {
-    setExpense(true);
     setTime('today');
   }, [isCreateTransaction]);
 
@@ -84,7 +103,7 @@ const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction)
       return selector.dateButtons
         .find(element => element.isActive)
         ?.title.toLowerCase() as transactionTime;
-    })
+    });
   }, [selector])
 
   
@@ -132,17 +151,18 @@ const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction)
                 placeholder={'0.00'}
                 style={styles.baseInput}
               />
+
               {time === 'other' ? (
                 <DateTimePicker
                   mode="date"
-                  value={new Date(new Date().getTime())}
-                  onChange={(event, date) => setTransaction({...transaction, timestamp: `${date}`})}
+                  value={selectedDate}
+                  onChange={(event, date) => setDate(new Date(`${date}`))}
                 />
               ) : null}
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
                   onPress={() =>
-                    createTransaction(isExpenseActive, transaction)
+                    createTransaction(transaction)
                   }
                   style={{...styles.button, backgroundColor: mainGreenColor}}>
                   <Text>OK</Text>

@@ -17,6 +17,7 @@ class AuthRoute {
       const user: IUserBase = {
         email,
         password,
+        categories: [],
       };
 
       const DBuser = await User.findOne(user);

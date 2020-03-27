@@ -21,22 +21,24 @@ class RegisterRoute {
       const user: IUserBase = {
         email,
         password,
+        categories: [],
       };
 
       this.isUniqueUser(req.body.email)
         .then((isUnique: boolean) => {
           if (isUnique) {
             this.createUser(user)
-              .then((message) => {
-                res.status(200).send(message);
+              .then((createdUser) => {
+                res.status(200).send(JSON.stringify(createdUser));
                 this.logger.log(`User ${email} was created`, 'info');
               })
               .catch((err: Error) => {
                 res.status(500).send(err);
-                this.logger.log('Error while user for unique', 'error');
+                this.logger.log('Error while creating user', 'error');
               });
           } else {
-            res.status(500).send('This is email is declared');
+            res.statusMessage = 'This email is exsist';
+            res.status(500).send();
             this.logger.log(`Try to create exsisting user ${email}`, 'error');
           }
         })
@@ -64,7 +66,7 @@ class RegisterRoute {
   private createUser(user: IUserBase): Promise<any> {
     return new Promise((resolve, reject) => {
       User.create({...user})
-        .then(() => resolve(`User ${user.email} was created`))
+        .then((createdUser) => resolve(createdUser))
         .catch(err => reject(err));
     });
   }

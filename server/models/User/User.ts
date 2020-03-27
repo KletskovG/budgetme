@@ -1,18 +1,14 @@
 
 import mongoose from 'mongoose';
+import ICategory from './ICategory';
 const { Schema } = mongoose;
 
 export interface IUser extends mongoose.Document {
-  // first_name: string;
-  // id: number;
-  // last_name: string;
-  // username: string;
-  // wallet: IWallet;
-  // store: any;
   email: string;
   password: string;
   firstName?: string;
   lastName?: string;
+  categories: ICategory[];
 }
 
 export interface IUserBase {
@@ -20,6 +16,7 @@ export interface IUserBase {
   password: string;
   firstName?: string;
   lastName?: string;
+  categories: ICategory[];
 }
 
 export const schema = new Schema({
@@ -28,6 +25,13 @@ export const schema = new Schema({
   firstName: String,
   lastName: String,
   id: Number,
+  categories: [
+    {
+      name: String,
+      emoji: String,
+      isExpense: String,
+    }
+  ]
 });
 
 export const  User = mongoose.model<IUser>('user', schema);
