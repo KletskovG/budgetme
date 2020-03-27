@@ -13,7 +13,7 @@ class Health {
     this.app.get('/logs', async (req, res) => {
       const logs = await Log.find({});
       let logsString = '';
-      logs.forEach((log: ILog) => {
+      logs.reverse().forEach((log: ILog) => {
         logsString += `<p> ${log.text} </p>`;
       });
       res.status(200).send(logsString);
