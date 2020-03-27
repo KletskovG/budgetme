@@ -14,6 +14,7 @@ class CreateWallet {
     this.createWallet();
   }
 
+  // TODO: refactor
   private createWallet(): void {
     this.app.post('/wallet/create', (req, res) => {
       const email = req.body.email;

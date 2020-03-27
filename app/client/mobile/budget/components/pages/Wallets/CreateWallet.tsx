@@ -23,7 +23,7 @@ const CreateWallet = ({isModalVisible, setModal }) => {
   return (
     <View>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={isModalVisible}
         onRequestClose={() => {
