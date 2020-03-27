@@ -9,9 +9,15 @@ import {WalletReducer} from './store/Wallet/walletReducer';
 import thunk from 'redux-thunk';
 import { HomeReducer } from './store/Home/homeReducer';
 import { AuthReducer } from './store/Auth';
+import { CategoriesReducer } from './store/Categories/CategoriesReducer';
 
 
-const rootReducer = combineReducers({ walletState: WalletReducer, homeState: HomeReducer, authState: AuthReducer });
+const rootReducer = combineReducers({
+  walletState: WalletReducer,
+  homeState: HomeReducer,
+  authState: AuthReducer,
+  categoriesState: CategoriesReducer,
+});
 const store = createStore(rootReducer, applyMiddleware(thunk));
 store.subscribe(() => console.log(store.getState()));
 

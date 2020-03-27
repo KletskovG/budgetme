@@ -1,0 +1,16 @@
+export const GET_CATEGORIES_PENDING = 'GET_CATEGORIES_PENDING';
+export const GET_CATEGORIES_SUCCESS = 'GET_CATEGORIES_SUCCESS';
+export const GET_CATEGORIES_ERROR = 'GET_CATEGORIES_ERROR';
+export const DELETE_CATEGORY = 'DELETE_CATEGORY';
+export const UPDATE_CATEGORY_PENDING = 'UPDATE_CATEGORY_PENDING';
+export const UPDATE_CATEGORY_SUCCESS = 'UPDATE_CATEGORY_SUCCESS';
+export const UPDATE_CATEGORY_ERROR = 'UPDATE_CATEGORY_ERROR';
+export const CREATE_CATEGORY_PENDING = 'CREATE_CATEGORY_PENDING';
+export const CREATE_CATEGORY_SUCCESS = 'CREATE_CATEGORY_SUCCESS';
+export const CREATE_CATEGORY_ERROR = 'CREATE_CATEGORY_ERROR';
+
+
+import * as actions from './actions';
+import {InferValueTypes} from '../typeFunctions';
+
+export type CategoryAction = ReturnType<InferValueTypes<typeof actions>>;

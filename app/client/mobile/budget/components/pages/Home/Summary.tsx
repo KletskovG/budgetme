@@ -27,6 +27,9 @@ const Summary = () => {
     AsyncStorage.getItem('@id').then(id =>
       dispatch(getSummaryAction(id as string)),
     );
+    setTimeout(() => {
+      
+    }, 3000);
   }, []);
   
   return (

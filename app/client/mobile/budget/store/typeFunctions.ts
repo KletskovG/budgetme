@@ -1,6 +1,7 @@
 import { WalletState } from "./Wallet";
 import { HomeState } from "./Home/homeReducer";
 import { AuthState } from "./Auth";
+import { CategoriesState } from "./Categories/CategoriesReducer";
 
 export type InferValueTypes<T> = T extends { [key in string]: infer U } ? U : never;
 
@@ -16,4 +17,5 @@ export type RootState = {
   walletState: WalletState,
   homeState: HomeState,
   authState: AuthState,
+  categoriesState: CategoriesState,
 }
