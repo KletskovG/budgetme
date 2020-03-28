@@ -4,7 +4,7 @@ import DeleteWalletRoute from './DeleteWalletRoute';
 import Income from './Income';
 import Expense from './Expense';
 
-class Wallet {
+export class WalletModule {
   constructor(app: Express) {
     const create: CreateWalletRoute = new CreateWalletRoute(app);
     const deleteRoute: DeleteWalletRoute = new DeleteWalletRoute(app);
@@ -13,4 +13,3 @@ class Wallet {
   }
 }
 
-export default Wallet;

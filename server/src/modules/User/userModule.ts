@@ -4,7 +4,7 @@ import userSummary from './userSummary';
 import { userCategories } from './userCategories';
 
 
-class UserModule {
+export class UserModule {
   private app: Express = null;
   constructor(app: Express) {
     this.app = app;
@@ -15,5 +15,3 @@ class UserModule {
 
 
 }
-
-export default UserModule;

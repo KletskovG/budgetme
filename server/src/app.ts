@@ -5,12 +5,10 @@ import db from './core/dbconnection';
 
 const app = express();
 
-import AuthModule from './modules/Auth/AuthModule';
-import WalletModule from './modules/Wallet/WalletModule';
 import Heath from './modules/Heath/HeathRouter';
 import Log from '../models/Log/Log';
-import UserModule from './modules/User/userModule';
 import FrontLog from '../models/Log/FrontLog';
+import { AdminModule, UserModule, WalletModule, AuthModule  } from './modules';
 
 app.use(bodyParser.json());
 
@@ -18,6 +16,7 @@ const auth = new AuthModule(app);
 const wallet = new WalletModule(app);
 const heath = new Heath(app);
 const user = new UserModule(app);
+const admin = new AdminModule(app);
 
 db()
   .then(() => {
