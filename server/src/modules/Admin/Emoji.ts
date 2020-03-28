@@ -12,6 +12,7 @@ export class EmojiRoute {
   private getEmojis() {
     this.app.get('/emoji', async (req, res) => {
       const emoji = await Emoji.find({})
+      emoji.forEach(element => element.emoji = decodeURI(element.emoji));
       res.send(JSON.stringify(emoji));
     });
   }
