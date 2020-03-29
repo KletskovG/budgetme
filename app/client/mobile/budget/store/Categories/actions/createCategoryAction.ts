@@ -23,8 +23,8 @@ export const CreateCategoryAction = (category: ICategory) => {
         dispatch(createCategoryError(new Error(res.statusText)));
       }
     })
-    .then((createdCategory: ICategory) => {
-      dispatch(createCategorySuccess(createdCategory));
+    .then((category: ICategory) => {
+      dispatch(createCategorySuccess(category));
     })
     .catch(err => {
       dispatch(createCategoryError(err));

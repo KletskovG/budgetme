@@ -14,10 +14,9 @@ class AuthRoute {
     this.app.post('/auth', async (req, res) => {
       const email = req.body.email;
       const password = req.body.password;
-      const user: IUserBase = {
+      const user: Partial<IUserBase> = {
         email,
         password,
-        categories: [],
       };
 
       const DBuser = await User.findOne({email: user.email, password: user.password});

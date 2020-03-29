@@ -24,7 +24,7 @@ export class userCategories {
         if (this.validateCategory(requestCategory, user)) {
           categories.push(req.body.category);
           user.save();
-          res.status(200).send(JSON.stringify(categories));
+          res.status(200).send(JSON.stringify(req.body.category));
           this.logger.log(`Update categories for ${req.body.id} --- ${req.body.category}`, 'info');
         } else {
           res.statusMessage = 'Data is invalid';

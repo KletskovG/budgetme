@@ -34,7 +34,9 @@ const Categories = () => {
       ) : (
         <FlatList
           data={[...expenses, ...incomes]}
-          renderItem={({item}) => <Category />}
+          renderItem={({item}) => <Category category={item} />}
+          keyExtractor={(item, index) => `${item._id}`}
+          key={(index: number) => index}
         />
       )}
       <TouchableOpacity
