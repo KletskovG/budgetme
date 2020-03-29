@@ -1,39 +1,33 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, Image } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/typeFunctions';
+import React, {useState, useEffect} from 'react';
+import {View, Text, Image} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../store/typeFunctions';
 import ICategory from '../../../interfaces/ICategory';
-import { GetCategoriesAction } from '../../../store/Categories/actions/getCategoriesAction';
+import {GetCategoriesAction} from '../../../store/Categories/actions/getCategoriesAction';
 import {CategoriesStyles as styles} from './styles/Categories';
-import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import {TouchableOpacity, FlatList} from 'react-native-gesture-handler';
 import CreateCategory from './CreateCategory';
 import CreateWallet from '../Wallets/CreateWallet';
 import Category from './Category';
 
 const Categories = () => {
   const dispatch = useDispatch();
-  const categories = useSelector((state: RootState) => state.categoriesState);
-  const [expenses, setExpenses] = useState<ICategory[]>([]);
-  const [incomes, setIncomes] = useState<ICategory[]>([]);
+  const state = useSelector((state: RootState) => state.categoriesState);
+  const categories = useSelector((state:RootState) => state.categoriesState.categories);
   const [isCreateActive, setCreate] = useState<boolean>(false);
 
   useEffect(() => {
-    setExpenses(categories.expenses);
-    setIncomes(categories.incomes);
-  }, [categories])
-  
-  useEffect(() => {
     dispatch(GetCategoriesAction());
-  }, [])
+  }, []);
   return (
     <View style={styles.container}>
-      {[...expenses, ...incomes].length === 0 ? (
+      {categories.length === 0 ? (
         <View style={styles.container}>
           <Text style={styles.text}>You dont have any categories ☹️</Text>
         </View>
       ) : (
         <FlatList
-          data={[...expenses, ...incomes]}
+          data={categories}
           renderItem={({item}) => <Category category={item} />}
           keyExtractor={(item, index) => `${item._id}`}
           key={(index: number) => index}
@@ -49,6 +43,6 @@ const Categories = () => {
       <CreateCategory isVisible={isCreateActive} setVisible={setCreate} />
     </View>
   );
-}
+};
 
 export default Categories;

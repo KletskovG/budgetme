@@ -18,9 +18,9 @@ export const getCategoriesError = (err: Error) => ({
   payload: err,
 });
 
-export const deleteCategory = (id: string) => ({
+export const deleteCategory = (categories: ICategory[]) => ({
   type: inferStringLiteral(DELETE_CATEGORY),
-  payload: id,
+  payload: categories,
 });
 
 export const updateCategoryPending = () => ({
@@ -46,9 +46,9 @@ export const createCategoryPending = () => ({
   payload: null,
 });
 
-export const createCategorySuccess = (category: ICategory) => ({
+export const createCategorySuccess = (categories: ICategory[]) => ({
   type: inferStringLiteral(CREATE_CATEGORY_SUCCESS),
-  payload: category
+  payload: categories,
 });
 
 export const createCategoryError = (err: Error) => ({

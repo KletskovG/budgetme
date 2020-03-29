@@ -36,13 +36,13 @@ const CreateCategory = ({isVisible, setVisible}: ICreateCategory) => {
   const createCategory = () => {
     const catName = name.trim() || 'Untitled';
     const category: ICategory = {
-      name,
+      name: catName,
       emoji: activeEmoji,
       isExpense: false,
     };
     dispatch(CreateCategoryAction(category)); 
     setVisible(false);
-    setName('name');
+    setName('');
   }
   
   return (

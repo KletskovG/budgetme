@@ -2,15 +2,13 @@ import ICategory from "../../interfaces/ICategory";
 import {CategoryAction, GET_CATEGORIES_PENDING, GET_CATEGORIES_SUCCESS, GET_CATEGORIES_ERROR, DELETE_CATEGORY, UPDATE_CATEGORY_PENDING, UPDATE_CATEGORY_SUCCESS, UPDATE_CATEGORY_ERROR, CREATE_CATEGORY_PENDING, CREATE_CATEGORY_SUCCESS, CREATE_CATEGORY_ERROR} from './types';
 
 export type CategoriesState = {
-  incomes: ICategory[];
-  expenses: ICategory[];
+  categories: ICategory[],
   loading: boolean;
   error: Error | null;
 }
 
 const initialCategoriesState: CategoriesState = {
-  incomes: [],
-  expenses: [],
+  categories: [],
   loading: false,
   error: null,
 };
@@ -29,10 +27,7 @@ export const CategoriesReducer = (
     }
     case GET_CATEGORIES_SUCCESS: {
       return {
-        incomes: action.payload.filter(
-          category => category.isExpense === false
-          ),
-        expenses: action.payload.filter(category => category.isExpense),
+        categories: [...action.payload],
         loading: false,
         error: null
       }
@@ -46,12 +41,7 @@ export const CategoriesReducer = (
     }
     case DELETE_CATEGORY: {
       return {
-        incomes: [...state.incomes.filter(
-          income => `${income._id}` !==  `${action.payload}`
-        )],
-        expenses: [...state.expenses.filter(
-          expense => `${expense._id}` !== `${action.payload}`
-        )],
+        categories: [...action.payload],
         loading: false,
         error: null,
       }
@@ -64,25 +54,13 @@ export const CategoriesReducer = (
       }
     }
     case UPDATE_CATEGORY_SUCCESS: {
-      const expenses = [...state.expenses];
-      const incomes = [...state.incomes];
-      if (action.payload.category.isExpense) {
-        const index = expenses.findIndex(
-          element => `${element._id}` === `${action.payload.id}`,
-        );
-        expenses[index] = {...action.payload.category};
-      } else {
-        const index = incomes.findIndex(
-          element => `${element._id}` === `${action.payload.id}`
-        );
-        incomes[index] = {...action.payload.category};
-      }
-      
+      const stateCategories = [...state.categories];
+      const index = stateCategories.findIndex(element => `${element._id}` === `${action.payload.id}`);
+      stateCategories[index] = action.payload.category;
       return {
         loading: false,
         error: null,
-        expenses,
-        incomes,
+        categories: [...stateCategories],
       }
     }
     case UPDATE_CATEGORY_ERROR: {
@@ -100,18 +78,10 @@ export const CategoriesReducer = (
       }
     }
     case CREATE_CATEGORY_SUCCESS: {
-      const expenses = [...state.expenses];
-      const incomes = [...state.incomes];
-      if (action.payload.isExpense) {
-        expenses.push(action.payload);
-      } else {
-        incomes.push(action.payload);
-      }
       return {
         loading: false,
         error: null,
-        expenses,
-        incomes,
+        categories: [...action.payload],
       }
     }
     case CREATE_CATEGORY_ERROR: {
