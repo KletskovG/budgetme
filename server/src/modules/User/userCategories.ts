@@ -52,7 +52,7 @@ export class userCategories {
           user.categories.splice(1, index);
         }
         user.save();
-        res.status(200).send(JSON.stringify(user.categories));
+        res.status(200).send(JSON.stringify(category));
         this.logger.log(`Delete category ${JSON.stringify(category)} for ${req.body.id}`, 'info');
       } else {
         this.cantFindUser(res);
