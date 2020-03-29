@@ -8,6 +8,8 @@ export const DELETE_WALLET = 'DELETE_WALLET';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
 export const ADD_INCOME = 'ADD_INCOME';
 export const ADD_TRANSACTION = 'ADD_TRANSACTION';
+export const SET_EXPENSE_TRANSACTION = 'SET_EXPENSE_TRANSACTION';
+export const SET_AMOUNT_TRANSACTION = 'SET_AMOUNT_TRANSACTION';
 
 import * as actions from './actions';
 import { InferValueTypes } from '../typeFunctions';

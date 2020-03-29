@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+import basicStyle from "../../../../shared/styles/mainStyle";
 
 export const styles = StyleSheet.create({
   container: {
@@ -10,7 +11,12 @@ export const styles = StyleSheet.create({
   formContainer: {
     backgroundColor: 'white',
     padding: 40,
+    paddingTop: 5,
     borderRadius: 5,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.8,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   expenseContainer: {
     // flexDirection: 'row',
@@ -42,10 +48,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   baseInput: {
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'black',
-    padding: 5,
-    marginTop: 10,
-  },
+    ...basicStyle.baseInput,
+  }
 });

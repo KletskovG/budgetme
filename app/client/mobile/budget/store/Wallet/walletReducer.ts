@@ -10,19 +10,34 @@ import {
   DELETE_WALLET,
   ADD_INCOME,
   ADD_EXPENSE,
-  ADD_TRANSACTION
+  ADD_TRANSACTION,
+  SET_EXPENSE_TRANSACTION,
+  SET_AMOUNT_TRANSACTION
 } from './types';
+import ICategory from '../../interfaces/ICategory';
 
 export type WalletState = {
   wallets: IWallet[];
   loading: boolean;
   error: Error | null;
+  createTransaction: {
+    isExpense: boolean;
+    timestamp: string;
+    category: ICategory | null;
+    amount: number;
+  };
 }
 
 export const initialWalletState: WalletState = {
   wallets: [],
   loading: false,
   error: null,
+  createTransaction: {
+    isExpense: true,
+    timestamp: `${new Date().getTime()}`,
+    amount: 0,
+    category: null,
+  }
 }
 
 export function WalletReducer (
@@ -32,6 +47,7 @@ export function WalletReducer (
   switch (action.type) {
     case GET_WALLETS_PENDING: {
       return {
+        ...state,
         wallets: [...state.wallets],
         loading: true,
         error: null,
@@ -39,6 +55,7 @@ export function WalletReducer (
     }
     case GET_WALLETS_SUCCESS: {
       return {
+        ...state,
         wallets: [...action.payload as IWallet[]],
         loading: false,
         error: null,
@@ -46,6 +63,7 @@ export function WalletReducer (
     }
     case GET_WALLETS_FAILURE: {
       return {
+        ...state,
         wallets: [...state.wallets],
         loading: false,
         error: null,
@@ -60,6 +78,7 @@ export function WalletReducer (
     }
     case ADD_WALLET_SUCCESS: {
       return {
+        ...state,
         wallets: [...state.wallets, action.payload],
         loading: false,
         error: null,
@@ -86,6 +105,24 @@ export function WalletReducer (
       return {
         ...state,
         wallets,
+      }
+    }
+    case SET_EXPENSE_TRANSACTION: {
+      return {
+        ...state,
+        createTransaction: {
+          ...state.createTransaction,
+          isExpense: !state.createTransaction.isExpense,
+        }
+      }
+    }
+    case SET_AMOUNT_TRANSACTION: {
+      return {
+        ...state,
+        createTransaction: {
+          ...state.createTransaction,
+          amount: action.payload,
+        }
       }
     }
     default: {

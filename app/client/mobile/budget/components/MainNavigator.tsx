@@ -26,7 +26,7 @@ const MainNavigator = () => {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({route}: any) => ({
-          tabBarIcon: ({focused, color, size}) => {
+          tabBarIcon: ({focused, color, size}: any) => {
             let iconName: string;
             const imageStyle = StyleSheet.create({
               image: {

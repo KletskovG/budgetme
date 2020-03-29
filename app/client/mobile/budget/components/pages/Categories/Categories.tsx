@@ -2,12 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../store/typeFunctions';
-import ICategory from '../../../interfaces/ICategory';
 import {GetCategoriesAction} from '../../../store/Categories/actions/getCategoriesAction';
 import {CategoriesStyles as styles} from './styles/Categories';
 import {TouchableOpacity, FlatList} from 'react-native-gesture-handler';
 import CreateCategory from './CreateCategory';
-import CreateWallet from '../Wallets/CreateWallet';
 import Category from './Category';
 
 const Categories = () => {

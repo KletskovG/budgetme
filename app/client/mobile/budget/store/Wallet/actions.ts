@@ -1,5 +1,5 @@
 import IWallet from "interfaces/IWallet";
-import { GET_WALLETS_PENDING, GET_WALLETS_SUCCESS, GET_WALLETS_FAILURE, ADD_WALLET_PENDING, ADD_WALLET_SUCCESS, ADD_WALLET_ERROR, DELETE_WALLET, ADD_INCOME, ADD_EXPENSE, ADD_TRANSACTION } from "./types";
+import { GET_WALLETS_PENDING, GET_WALLETS_SUCCESS, GET_WALLETS_FAILURE, ADD_WALLET_PENDING, ADD_WALLET_SUCCESS, ADD_WALLET_ERROR, DELETE_WALLET, ADD_INCOME, ADD_EXPENSE, ADD_TRANSACTION, SET_EXPENSE_TRANSACTION, SET_AMOUNT_TRANSACTION } from "./types";
 import { inferStringLiteral } from "../typeFunctions";
 
 export const addWalletPending = () => ({
@@ -40,5 +40,15 @@ export const deleteWallet = (wallet: IWallet) => ({
 export const addTransaction = (wallet: IWallet) => ({
   type: inferStringLiteral(ADD_TRANSACTION),
   payload: wallet,
-})
+});
+
+export const setExpenseTransaction = () => ({
+  type: inferStringLiteral(SET_EXPENSE_TRANSACTION),
+  payload: null,
+});
+
+export const setAmountTransaction = (amount: number) => ({
+  type: inferStringLiteral(SET_AMOUNT_TRANSACTION),
+  payload: amount,
+});
 

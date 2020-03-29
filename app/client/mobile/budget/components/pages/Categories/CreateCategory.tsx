@@ -3,7 +3,7 @@ import { View, Modal, Text, Button } from 'react-native';
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 import {CreateCategoryStyles as styles} from './styles/CreateCategory';
 import ICreateCategory from './interfaces/ICreateCategory';
-import ModalButtons from '../../../shared/components/ModalButtons';
+import ModalButtons from '../../../shared/components/ModalButtons/ModalButtons';
 import IEmoji from 'interfaces/IEmoji';
 import AsyncStorage from '@react-native-community/async-storage';
 import EmojiList from './EmojiList';
@@ -54,7 +54,7 @@ const CreateCategory = ({isVisible, setVisible}: ICreateCategory) => {
         onRequestClose={() => {}}>
         <View style={styles.container}>
           <View style={styles.formContainer}>
-            <View style={styles.buttons}>
+            {/* <View style={styles.buttons}>
               <Button
                 onPress={() => setVisible(false)}
                 title="Cancel"
@@ -66,7 +66,8 @@ const CreateCategory = ({isVisible, setVisible}: ICreateCategory) => {
                 onPress={() => createCategory()}
                 title={'OK'}
               />
-            </View>
+            </View> */}
+            <ModalButtons title={'Category'} submit={() => { createCategory() }} cancel={() => { setVisible(false)} } />
             <View style={styles.emoji}>
               <Text style={styles.emojiText}>{activeEmoji}</Text>
             </View>

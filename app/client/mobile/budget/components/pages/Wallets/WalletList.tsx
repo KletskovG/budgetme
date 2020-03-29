@@ -10,6 +10,7 @@ import { IWalletList } from './Interfaces/IWalletList';
 import { useDispatch } from 'react-redux';
 import { deleteWalletAction } from '../../../store/Wallet/actions/deleteWallet';
 import {styles} from './styles/WalletList';
+import Categories from '../Categories/Categories';
 
 
 const WalletStack = createStackNavigator();
@@ -97,6 +98,7 @@ const WalletList = ({wallets }:
             />
           );
         })}
+        <WalletStack.Screen name={'Categories'} component={Categories} />
       </WalletStack.Navigator>
     </View>
   );

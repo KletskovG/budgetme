@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import IWallet from '../../../interfaces/IWallet';
 import { mainGreenColor } from '../../../shared/styles/mainStyle';
@@ -11,7 +11,7 @@ import Transaction from './Transaction';
 import ITransaction from 'interfaces/ITransaction';
 import { RootState } from '../../../store/typeFunctions';
 
-const Wallet = ({route}: any) => {
+const Wallet = ({route, navigation}: any) => {
   const [isCreateTransaction, setIsCreateTransaction] = useState<boolean>(false);
 
 
@@ -31,7 +31,6 @@ const Wallet = ({route}: any) => {
     wallet.incomes[i].isExpense = false;
   }
   const transactions: ITransaction[] = [...wallet.expenses.reverse(), ...wallet.incomes.reverse()];
-
 
   const sumOfExpenses = wallet.expenses.reduce((prev, curr) => {
     let num: number = 0;

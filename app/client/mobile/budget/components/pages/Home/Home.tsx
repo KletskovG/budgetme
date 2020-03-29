@@ -9,9 +9,8 @@ const HomeStack = createStackNavigator();
 const Home = ({navigation}) => {
   return (
     <View style={{flex: 1, width: '100%'}}>
-      <HomeStack.Navigator initialRouteName={'Categories'}>
+      <HomeStack.Navigator initialRouteName={'Summary'}>
         <HomeStack.Screen name={'Summary'} component={Summary} />
-        <HomeStack.Screen name={'Categories'} component={Categories} />
       </HomeStack.Navigator>
     </View>
   );
