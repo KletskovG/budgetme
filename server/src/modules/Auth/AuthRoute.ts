@@ -26,7 +26,7 @@ class AuthRoute {
         this.logger.log(`User was authed --- ${user.email}`, 'info');
       } else {
         res.status(500).send('Cant find this user');
-        this.logger.log(`Cant find user -- email: ${user.email}`, 'error');
+        this.logger.log(`Cant find user -- email: ${user.email}  --- ${user.password}`, 'error');
       }
     });
   }
