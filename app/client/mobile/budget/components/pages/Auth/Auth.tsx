@@ -5,6 +5,7 @@ import SignInForm from './SignInForm';
 import {mainBrandColor, whiteColor} from '../../../shared/styles/mainStyle';
 import ValidEmail from '../../../shared/ValidEmail';
 import AsyncStorage from '@react-native-community/async-storage';
+import { getEmojisAction } from '../../../store/Categories/actions/getEmojisAction';
 
 const AuthPage = ({navigateToHome}) => {
   let [isSignInToggled, setSignIn] = useState<boolean | undefined>(true);
@@ -55,6 +56,7 @@ const AuthPage = ({navigateToHome}) => {
         signIn(email, password);
       }
     }
+    getEmojisAction();
     getValues();
   }, []);
 

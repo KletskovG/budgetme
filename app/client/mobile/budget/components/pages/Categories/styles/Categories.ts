@@ -1,17 +1,22 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { mainGreenColor } from "../../../../shared/styles/mainStyle";
 const buttonSize = 40;
 
 export const CategoriesStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   addButton: {
-    width: buttonSize,
+    width: Dimensions.get('window').width * 0.5,
     height: buttonSize,
     backgroundColor: mainGreenColor,
     padding: 10,
-    borderWidth: 1,
-    borderColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 5,
+    marginBottom: 10,
   },
   icon: {
     width: buttonSize / 2,
@@ -19,6 +24,13 @@ export const CategoriesStyles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 25,
-
-  }
+  },
+  text: {
+    color: '#AAA8A5',
+    fontSize: 25,
+    textAlign: 'center',
+  },
+  addText: {
+    color: 'white',
+  },
 });

@@ -1,6 +1,7 @@
-import { GET_CATEGORIES_PENDING, GET_CATEGORIES_SUCCESS, GET_CATEGORIES_ERROR, DELETE_CATEGORY, UPDATE_CATEGORY_PENDING, UPDATE_CATEGORY_SUCCESS, UPDATE_CATEGORY_ERROR, CREATE_CATEGORY_PENDING, CREATE_CATEGORY_SUCCESS, CREATE_CATEGORY_ERROR } from "./types";
+import { GET_CATEGORIES_PENDING, GET_CATEGORIES_SUCCESS, GET_CATEGORIES_ERROR, DELETE_CATEGORY, UPDATE_CATEGORY_PENDING, UPDATE_CATEGORY_SUCCESS, UPDATE_CATEGORY_ERROR, CREATE_CATEGORY_PENDING, CREATE_CATEGORY_SUCCESS, CREATE_CATEGORY_ERROR, GET_EMOJIS } from "./types";
 import {inferStringLiteral} from '../typeFunctions';
 import ICategory from "../../interfaces/ICategory";
+import IEmoji from "../../interfaces/IEmoji";
 
 export const getCategoriesPending = () => ({
   type: inferStringLiteral(GET_CATEGORIES_PENDING),
@@ -53,4 +54,9 @@ export const createCategorySuccess = (category: ICategory) => ({
 export const createCategoryError = (err: Error) => ({
   type: inferStringLiteral(CREATE_CATEGORY_ERROR),
   payload: err
+});
+
+export const getEmojis = (emoji: IEmoji) => ({
+  type: inferStringLiteral(GET_EMOJIS),
+  payload: emoji,
 });

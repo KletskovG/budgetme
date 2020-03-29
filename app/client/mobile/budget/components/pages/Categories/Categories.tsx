@@ -5,16 +5,18 @@ import { RootState } from '../../../store/typeFunctions';
 import ICategory from '../../../interfaces/ICategory';
 import { GetCategoriesAction } from '../../../store/Categories/actions/getCategoriesAction';
 import {CategoriesStyles as styles} from './styles/Categories';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import CreateCategory from './CreateCategory';
 import CreateWallet from '../Wallets/CreateWallet';
+import Category from './Category';
 
 const Categories = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state: RootState) => state.categoriesState);
   const [expenses, setExpenses] = useState<ICategory[]>([]);
   const [incomes, setIncomes] = useState<ICategory[]>([]);
-  const plusIconSource = require('../../../assets/images/Plus.png');
+  const [isCreateActive, setCreate] = useState<boolean>(false);
+
   useEffect(() => {
     setExpenses(categories.expenses);
     setIncomes(categories.incomes);
@@ -24,21 +26,25 @@ const Categories = () => {
     dispatch(GetCategoriesAction());
   }, [])
   return (
-    <View style={{flex: 1}}>
-      <View>
-        <Text style={styles.sectionTitle}>Income</Text>
-        <TouchableOpacity style={styles.addButton}>
-          <Image source={plusIconSource} style={styles.icon} />
-        </TouchableOpacity>
-      </View>
-      <View>
-        <Text style={styles.sectionTitle}>Expense</Text>
-        <TouchableOpacity style={styles.addButton}>
-          <Image source={plusIconSource} style={styles.icon} />
-        </TouchableOpacity>
-      </View>
+    <View style={styles.container}>
+      {[...expenses, ...incomes].length === 0 ? (
+        <View style={styles.container}>
+          <Text style={styles.text}>You dont have any categories ☹️</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={[...expenses, ...incomes]}
+          renderItem={({item}) => <Category />}
+        />
+      )}
+      <TouchableOpacity
+        style={styles.addButton}
+        activeOpacity={0.8}
+        onPress={() => setCreate(true)}>
+        <Text style={styles.addText}>Add category</Text>
+      </TouchableOpacity>
 
-      <CreateCategory />
+      <CreateCategory isVisible={isCreateActive} setVisible={setCreate} />
     </View>
   );
 }
