@@ -42,9 +42,16 @@ export class userCategories {
       const user = await User.findById(req.body.id);
       const categoryId = req.body.categoryId;
       if (!!user) {
-        const category = user.categories.find(
-          element => `${element._id}` === `${categoryId}`
-        );
+        // const category = user.categories.find(
+        //   element => `${element._id}` === `${categoryId}`
+        // );
+        let category: ICategory = null;
+        console.log(`-------------------- \n CAT ID: \n ${categoryId} ------------- \n`);
+        user.categories.forEach(element => {
+          if (`${element._id}` === `${categoryId}`) {
+            category = element;
+          }
+        })
         const index = user.categories.indexOf(category);
         if (index === 0) {
           user.categories.shift();
