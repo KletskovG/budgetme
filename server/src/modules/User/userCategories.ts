@@ -25,7 +25,7 @@ export class userCategories {
           categories.push(req.body.category);
           user.save()
             .then((updatedUser) => {
-              res.status(200).send(JSON.stringify(updatedUser.categories[updatedUser.categories.length -1]));
+              res.status(200).send(JSON.stringify(updatedUser.categories));
               this.logger.log(`Update categories for ${req.body.id} --- ${req.body.category}`, 'info');
             })
         } else {
@@ -53,9 +53,11 @@ export class userCategories {
         } else {
           user.categories.splice(1, index);
         }
-        user.save();
-        res.status(200).send(JSON.stringify(category));
-        this.logger.log(`Delete category ${JSON.stringify(category)} for ${req.body.id}`, 'info');
+        user.save()
+        .then((updatedUser) => {
+          res.status(200).send(JSON.stringify(updatedUser.categories));
+          this.logger.log(`Delete category ${JSON.stringify(category)} for ${req.body.id}`, 'info');
+        })
       } else {
         this.cantFindUser(res);
       }
@@ -74,9 +76,11 @@ export class userCategories {
             category[key] = req.body.update[key];
           }
         }
-        user.save();
-        res.status(200).send(JSON.stringify(user.categories));
-        this.logger.log(`Update user categories: ${user._id} --- ${JSON.stringify(user.categories)}`, 'info');
+        user.save()
+        .then((updatedUser) => {
+          res.status(200).send(JSON.stringify(updatedUser.categories));
+          this.logger.log(`Update user categories: ${user._id} --- ${JSON.stringify(user.categories)}`, 'info');
+        })
       } else {
         this.cantFindUser(res);
       }

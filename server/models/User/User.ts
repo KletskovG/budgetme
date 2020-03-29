@@ -29,7 +29,6 @@ export const schema = new Schema({
     {
       name: String,
       emoji: String,
-      isExpense: String,
     }
   ]
 });
