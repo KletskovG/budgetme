@@ -20,7 +20,7 @@ class AuthRoute {
         categories: [],
       };
 
-      const DBuser = await User.findOne(user);
+      const DBuser = await User.findOne({email: user.email, password: user.password});
       if (!!DBuser) {
         res.status(200).send(JSON.stringify(DBuser));
         this.logger.log(`User was authed --- ${user.email}`, 'info');
