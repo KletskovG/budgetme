@@ -23,9 +23,11 @@ export class userCategories {
         const requestCategory: ICategory = req.body.category as ICategory;
         if (this.validateCategory(requestCategory, user)) {
           categories.push(req.body.category);
-          user.save();
-          res.status(200).send(JSON.stringify(req.body.category));
-          this.logger.log(`Update categories for ${req.body.id} --- ${req.body.category}`, 'info');
+          user.save()
+            .then((updatedUser) => {
+              res.status(200).send(JSON.stringify(updatedUser.categories[updatedUser.categories.length -1]));
+              this.logger.log(`Update categories for ${req.body.id} --- ${req.body.category}`, 'info');
+            })
         } else {
           res.statusMessage = 'Data is invalid';
           res.status(400).send();
@@ -42,16 +44,9 @@ export class userCategories {
       const user = await User.findById(req.body.id);
       const categoryId = req.body.categoryId;
       if (!!user) {
-        // const category = user.categories.find(
-        //   element => `${element._id}` === `${categoryId}`
-        // );
-        let category: ICategory = null;
-        console.log(`-------------------- \n CAT ID: \n ${categoryId} ------------- \n`);
-        user.categories.forEach(element => {
-          if (`${element._id}` === `${categoryId}`) {
-            category = element;
-          }
-        })
+        const category = user.categories.find(
+          element => `${element._id}` === `${categoryId}`
+        );
         const index = user.categories.indexOf(category);
         if (index === 0) {
           user.categories.shift();
