@@ -37,7 +37,8 @@ class Logger {
   try {
     deleteIndexes.forEach((index: number) => {
       const logId = logs[index].id;
-      Log.findByIdAndDelete(logId);
+      Log.findByIdAndDelete(logId)
+        .then(deletedLog => console.log(deletedLog.id))
     });    
   } catch (error) {
     console.log('Cant clear logs');
