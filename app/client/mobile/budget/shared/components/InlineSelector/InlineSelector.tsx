@@ -45,9 +45,10 @@ const styles = StyleSheet.create({
 interface InlineSelectorProps {
   title: string;
   elements: string[];
+  change(index: number): void
 }
 
-const InlineSelector: React.FC<InlineSelectorProps> = ({title, elements}) => {
+const InlineSelector: React.FC<InlineSelectorProps> = ({title, elements, change}) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   
   const computeElementStyle = (index: number) => {
@@ -74,7 +75,7 @@ const InlineSelector: React.FC<InlineSelectorProps> = ({title, elements}) => {
 
   const selectItem = (index: number) => {
     setActiveIndex(index);
-
+    change(index);
   }
 
   return (

@@ -12,7 +12,8 @@ import {
   ADD_EXPENSE,
   ADD_TRANSACTION,
   SET_EXPENSE_TRANSACTION,
-  SET_AMOUNT_TRANSACTION
+  SET_AMOUNT_TRANSACTION,
+  SET_TIME_TRANSACTION
 } from './types';
 import ICategory from '../../interfaces/ICategory';
 
@@ -122,6 +123,18 @@ export function WalletReducer (
         createTransaction: {
           ...state.createTransaction,
           amount: action.payload,
+        }
+      }
+    }
+    case SET_TIME_TRANSACTION: {
+      console.log(action.payload);
+      const date = new Date(action.payload).toISOString();
+      console.log(date)
+      return {
+        ...state,
+        createTransaction: {
+          ...state.createTransaction,
+          timestamp: date,
         }
       }
     }

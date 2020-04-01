@@ -70,7 +70,7 @@ const Wallet = ({route, navigation}: any) => {
         <Text style={{color: 'white', fontSize: 25}}> + </Text>
       </TouchableOpacity>
 
-      <CreateTransaction  isCreateTransaction={isCreateTransaction} close={setIsCreateTransaction} id={wallet._id} />
+      <CreateTransaction  isCreateTransaction={isCreateTransaction} close={setIsCreateTransaction} id={wallet._id}  navigation={navigation} />
 
       <FlatList 
         style={styles.transactions}

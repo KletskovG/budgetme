@@ -9,12 +9,14 @@ import { SummaryStyles } from './styles';
 import { mainGreenColor } from '../../../shared/styles/mainStyle';
 import { getMonthFromNumber } from '../../../shared/utils/getMonthFromNumber';
 import SummaryBlock from './SummaryBlock';
+import { PageLoader } from '../../../shared/';
 
 const Summary = () => {
   const dispatch = useDispatch();
   const homeState: HomeState = useSelector(
     (state: RootState) => state.homeState,
   );
+  const isLoading: boolean = useSelector((state: RootState) => homeState.loading);
   const currentMonth = getMonthFromNumber(new Date().getMonth() + 1);
   const balanseColorStyle = (balanse: number) => {
     const style = {

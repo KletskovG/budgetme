@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Modal, TouchableOpacity, TextInput, TouchableHighlight, Text, StyleSheet, Button } from 'react-native'
+import { View, Modal, TouchableOpacity, TextInput, TouchableHighlight, Text, StyleSheet, Button, DatePickerIOS } from 'react-native'
 import { styles } from './styles/CreateTransaction';
 import { ICreateTransaction } from './Interfaces/ICreateTransaction';
 import { mainBrandColor, mainGreenColor } from '../../../shared/styles/mainStyle';
@@ -11,20 +11,37 @@ import TransactionSelector from './TransactionSelector';
 import { RootState } from '../../../store/typeFunctions';
 import ModalButtons from '../../../shared/components/ModalButtons/ModalButtons';
 import LineSwitch from '../../../shared/components/LineSwitch/LineSwitch';
-import { setExpenseTransaction } from '../../../store/Wallet';
+import { setExpenseTransaction, setTimeTransaction } from '../../../store/Wallet';
 import {InlineSelector} from '../../../shared/components/';
 
 type transactionTime = 'yesterday' | 'today' | 'other';
 
-const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction) => {
+const CreateTransaction = ({isCreateTransaction, close, id, navigation}: ICreateTransaction) => {
   const dispatch = useDispatch();
   const [time, setTime] = useState<transactionTime>('today');
   const [transaction, setTransaction] = useState<ITransaction>({ count: 0, category: ''});
   const [selectedDate, setDate] = useState<Date>(new Date(new Date().getTime()));
   const transactionState = useSelector((state: RootState) => state.walletState.createTransaction);
+  
+  const inlineDateElements = ['Yesteday', 'Today', 'Other']; 
+
   useEffect(() => {
     setTime('today');
   }, [isCreateTransaction]);
+
+  const selectDate = (index: number) => {
+    const str = `${inlineDateElements[index].toLowerCase()}`;
+    setTime(str as transactionTime);
+    if (time === 'yesterday') {
+      const date = new Date(new Date().getTime() - 86400000).toISOString(); // Set yesterday date
+      dispatch(setTimeTransaction(date));
+    } else if (time === 'today') {
+      const date = new Date().toISOString();
+      dispatch(setTimeTransaction(date));
+    } else {
+
+    }
+  }
 
   return (
     <View>
@@ -55,8 +72,10 @@ const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction)
               <LineSwitch title={'Expense'} change={() => { dispatch(setExpenseTransaction()) }}/>
             </View>
             <View>
-              <Button title={'Select Category'} onPress={() => {}} />
-              <InlineSelector title={'Date'} elements={['Yesteday', 'Today', 'Other', 'Next']} />
+              <Button title={'Select Category'} onPress={() => {
+                navigation.navigate('Categories')
+              }} />
+              <InlineSelector title={'Date'} elements={inlineDateElements} change={(index) => { selectDate(index) }}/>
               <TextInput
                 onChangeText={count =>
                   setTransaction({...transaction, count: Number(count)})
@@ -70,7 +89,11 @@ const CreateTransaction = ({isCreateTransaction, close, id}: ICreateTransaction)
                 <DateTimePicker
                   mode="date"
                   value={selectedDate}
-                  onChange={(event, date) => setDate(new Date(`${date}`))}
+                  onChange={(event, date) => {
+                    const createdDate = new Date(`${date}`);
+                    setDate(createdDate)
+                    dispatch(setTimeTransaction(createdDate.toISOString()));
+                  }}
                 />
               ) : null}
             </View>

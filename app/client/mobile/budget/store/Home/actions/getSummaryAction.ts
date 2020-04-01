@@ -1,9 +1,10 @@
 import { Dispatch } from "react"
 import { config } from "../../../core/config"
-import { getSummarySuccess, getSummaryError } from "../actions"
+import { getSummarySuccess, getSummaryError, getSummaryPending } from "../actions"
 
 export const getSummaryAction = (id: string) => {
   return async (dispatch: Dispatch<any>) => {
+    dispatch(getSummaryPending());
     return fetch(`${config.baseUrl}/user/${id}/summary`)
       .then(res => {
         if (res.status === 200) {
