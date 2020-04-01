@@ -49,5 +49,16 @@ export const styles = StyleSheet.create({
   },
   baseInput: {
     ...basicStyle.baseInput,
+    marginTop: 20,
+  },
+  categoryContainer: {
+    width: Dimensions.get('window').width,
+    padding: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderColor: '#000',
   }
 });

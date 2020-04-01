@@ -2,10 +2,11 @@ import React from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import ICategory from '../../../interfaces/ICategory';
 import {CategoryStyles as styles} from './styles/Category';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DeleteCategoryAction } from '../../../store/Categories/actions/deleteCategoryAction';
+import { setCategoryTransaction } from '../../../store/Wallet';
 
-const Category = ({category}: {category: ICategory}) => {
+const Category = ({category, navigation}: {category: ICategory, navigation: any}) => {
   const str = `${category.emoji} ${category.name}`;
   const dispatch = useDispatch();
   const deleteCategory = (id: string) => {
@@ -18,7 +19,11 @@ const Category = ({category}: {category: ICategory}) => {
   return (
     <TouchableOpacity 
     style={styles.container}
-      onLongPress={() => deleteCategory(`${category._id}`)}>
+    onPress={() => {
+      dispatch(setCategoryTransaction(category));
+      navigation.goBack();
+    }}
+    onLongPress={() => deleteCategory(`${category._id}`)}>
       <Text style={styles.text}>{str}</Text>
     </TouchableOpacity>
   );

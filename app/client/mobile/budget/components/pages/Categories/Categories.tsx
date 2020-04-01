@@ -8,7 +8,7 @@ import {TouchableOpacity, FlatList} from 'react-native-gesture-handler';
 import CreateCategory from './CreateCategory';
 import Category from './Category';
 
-const Categories = () => {
+const Categories = ({navigation}: any) => {
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => state.categoriesState);
   const categories = useSelector((state:RootState) => state.categoriesState.categories);
@@ -26,9 +26,8 @@ const Categories = () => {
       ) : (
         <FlatList
           data={categories}
-          renderItem={({item}) => <Category category={item} />}
+          renderItem={({item}) => <Category category={item}  navigation={navigation} />}
           keyExtractor={(item, index) => `${item._id}`}
-          key={(index: number) => index}
         />
       )}
       <TouchableOpacity

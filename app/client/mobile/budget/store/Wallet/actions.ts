@@ -1,6 +1,7 @@
 import IWallet from "interfaces/IWallet";
-import { GET_WALLETS_PENDING, GET_WALLETS_SUCCESS, GET_WALLETS_FAILURE, ADD_WALLET_PENDING, ADD_WALLET_SUCCESS, ADD_WALLET_ERROR, DELETE_WALLET, ADD_INCOME, ADD_EXPENSE, ADD_TRANSACTION, SET_EXPENSE_TRANSACTION, SET_AMOUNT_TRANSACTION, SET_TIME_TRANSACTION } from "./types";
+import { GET_WALLETS_PENDING, GET_WALLETS_SUCCESS, GET_WALLETS_FAILURE, ADD_WALLET_PENDING, ADD_WALLET_SUCCESS, ADD_WALLET_ERROR, DELETE_WALLET, ADD_INCOME, ADD_EXPENSE, ADD_TRANSACTION, SET_EXPENSE_TRANSACTION, SET_AMOUNT_TRANSACTION, SET_TIME_TRANSACTION, SET_CATEGORY_TRANSACTION, SET_ACTIVE_WALLET } from "./types";
 import { inferStringLiteral } from "../typeFunctions";
+import ICategory from "interfaces/ICategory";
 
 export const addWalletPending = () => ({
   type: inferStringLiteral(ADD_WALLET_PENDING),
@@ -55,5 +56,15 @@ export const setTimeTransaction = (time: string) => ({
 export const setAmountTransaction = (amount: number) => ({
   type: inferStringLiteral(SET_AMOUNT_TRANSACTION),
   payload: amount,
+});
+
+export const setCategoryTransaction = (category: ICategory) => ({
+  type: inferStringLiteral(SET_CATEGORY_TRANSACTION),
+  payload: category,
+});
+
+export const setActiveWallet = (id: string) => ({
+  type: inferStringLiteral(SET_ACTIVE_WALLET),
+  payload: id,
 });
 

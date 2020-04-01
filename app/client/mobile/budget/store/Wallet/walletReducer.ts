@@ -13,7 +13,9 @@ import {
   ADD_TRANSACTION,
   SET_EXPENSE_TRANSACTION,
   SET_AMOUNT_TRANSACTION,
-  SET_TIME_TRANSACTION
+  SET_TIME_TRANSACTION,
+  SET_CATEGORY_TRANSACTION,
+  SET_ACTIVE_WALLET
 } from './types';
 import ICategory from '../../interfaces/ICategory';
 
@@ -26,6 +28,7 @@ export type WalletState = {
     timestamp: string;
     category: ICategory | null;
     amount: number;
+    activeWallet: string;
   };
 }
 
@@ -38,6 +41,7 @@ export const initialWalletState: WalletState = {
     timestamp: `${new Date().getTime()}`,
     amount: 0,
     category: null,
+    activeWallet: '',
   }
 }
 
@@ -135,6 +139,24 @@ export function WalletReducer (
         createTransaction: {
           ...state.createTransaction,
           timestamp: date,
+        }
+      }
+    }
+    case SET_CATEGORY_TRANSACTION: {
+      return {
+        ...state,
+        createTransaction: {
+          ...state.createTransaction,
+          category: action.payload,
+        }
+      }
+    }
+    case SET_ACTIVE_WALLET: {
+      return {
+        ...state,
+        createTransaction: {
+          ...state.createTransaction,
+          activeWallet: action.payload,
         }
       }
     }

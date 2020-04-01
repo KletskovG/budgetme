@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Modal, TouchableOpacity, TextInput, TouchableHighlight, Text, StyleSheet, Button, DatePickerIOS } from 'react-native'
+import { View, Modal, TouchableOpacity, TextInput, TouchableHighlight, Text, StyleSheet, Button, DatePickerIOS, Image } from 'react-native'
 import { styles } from './styles/CreateTransaction';
 import { ICreateTransaction } from './Interfaces/ICreateTransaction';
 import { mainBrandColor, mainGreenColor } from '../../../shared/styles/mainStyle';
@@ -22,7 +22,7 @@ const CreateTransaction = ({isCreateTransaction, close, id, navigation}: ICreate
   const [transaction, setTransaction] = useState<ITransaction>({ count: 0, category: ''});
   const [selectedDate, setDate] = useState<Date>(new Date(new Date().getTime()));
   const transactionState = useSelector((state: RootState) => state.walletState.createTransaction);
-  
+  const arrowImageSource = require('../../../assets/images/arrow.png');
   const inlineDateElements = ['Yesteday', 'Today', 'Other']; 
 
   useEffect(() => {
@@ -41,6 +41,8 @@ const CreateTransaction = ({isCreateTransaction, close, id, navigation}: ICreate
     } else {
 
     }
+
+    console.log(index)
   }
 
   return (
@@ -71,10 +73,20 @@ const CreateTransaction = ({isCreateTransaction, close, id, navigation}: ICreate
             <View style={styles.expenseContainer}>
               <LineSwitch title={'Expense'} change={() => { dispatch(setExpenseTransaction()) }}/>
             </View>
-            <View>
-              <Button title={'Select Category'} onPress={() => {
-                navigation.navigate('Categories')
-              }} />
+            <View style={{ alignItems: 'center' }} >
+              <TouchableOpacity 
+                onPress={() => {
+                  navigation.navigate('Categories')
+                  close(false)
+                }}
+                style={styles.categoryContainer}>
+                <Text style={{ fontSize: 20 }} >Category</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                  <Text style={{ fontSize: 20, marginRight: 10, }} >Empty</Text>
+                  <Image style={{ width: 30, height: 30 }} source={arrowImageSource} />
+                </View>
+              </TouchableOpacity>
+              
               <InlineSelector title={'Date'} elements={inlineDateElements} change={(index) => { selectDate(index) }}/>
               <TextInput
                 onChangeText={count =>

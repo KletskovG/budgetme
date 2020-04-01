@@ -4,8 +4,8 @@ import IWallet from '../../../interfaces/IWallet';
 import { mainGreenColor } from '../../../shared/styles/mainStyle';
 import {styles} from './styles/Wallet';
 import CreateTransaction from './CreateTransaction';
-import { useSelector } from 'react-redux';
-import { WalletState } from 'store/Wallet';
+import { useSelector, useDispatch } from 'react-redux';
+import { WalletState, setActiveWallet } from '../../../store/Wallet';
 import { FlatList } from 'react-native-gesture-handler';
 import Transaction from './Transaction';
 import ITransaction from 'interfaces/ITransaction';
@@ -13,14 +13,14 @@ import { RootState } from '../../../store/typeFunctions';
 
 const Wallet = ({route, navigation}: any) => {
   const [isCreateTransaction, setIsCreateTransaction] = useState<boolean>(false);
-
+  const dispatch = useDispatch();
 
   const wallet = useSelector((state: RootState) => {
     const wallets = state.walletState.wallets;
     const requiredWallet = wallets.find((wallet: IWallet) => wallet._id === route.params.wallet._id); 
     const walletIndex = wallets.indexOf(requiredWallet as IWallet);
     return wallets[walletIndex];
-  })
+  });
 
   const expensesLength = wallet.expenses.length;
   for (let i = 0; i < expensesLength; i++) {
@@ -46,6 +46,11 @@ const Wallet = ({route, navigation}: any) => {
     }
     return prev + num;
   }, 0);
+
+  useEffect(() => {
+    dispatch(setActiveWallet(route.params.wallet._id));
+  }, [])
+
 
   return (
     <View style={styles.container}>
