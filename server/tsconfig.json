@@ -1,41 +1,74 @@
+// {
+//   "compilerOptions": {
+//     "baseUrl": "./",
+//     "paths": {
+//       "@app/*": [
+//         "app/*"
+//       ],
+//       "@modules/*": [
+//         "src/app/modules/*"
+//       ],
+//       "@core/*": [
+//         "src/core/*"
+//       ],
+//       "@shared/*": [
+//         "src/app/shared/*"
+//       ],
+//       "@models/*": [
+//         "app/models/*"
+//       ],
+//     },
+//     "module": "commonjs",
+//     "esModuleInterop": true,
+//     "target": "es6",
+//     "moduleResolution": "node",
+//     "sourceMap": true,
+//     "outDir": "dist",
+//     "types": [
+//       "node",
+//       "express",
+//       "mongoose",
+//     ],
+//   },
+//   "quotemark": [
+//     true,
+//     "single",
+//     "jsx-double"
+//   ],
+//   "lib": [
+//     "es2015"
+//   ]
+// }
+
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@app/*": [
-        "app/*"
-      ],
-      "@modules/*": [
-        "src/app/modules/*"
-      ],
-      "@core/*": [
-        "src/core/*"
-      ],
-      "@shared/*": [
-        "src/app/shared/*"
-      ],
-      "@models/*": [
-        "app/models/*"
-      ],
-    },
-    "module": "commonjs",
-    "esModuleInterop": true,
     "target": "es6",
-    "moduleResolution": "node",
-    "sourceMap": true,
+    "module": "commonjs",
     "outDir": "dist",
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "types": [
       "node",
       "express",
       "mongoose",
+      "jest",
+      "supertest",
     ],
+    "paths": {
+      "*": [
+        "node_modules/",
+      ],
+      "typings/*": [
+        "src/typings/*"
+      ]
+    },
   },
-  "quotemark": [
-    true,
-    "single",
-    "jsx-double"
+  "include": [
+    "**/*.ts"
   ],
-  "lib": [
-    "es2015"
+  "exclude": [
+    "tests/**/*.spec.ts",
+    "node_modules",
   ]
 }

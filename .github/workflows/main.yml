@@ -1,6 +1,9 @@
 name: CI
 
-on: [push]
+on:  
+  push:
+   branches:
+    - master
 
 jobs:
   build:
@@ -14,14 +17,31 @@ jobs:
       run: |
         cd server
         npm i
-        npm run build
-    - name: Build docker container
-      uses: elgohr/Publish-Docker-Github-Action@master        
-      with:
-        name: kletskovg/budget:latest
-        username: ${{secrets.DOCKER_LOGIN}}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        context: ./server
-    - name: Pull budget
-      run: |
+        npm run Build
+        npm run test
+    # - name: Build docker container
+    #   uses: elgohr/Publish-Docker-Github-Action@master        
+    #   with:
+    #     name: kletskovg/budget:latest
+    #     username: ${{secrets.DOCKER_LOGIN}}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+    #     context: ./server
+    # - name: Pull budget
+    #   run: |
+    #       curl ${{ secrets.PULL_BUDGET }}
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [12]
+    steps:
+      - name: Build docker container
+      - uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: kletskovg/budget:latest
+          username: ${{secrets.DOCKER_LOGIN}}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: ./server
+      - name: Pull budget container
+        run: |
           curl ${{ secrets.PULL_BUDGET }}

@@ -32,3 +32,5 @@ db()
   .catch(err => {
     console.log('An error occured while connecting to db ' + err);
   });
+
+export default app;
