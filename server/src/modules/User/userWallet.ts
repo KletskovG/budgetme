@@ -28,7 +28,7 @@ class UserWallet  {
   }
 
   private getWallets() {
-    this.app.get('/user/:email/wallet', async (req, res) => {
+    this.app.get('/user/:email/wallets', async (req, res) => {
       const email = req.params.email;
       const walletName = req.params.name;
       const wallets = await Wallet.find({ owner: email });

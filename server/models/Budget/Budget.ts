@@ -52,10 +52,6 @@ const schema = new Schema({
     }
   ],
   // TODO: check for type like in IBudgetBase
-  // {
-  //   type: String
-  //   enum: []
-  // }
   currency: String,
 });
 

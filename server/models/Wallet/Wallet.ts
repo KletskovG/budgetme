@@ -15,7 +15,6 @@ export interface IWallet extends mongoose.Document {
     }?
   ];
   incomes: IIncome[];
-  name: string;
 }
 
 export interface IWalletBase {

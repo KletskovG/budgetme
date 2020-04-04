@@ -13,30 +13,34 @@ class CreateWallet {
     this.logger = new Logger();
     this.createWallet();
   }
-  private createWallet(): void {
-    this.app.post('/wallet',  async  (req, res) => {
-      const user = await User.findOne({email: req.body.email});
-      if (!!user) {
-        const wallet: IWalletBase = {
-          amount: 0,
-          owner: req.body.email,
-          expenses: [],
-          incomes: [],
-          name: req.body.name,
-        }
 
-        Wallet.create(wallet)
-        .then(createdWallet => res.status(200).send(JSON.stringify(createdWallet)))
-        .catch((err: Error) => {
-          res.statusMessage = err.message;
-          res.status(500).send();
-          this.logger.log(`Cant create wallet ${req.body}`, 'error');
+  // TODO: refactor
+  private createWallet(): void {
+    this.app.post('/wallet/create', (req, res) => {
+      const email = req.body.email;
+      User.findOne({ email })
+        .then((findedUser) => {
+          if (!!findedUser) {
+            const wallet: IWalletBase = {
+              amount: 0,
+              owner: email,
+              expenses: [],
+              incomes: [],
+              name: req.body.name,
+            };
+
+            Wallet.create({...wallet})
+              .then((createdWallet) => res.status(200).send(JSON.stringify(createdWallet)))
+              .catch((err: Error) => {
+                res.status(500).send(err);
+                this.logger.log('Cant create wallet (Create wallet)', 'error');
+              });
+          } else {
+            res.status(500).send('Cant find user');
+            this.logger.log('Cant find user (Create wallet)', 'error');
+          }
         })
-      } else {
-        res.statusMessage = 'Cant find this user';
-        res.status(404).send();
-        this.logger.log(`Cant find user email ::: ${req.body.email} (/wallet create)`, 'error');
-      }
+        .catch((err: Error) => res.status(500).send(err));
     })
   }
 }

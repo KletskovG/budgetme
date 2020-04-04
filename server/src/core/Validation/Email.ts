@@ -1,3 +1,5 @@
+// TODO: Test this class for validity
+
 class ValidEmail {
   public isValid: boolean = null;
   constructor(email: string) {

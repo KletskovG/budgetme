@@ -3,7 +3,7 @@ import IExpense from '../../../models/Wallet/IExpense';
 import Logger from '../../core/Logger';
 import ValidEmail from '../../core/Validation/Email';
 import BudgetService from '../Budget/BudgetService';
-import ITransaction from 'interfaces/ITransaction';
+import ITransaction from '../../../interfaces/ITransaction';
 import { Budget } from '../../../models/Budget/Budget';
 import Wallet, { IWallet, IWalletBase } from '../../../models/Wallet/Wallet';
 
