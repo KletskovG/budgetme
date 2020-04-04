@@ -19,16 +19,6 @@ jobs:
         npm i
         npm run build
         npm run test
-    # - name: Build docker container
-    #   uses: elgohr/Publish-Docker-Github-Action@master        
-    #   with:
-    #     name: kletskovg/budget:latest
-    #     username: ${{secrets.DOCKER_LOGIN}}
-    #     password: ${{ secrets.DOCKER_PASSWORD }}
-    #     context: ./server
-    # - name: Pull budget
-    #   run: |
-    #       curl ${{ secrets.PULL_BUDGET }}
   deploy:
     runs-on: ubuntu-latest
     strategy:
@@ -36,6 +26,11 @@ jobs:
         node_version: [12]
     needs: build
     steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          version: ${{ matrix.node_version }}
       - name: Build docker container
         uses: elgohr/Publish-Docker-Github-Action@master        
         with:
