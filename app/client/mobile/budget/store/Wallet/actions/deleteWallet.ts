@@ -9,8 +9,8 @@ export const deleteWalletAction = (wallet: IWallet) => {
   console.log(wallet);
   return async (dispatch: Dispatch<any>) => {
     const email = await AsyncStorage.getItem('@email');
-    return fetch(`${config.baseUrl}/wallet/delete`, {
-      method: 'post',
+    return fetch(`${config.baseUrl}/wallet`, {
+      method: 'delete',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

@@ -20,7 +20,6 @@ class UserInfo {
       const user = await User.findById(id);
 
       if (!!user) {
-        // TODO: replace it with findByid
         const userWallets: IWallet[] = await Wallet.find({owner: user.email});
         const userBalanse: number = userWallets.reduce((prev, curr) => {
           return prev + curr.amount;
@@ -38,20 +37,6 @@ class UserInfo {
       }
     });
   }
-
-  // private async getUserExpenses(wallets: IWallet[]): number {
-  //   const currentDate = new Date(new Date().toISOString()).getTime();
-  //   const expenses = wallets.reduce((prev, wallet) => {
-  //     const walletLastExpenses = wallet.expenses.filter(expense => {
-  //       const expenseDate = new Date(expense.createdAt).getTime();
-  //       if (currentDate - expenseDate < 86400000 * 30) {
-  //         return true;
-  //       } else return false;
-  //     });
-
-  //     return walletLastExpenses.reduce((prev, curr) => prev + curr.count)
-  //   })
-  // }
 }
 
 export default UserInfo;

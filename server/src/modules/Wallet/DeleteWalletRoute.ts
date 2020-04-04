@@ -11,7 +11,7 @@ class DeleteWallet {
   }
 
   private deleteWallet() {
-    this.app.post('/wallet/delete', async (req, res) => {
+    this.app.delete('/wallet', async (req, res) => {
       const email = req.body.email;
       const id = req.body.id;
 

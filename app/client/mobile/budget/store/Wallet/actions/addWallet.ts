@@ -8,7 +8,7 @@ export const addWalletAction = (name: string) => {
   return async (dispatch: Dispatch<any>) => {
     const email = await AsyncStorage.getItem('@email');
     dispatch(addWalletPending());
-    return fetch(`${config.baseUrl}/wallet/create`, {
+    return fetch(`${config.baseUrl}/wallet`, {
       method: 'post',
       headers: {
         Accept: 'application/json',

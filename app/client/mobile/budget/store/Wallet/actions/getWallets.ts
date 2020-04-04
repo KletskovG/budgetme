@@ -9,7 +9,7 @@ export function getWalletsAction() {
   return async (dispatch: Dispatch<any>) => {
     const email = await AsyncStorage.getItem('@email');
     dispatch(getWalletsPending());
-    return fetch(`${config.baseUrl}/user/${email}/wallets`)
+    return fetch(`${config.baseUrl}/user/${email}/wallet`)
       .then(res => res.json())
       .then(json =>  {
         dispatch(getWalletsSuccess(json));
