@@ -34,14 +34,15 @@ jobs:
     strategy:
       matrix:
         node_version: [12]
+    needs: build
     steps:
       - name: Build docker container
-      - uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@master        
         with:
           name: kletskovg/budget:latest
           username: ${{secrets.DOCKER_LOGIN}}
           password: ${{ secrets.DOCKER_PASSWORD }}
           context: ./server
-      - name: Pull budget container
+      - name: Pull budget
         run: |
-          curl ${{ secrets.PULL_BUDGET }}
+            curl ${{ secrets.PULL_BUDGET }}
