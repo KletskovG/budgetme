@@ -17,7 +17,7 @@ jobs:
       run: |
         cd server
         npm i
-        npm run Build
+        npm run build
         npm run test
     # - name: Build docker container
     #   uses: elgohr/Publish-Docker-Github-Action@master        
