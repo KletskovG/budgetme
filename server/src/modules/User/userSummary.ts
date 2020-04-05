@@ -19,16 +19,23 @@ class userSummary {
     this.app.get('/user/:id/summary', async (req, res) => {
       const user = await User.findById(req.params.id);
       let wallets: IWallet[];
-      if (!!user) {
-        wallets = await Wallet.find({ owner: user.email });
-        const summary: ISummary = this.countSummary(wallets);
-        res.status(200).send(JSON.stringify(summary));
-        this.logger.log(`Send user summary to  --- ${user.email} --- summary: ${JSON.stringify(summary)}`, 'info');
-      } else {
-        res.statusMessage = 'Cant find this user';
+      try {
+        if (!!user) {
+          wallets = await Wallet.find({ owner: user.email });
+          const summary: ISummary = this.countSummary(wallets);
+          res.status(200).send(JSON.stringify(summary));
+          this.logger.log(`Send user summary to  --- ${user.email} --- summary: ${JSON.stringify(summary)}`, 'info');
+        } else {
+          res.statusMessage = 'Cant find this user';
+          res.status(500).send();
+          this.logger.log(`Cant find user   ID:  ${req.params.id}`, 'error');
+        }
+      } catch (error) {
+        res.statusMessage = 'Server error';
         res.status(500).send();
-        this.logger.log(`Cant find user   ID:  ${req.params.id}`, 'error');
+        this.logger.log('Unknown server error (Summary)', 'error');
       }
+      
     });
   }
 
