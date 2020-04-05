@@ -4,7 +4,7 @@ import ICategory from '../../../interfaces/ICategory';
 import {CategoryStyles as styles} from './styles/Category';
 import { useDispatch, useSelector } from 'react-redux';
 import { DeleteCategoryAction } from '../../../store/Categories/actions/deleteCategoryAction';
-import { setCategoryTransaction } from '../../../store/Wallet';
+import { setCategoryTransaction, toggleCreating } from '../../../store/Wallet';
 
 const Category = ({category, navigation}: {category: ICategory, navigation: any}) => {
   const str = `${category.emoji} ${category.name}`;
@@ -21,6 +21,7 @@ const Category = ({category, navigation}: {category: ICategory, navigation: any}
     style={styles.container}
     onPress={() => {
       dispatch(setCategoryTransaction(category));
+      dispatch(toggleCreating());
       navigation.goBack();
     }}
     onLongPress={() => deleteCategory(`${category._id}`)}>

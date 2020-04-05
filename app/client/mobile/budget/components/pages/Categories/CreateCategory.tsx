@@ -54,19 +54,6 @@ const CreateCategory = ({isVisible, setVisible}: ICreateCategory) => {
         onRequestClose={() => {}}>
         <View style={styles.container}>
           <View style={styles.formContainer}>
-            {/* <View style={styles.buttons}>
-              <Button
-                onPress={() => setVisible(false)}
-                title="Cancel"
-              />
-              <Text style={styles.buttonsText}>
-                Category
-              </Text>
-              <Button 
-                onPress={() => createCategory()}
-                title={'OK'}
-              />
-            </View> */}
             <ModalButtons title={'Category'} submit={() => { createCategory() }} cancel={() => { setVisible(false)} } />
             <View style={styles.emoji}>
               <Text style={styles.emojiText}>{activeEmoji}</Text>

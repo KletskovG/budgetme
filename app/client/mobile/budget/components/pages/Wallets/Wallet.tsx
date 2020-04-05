@@ -5,14 +5,15 @@ import { mainGreenColor } from '../../../shared/styles/mainStyle';
 import {styles} from './styles/Wallet';
 import CreateTransaction from './CreateTransaction';
 import { useSelector, useDispatch } from 'react-redux';
-import { WalletState, setActiveWallet } from '../../../store/Wallet';
+import { WalletState, setActiveWallet, toggleCreating } from '../../../store/Wallet';
 import { FlatList } from 'react-native-gesture-handler';
 import Transaction from './Transaction';
 import ITransaction from 'interfaces/ITransaction';
 import { RootState } from '../../../store/typeFunctions';
 
 const Wallet = ({route, navigation}: any) => {
-  const [isCreateTransaction, setIsCreateTransaction] = useState<boolean>(false);
+  // const [isCreateTransaction, setIsCreateTransaction] = useState<boolean>(false);
+  const isCreateTransaction = useSelector((state: RootState) => state.walletState.createTransaction.isCreating);
   const dispatch = useDispatch();
 
   const wallet = useSelector((state: RootState) => {
@@ -70,12 +71,12 @@ const Wallet = ({route, navigation}: any) => {
       </View>
 
       <TouchableOpacity
-        onPress={() => setIsCreateTransaction(true)}
+        onPress={() => dispatch(toggleCreating())}
         style={styles.addButton}>
         <Text style={{color: 'white', fontSize: 25}}> + </Text>
       </TouchableOpacity>
 
-      <CreateTransaction  isCreateTransaction={isCreateTransaction} close={setIsCreateTransaction} id={wallet._id}  navigation={navigation} />
+      <CreateTransaction close={() => {dispatch(toggleCreating())}} id={wallet._id}  navigation={navigation} />
 
       <FlatList 
         style={styles.transactions}

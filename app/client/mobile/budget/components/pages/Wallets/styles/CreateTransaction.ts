@@ -49,6 +49,7 @@ export const styles = StyleSheet.create({
   },
   baseInput: {
     ...basicStyle.baseInput,
+    alignSelf: 'center',
     marginTop: 20,
   },
   categoryContainer: {

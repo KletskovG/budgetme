@@ -11,45 +11,62 @@ import TransactionSelector from './TransactionSelector';
 import { RootState } from '../../../store/typeFunctions';
 import ModalButtons from '../../../shared/components/ModalButtons/ModalButtons';
 import LineSwitch from '../../../shared/components/LineSwitch/LineSwitch';
-import { setExpenseTransaction, setTimeTransaction } from '../../../store/Wallet';
+import { setExpenseTransaction, setTimeTransaction, toggleCreating, setAmountTransaction } from '../../../store/Wallet';
 import {InlineSelector} from '../../../shared/components/';
 
 type transactionTime = 'yesterday' | 'today' | 'other';
 
-const CreateTransaction = ({isCreateTransaction, close, id, navigation}: ICreateTransaction) => {
+const CreateTransaction = ({close, id, navigation}: ICreateTransaction) => {
   const dispatch = useDispatch();
   const [time, setTime] = useState<transactionTime>('today');
-  const [transaction, setTransaction] = useState<ITransaction>({ count: 0, category: ''});
   const [selectedDate, setDate] = useState<Date>(new Date(new Date().getTime()));
   const transactionState = useSelector((state: RootState) => state.walletState.createTransaction);
   const arrowImageSource = require('../../../assets/images/arrow.png');
   const inlineDateElements = ['Yesteday', 'Today', 'Other']; 
 
-  useEffect(() => {
-    setTime('today');
-  }, [isCreateTransaction]);
+  const isVisible = useSelector((state: RootState) => state.walletState.createTransaction.isCreating);
 
   const selectDate = (index: number) => {
+    console.log(index);
     const str = `${inlineDateElements[index].toLowerCase()}`;
+    console.log(str);
     setTime(str as transactionTime);
     if (time === 'yesterday') {
       const date = new Date(new Date().getTime() - 86400000).toISOString(); // Set yesterday date
       dispatch(setTimeTransaction(date));
     } else if (time === 'today') {
-      const date = new Date().toISOString();
+      const date = new Date(new Date().getTime()).toISOString();
       dispatch(setTimeTransaction(date));
     } else {
 
     }
+  }
 
-    console.log(index)
+  const computeCategoryStr = () => {
+    const str = transactionState.category?.emoji as string + transactionState.category?.name;
+    if (!!str) {
+      return str;
+    } else {
+      return 'Empty';
+    }
+  }
+
+  const createTransaction = () => {
+    const transaction: ITransaction = {
+      count: transactionState.amount,
+      category: `${transactionState.category?.emoji} ${transactionState.category?.name}`,
+      timestamp: selectedDate.toISOString(),
+    }
+
+    dispatch(addTransactionAction(id, transaction, transactionState.isExpense));
+    dispatch(toggleCreating());
   }
 
   return (
     <View>
       <Modal
         transparent={true}
-        visible={isCreateTransaction}
+        visible={isVisible}
         onRequestClose={() => {}}
         animationType={'slide'}>
         <TouchableOpacity
@@ -57,14 +74,13 @@ const CreateTransaction = ({isCreateTransaction, close, id, navigation}: ICreate
           style={styles.container}
           activeOpacity={1}>
           <TouchableOpacity
-            onPress={() => close(true)}
+            onPress={() => close(false)}
             activeOpacity={1}
             style={styles.formContainer}>
             <ModalButtons
               title={'Transaction'}
               submit={() => {
-                // createTransaction(transaction);
-                
+                createTransaction();
               }}
               cancel={() => {
                 close(false);
@@ -73,16 +89,18 @@ const CreateTransaction = ({isCreateTransaction, close, id, navigation}: ICreate
             <View style={styles.expenseContainer}>
               <LineSwitch title={'Expense'} change={() => { dispatch(setExpenseTransaction()) }}/>
             </View>
-            <View style={{ alignItems: 'center' }} >
+            <View  >
               <TouchableOpacity 
                 onPress={() => {
                   navigation.navigate('Categories')
-                  close(false)
+                  dispatch(toggleCreating());
                 }}
                 style={styles.categoryContainer}>
                 <Text style={{ fontSize: 20 }} >Category</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                  <Text style={{ fontSize: 20, marginRight: 10, }} >Empty</Text>
+                  <Text style={{ fontSize: 20, marginRight: 10, }} > 
+                    {computeCategoryStr()}
+                  </Text>
                   <Image style={{ width: 30, height: 30 }} source={arrowImageSource} />
                 </View>
               </TouchableOpacity>
@@ -90,12 +108,13 @@ const CreateTransaction = ({isCreateTransaction, close, id, navigation}: ICreate
               <InlineSelector title={'Date'} elements={inlineDateElements} change={(index) => { selectDate(index) }}/>
               <TextInput
                 onChangeText={count =>
-                  setTransaction({...transaction, count: Number(count)})
+                  dispatch(setAmountTransaction(Number.parseFloat(count)))
                 }
                 keyboardType={'numeric'}
                 placeholder={'0.00'}
                 style={styles.baseInput}
               />
+
 
               {time === 'other' ? (
                 <DateTimePicker

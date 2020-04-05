@@ -17,30 +17,6 @@ class CreateWallet {
   private createWallet(): void {
     this.app.post('/wallet', async (req, res) => {
       const email = req.body.email;
-      // User.findOne({ email })
-      //   .then((findedUser) => {
-      //     if (!!findedUser) {
-            // const wallet: IWalletBase = {
-            //   amount: 0,
-            //   owner: email,
-            //   expenses: [],
-            //   incomes: [],
-            //   name: req.body.name,
-            // };
-
-      //       Wallet.create({...wallet})
-      //         .then((createdWallet) => res.status(200).send(JSON.stringify(createdWallet)))
-      //         .catch((err: Error) => {
-      //           res.status(500).send(err);
-      //           this.logger.log('Cant create wallet (Create wallet)', 'error');
-      //         });
-      //     } else {
-      //       res.status(500).send('Cant find user');
-      //       this.logger.log('Cant find user (Create wallet)', 'error');
-      //     }
-      //   })
-      //   .catch((err: Error) => res.status(500).send(err));
-
       const user = await User.findOne({email});
       try {
         if (!!user) {

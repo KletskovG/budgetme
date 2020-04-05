@@ -15,7 +15,8 @@ import {
   SET_AMOUNT_TRANSACTION,
   SET_TIME_TRANSACTION,
   SET_CATEGORY_TRANSACTION,
-  SET_ACTIVE_WALLET
+  SET_ACTIVE_WALLET,
+  TOGGLE_CREATING
 } from './types';
 import ICategory from '../../interfaces/ICategory';
 
@@ -28,7 +29,7 @@ export type WalletState = {
     timestamp: string;
     category: ICategory | null;
     amount: number;
-    activeWallet: string;
+    isCreating: boolean
   };
 }
 
@@ -37,11 +38,11 @@ export const initialWalletState: WalletState = {
   loading: false,
   error: null,
   createTransaction: {
-    isExpense: true,
-    timestamp: `${new Date().getTime()}`,
+    isExpense: false,
+    timestamp: new Date().toISOString(),
     amount: 0,
     category: null,
-    activeWallet: '',
+    isCreating: false,
   }
 }
 
@@ -109,6 +110,9 @@ export function WalletReducer (
       wallets[walletIndex] = action.payload;
       return {
         ...state,
+        createTransaction: {
+          ...initialWalletState.createTransaction
+        },
         wallets,
       }
     }
@@ -151,12 +155,12 @@ export function WalletReducer (
         }
       }
     }
-    case SET_ACTIVE_WALLET: {
+    case TOGGLE_CREATING: {
       return {
         ...state,
         createTransaction: {
           ...state.createTransaction,
-          activeWallet: action.payload,
+          isCreating: !state.createTransaction.isCreating,
         }
       }
     }
