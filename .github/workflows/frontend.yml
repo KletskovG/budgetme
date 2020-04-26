@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Build React app
         run : |
+          ls -la
           cd app/client/web/budgetme
           npm i
           npm run build
-          
