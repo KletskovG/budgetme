@@ -1,0 +1,21 @@
+name: Frontend CI
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'app/client/web/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [12]
+    steps:
+      - name: Build React app
+        run : |
+          cd app/client/web/budgetme
+          npm i
+          npm run build
+          
