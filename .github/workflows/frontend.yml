@@ -29,3 +29,6 @@ jobs:
           username: ${{ secrets.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           context: ./app/client/web/budgetme
+      - name: Deploy
+        run: |
+          ${{ secrets.DEPLOY }}
