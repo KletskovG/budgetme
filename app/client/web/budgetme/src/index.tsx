@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { combineReducers, applyMiddleware, createStore } from 'redux'
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux'
+import { AuthReducer } from './store/Auth';
+
+
+const rootReducer = combineReducers({
+  authState: AuthReducer,
+});
+const store = createStore(rootReducer, applyMiddleware(thunk));
+store.subscribe(() => console.log(store.getState()));
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
