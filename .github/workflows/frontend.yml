@@ -21,4 +21,11 @@ jobs:
           cd app/client/web/budgetme
           npm i
           npm run build
-          
+      # docker build . -t ${{ secrets.WEB_FRONT_IMAGE }}
+      - name: Publish frontend to registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: ${{ secrets.WEB_FRONT_IMAGE }}
+          username: ${{ secrets.DOCKER_LOGIN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: ./app/client/web/budgetme
