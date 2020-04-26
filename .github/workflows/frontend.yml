@@ -19,3 +19,4 @@ jobs:
           cd app/client/web/budgetme
           npm i
           npm run build
+          
