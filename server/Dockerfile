@@ -7,7 +7,7 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY dist/index.js dist/index.js
 
 EXPOSE 4200
 
