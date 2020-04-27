@@ -20,7 +20,7 @@ jobs:
           cd server
           npm i
           npm run build
-      - name: Publish frontend to registry
+      - name: Publish backend image to registry
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: ${{ secrets.BACKEND_IMAGE }}
