@@ -1,0 +1,32 @@
+name: Frontend CI
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'server/**'
+      - ".github/**"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [12]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build backend
+        run : |
+          cd server
+          npm i
+          npm run build
+      - name: Publish frontend to registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: ${{ secrets.BACKEND_IMAGE }}
+          username: ${{ secrets.DOCKER_LOGIN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          context: ./server
+      - name: Deploy
+        run: |
+          ${{ secrets.DEPLOY }}
